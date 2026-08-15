@@ -1,5 +1,5 @@
 import { buildPages, type Candidate } from "./pagemap";
-import { PUBLISHED } from "./taxonomy";
+import { publishedPages } from "./taxonomy";
 
 const SMALL = new Set(["for", "and", "the", "of", "to", "a", "in", "on", "with"]);
 export function titleCase(s: string): string {
@@ -141,8 +141,11 @@ export function relatedSearches(c: Candidate, limit = 10): { text: string; href:
     .filter((x) => x.slug !== c.slug && x.keyword.includes(head))
     .sort((a, b) => b.volume - a.volume)
     .slice(0, limit);
+  // Link only to pages that actually render (PUBLISHED *and* past the artwork
+  // gate); the rest stay as plain text rather than becoming 404s.
+  const live = new Set(publishedPages().map((p) => p.slug));
   return sibs.map((x) => ({
     text: x.keyword,
-    href: PUBLISHED.has(x.slug) ? `/pages/${x.slug}/` : null,
+    href: live.has(x.slug) ? `/pages/${x.slug}/` : null,
   }));
 }

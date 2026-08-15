@@ -1,8 +1,15 @@
 // Shared UI content that isn't derived from the pagemap.
+import { resolveHref } from "../lib/taxonomy";
+
+// Hub destinations are resolved against what's actually live, so the artwork
+// gate can hold a whole axis back without leaving a 404 in the header.
+const adultsHref = resolveHref("/audience/adults/", "/style/detailed/", "/style/mandala/");
+const seasonalHref = resolveHref("/season/christmas/", "/season/halloween/", "/season/winter/");
+
 export const nav = [
   { label: "Coloring Pages", href: "/pages/" },
-  { label: "For Adults", href: "/audience/adults/" },
-  { label: "Seasonal", href: "/season/christmas/" },
+  { label: "For Adults", href: adultsHref },
+  { label: "Seasonal", href: seasonalHref },
   { label: "PDF Builder", href: "/tools/coloring-book-builder/" },
 ];
 
@@ -11,8 +18,8 @@ export const footerCols = [
     title: "Explore",
     items: [
       { label: "Coloring Pages", href: "/pages/" },
-      { label: "For Adults", href: "/audience/adults/" },
-      { label: "Seasonal", href: "/season/christmas/" },
+      { label: "For Adults", href: adultsHref },
+      { label: "Seasonal", href: seasonalHref },
       { label: "New Pages", href: "/pages/#new-pages" },
     ],
   },
@@ -21,7 +28,7 @@ export const footerCols = [
     items: [
       { label: "PDF Builder", href: "/tools/coloring-book-builder/" },
       { label: "Custom Name Page", href: "/tools/custom-name-page/" },
-      { label: "Paper Sizes", href: "/guides/paper-sizes/" },
+      // Guides aren't built yet — re-add when /guides/* exists.
     ],
   },
   {
@@ -37,7 +44,7 @@ export const footerCols = [
     title: "Help",
     items: [
       { label: "FAQ", href: "/#faq" },
-      { label: "Troubleshooting", href: "/guides/troubleshooting/" },
+      { label: "Printing help", href: "/#faq" },
       { label: "Support", href: "/contact/" },
     ],
   },

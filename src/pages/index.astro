@@ -5,7 +5,7 @@ import PageCard from "../components/PageCard.astro";
 import ToolIcon from "../components/ToolIcon.astro";
 import { homeFaqs } from "../data/content";
 import { activeSeason } from "../data/seasons";
-import { axes, liveMembers, hubPages, publishedPages } from "../lib/taxonomy";
+import { axes, liveMembers, hubPages, publishedPages, resolveHref } from "../lib/taxonomy";
 import { h1 as getH1 } from "../lib/pagecopy";
 import { faqLd } from "../lib/schema";
 import { artworkCount } from "../lib/artwork";
@@ -17,6 +17,9 @@ const popular = pubs.slice(0, 4);
 const fresh = pubs.slice(4, 8);
 const tagPages = pubs.slice(0, 12);
 const artworkTotal = pubs.reduce((sum, page) => sum + artworkCount(page.slug), 0);
+// Guarded against the artwork gate emptying a hub (see resolveHref).
+const adultsHref = resolveHref("/audience/adults/", "/style/detailed/", "/style/mandala/");
+const seasonHref = resolveHref(`/season/${season.id}/`);
 
 const features = [
   { icon: "PDF", label: "Free PDF downloads" },
@@ -73,7 +76,7 @@ const toCard = (c: (typeof pubs)[number]) => ({
           <span class="eyebrow trending">Trending now</span>
           <h2>{season.title}</h2>
           <p>{season.blurb}</p>
-          <a href={`/season/${season.id}/`} class="btn btn-orange">{season.cta}</a>
+          <a href={seasonHref} class="btn btn-orange">{season.cta}</a>
         </div>
         <div class="season-cards">
           {seasonPages.map((c) => (
@@ -156,7 +159,7 @@ const toCard = (c: (typeof pubs)[number]) => ({
         <div class="adult-copy">
           <h2>Coloring pages for grown-ups</h2>
           <p>Settle into detailed mandalas, botanical art and intricate patterns created for a slower coloring session.</p>
-          <a href="/audience/adults/" class="btn btn-orange">Explore adult coloring</a>
+          <a href={adultsHref} class="btn btn-orange">Explore adult coloring</a>
         </div>
         <div class="adult-art">
           <Ph asset="adult/mandala.png" ratio="1/1" line={true} radius="14px" />
@@ -201,13 +204,15 @@ const toCard = (c: (typeof pubs)[number]) => ({
     </div>
   </section>
 
-  <!-- CTA -->
+  <!-- CTA — points at real pages. Restore an email capture here once a
+       subscribe endpoint exists; promising a weekly pack without one is a
+       promise the site can't keep. -->
   <section class="cta-wrap">
     <div class="container">
       <div class="cta">
         <span class="cta-art" aria-hidden="true">🎁</span>
-        <strong>A fresh coloring pack every week</strong>
-        <a href="/subscribe/" class="btn btn-orange">Get the free pack</a>
+        <strong>New coloring sets added regularly</strong>
+        <a href="/pages/" class="btn btn-orange">Browse all pages</a>
       </div>
     </div>
   </section>

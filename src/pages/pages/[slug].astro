@@ -11,6 +11,10 @@ export function getStaticPaths() {
 }
 const { page } = Astro.props;
 ---
-<BaseLayout title={metaTitle(page)} description={metaDescription(page)}>
+<BaseLayout
+  title={metaTitle(page)}
+  description={metaDescription(page)}
+  image={`/images/${page.slug}/composite.png`}
+>
   <ColoringPageTemplate page={page} />
 </BaseLayout>

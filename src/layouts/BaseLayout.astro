@@ -10,9 +10,14 @@ interface Props {
   description: string;
   canonical?: string;
   breadcrumbs?: { name: string; url: string }[];
+  /** Site-relative path to the 2:3 composite, e.g. "/images/<slug>/composite.png" */
+  image?: string;
 }
-const { title, description, canonical, breadcrumbs } = Astro.props;
+const { title, description, canonical, breadcrumbs, image } = Astro.props;
 const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
+// og:image / twitter:image point at the vertical 2:3 composite — the same asset
+// Pinterest saves and Google's image pack picks up.
+const ogImage = new URL(image ?? "/images/hero/unicorn.png", Astro.site).href;
 
 // Sitewide structured data (Organization + WebSite) on every page, plus an
 // optional breadcrumb trail passed by the page.
@@ -32,7 +37,9 @@ if (breadcrumbs && breadcrumbs.length) siteLd.push(breadcrumbLd(breadcrumbs));
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script type="application/ld+json" set:html={JSON.stringify(siteLd)} />
     <!-- Fonts: swap in self-hosted or your preferred provider before launch -->

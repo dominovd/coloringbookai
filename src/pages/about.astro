@@ -1,6 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { site } from "../data/site";
+import { resolveHref } from "../lib/taxonomy";
+
+// Resolved against live hubs so the artwork gate can't leave a 404 here.
+const kidsHref = resolveHref("/audience/kids/", "/style/easy/", "/style/cute/");
+const adultsHref = resolveHref("/audience/adults/", "/style/detailed/", "/style/mandala/");
 ---
 <BaseLayout
   title="About ColoringBookAI | Original Printable Art"
@@ -38,7 +43,7 @@ import { site } from "../data/site";
 
         <h2 id="library">What you can find</h2>
         <p>The library covers animals, flowers, ocean life, vehicles, food, space and imaginative subjects. Seasonal collections include Christmas, Halloween, Easter, Thanksgiving, Valentine's Day and activities for each part of the year.</p>
-        <p>Age and style hubs provide another way to browse. Families can start with <a href="/audience/kids/">coloring pages for kids</a>, teens can find more involved scenes, and adults can explore <a href="/audience/adults/">mandalas, botanicals and detailed artwork</a>. The complete index is available under <a href="/pages/">All coloring pages</a>.</p>
+        <p>Age and style hubs provide another way to browse. Families can start with <a href={kidsHref}>easy coloring pages for children</a>, teens can find more involved scenes, and adults can explore <a href={adultsHref}>mandalas, botanicals and detailed artwork</a>. The complete index is available under <a href="/pages/">All coloring pages</a>.</p>
 
         <h2 id="process">How the pages are made</h2>
         <ol>

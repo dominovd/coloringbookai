@@ -38,11 +38,14 @@ const specChips = [pageCountLabel, page.ages, diffLabel, "A4 and US Letter"];
 const ageFilters = liveMembers("audience").map((m) => ({
   label: m.label, href: `/audience/${m.slug}/`, active: page.audience === m.slug,
 }));
+// Only offer a difficulty filter if that style hub actually has live pages.
 const diffFilters = [
-  { label: "Easy", href: "/style/easy/", active: page.difficulty === "easy" },
-  { label: "Medium", href: "/style/cute/", active: page.difficulty === "medium" },
-  { label: "Detailed", href: "/style/detailed/", active: page.difficulty === "detailed" },
-];
+  { label: "Easy", slug: "easy", active: page.difficulty === "easy" },
+  { label: "Medium", slug: "cute", active: page.difficulty === "medium" },
+  { label: "Detailed", slug: "detailed", active: page.difficulty === "detailed" },
+]
+  .filter((d) => liveMembers("style").some((m) => m.slug === d.slug))
+  .map((d) => ({ label: d.label, href: `/style/${d.slug}/`, active: d.active }));
 // "Scene" chips = real sibling pages (share the head noun); link when published.
 const sceneChips = related.slice(0, 4).map((r) => ({
   label: titleCase(r.text.replace(/\bcoloring pages?\b/g, "").trim()), href: r.href,
@@ -77,6 +80,15 @@ const ld = [breadcrumbLd(crumbs), faqLd(pageFaqs), imageGalleryLd(H1, url, galle
         <div class="head-cta">
           <button id="cp-download-all" class="btn btn-orange">Download {sheets.length === 1 ? "this page" : `all ${sheets.length} pages`}</button>
           <a href="/tools/coloring-book-builder/" class="btn btn-ghost">Build a custom PDF</a>
+          <!-- Saves the 2:3 composite, not the on-page thumbnail — Pinterest
+               shows vertical images far better and it's the same asset as og:image. -->
+          <a
+            class="btn btn-pin"
+            href={`https://pinterest.com/pin/create/button/?url=${encodeURIComponent(`https://coloringbookai.net${url}`)}&media=${encodeURIComponent(`https://coloringbookai.net/images/${page.slug}/composite.png`)}&description=${encodeURIComponent(`${H1} — free printable PDF, A4 & US Letter, no sign-up`)}`}
+            target="_blank"
+            rel="noopener nofollow"
+            data-pin-do="none"
+          >Save to Pinterest</a>
         </div>
         <p class="free-note">Free · No sign-up</p>
       </div>
@@ -327,6 +339,8 @@ const ld = [breadcrumbLd(crumbs), faqLd(pageFaqs), imageGalleryLd(H1, url, galle
   .spec-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
   .spec { padding: 7px 14px; border-radius: var(--r-pill); background: var(--bg); border: 1px solid var(--line); font-family: var(--font-head); font-weight: 500; font-size: 0.82rem; }
   .head-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-pin { background: #e60023; color: #fff; }
+  .btn-pin:hover { background: #c8001e; }
   .free-note { margin: 12px 0 0; font-size: 0.85rem; color: var(--ink-faint); }
   .head-art { display: flex; align-items: center; justify-content: center; }
   .head-sheet { width: 100%; max-width: 290px; background: #fff; border-radius: var(--r-md); box-shadow: var(--shadow-lg); padding: 12px; transform: rotate(3deg); }

@@ -6,6 +6,7 @@
 // PUBLISHED pages only, so no hub ever links to a page that isn't live.
 // ============================================================
 import { buildPages, type Candidate, type Axis } from "./pagemap";
+import { artworkCount } from "./artwork";
 
 // ---- Publish gate: launch waves 1 + 2 from the brief (+ a few combos so
 // every hub has real members). Promote more by adding slugs here, that is the
@@ -105,8 +106,30 @@ export const axes: AxisDef[] = [
 ];
 
 // ---- Published pages ----
+// ---- Quality gate -------------------------------------------------------
+// A slug must be in PUBLISHED *and* have at least this many real artwork
+// files (public/images/<slug>/page-N.png) to render at all.
+//
+// Why this is enforced in code rather than by discipline: on a domain with
+// Authority Score 2, thin pages don't rank and they dilute the pages that
+// could. A one-image page also wastes the two channels we're about to spend
+// effort on — a Pinterest pin and a teacher outreach email each get one shot.
+// The gate is self-healing: drop more artwork into the folder and the page
+// comes back on the next build. Nothing to remember, nothing to undo.
+export const MIN_ARTWORK = 6;
+
 export function publishedPages(): Candidate[] {
-  return buildPages().filter((c) => PUBLISHED.has(c.slug));
+  return buildPages().filter(
+    (c) => PUBLISHED.has(c.slug) && artworkCount(c.slug) >= MIN_ARTWORK,
+  );
+}
+
+/** In PUBLISHED but held back by the artwork gate — used by the audit script. */
+export function draftPages(): { slug: string; have: number; need: number }[] {
+  return buildPages()
+    .filter((c) => PUBLISHED.has(c.slug) && artworkCount(c.slug) < MIN_ARTWORK)
+    .map((c) => ({ slug: c.slug, have: artworkCount(c.slug), need: MIN_ARTWORK }))
+    .sort((a, b) => b.have - a.have);
 }
 
 const _bySlug = new Map(publishedPages().map((c) => [c.slug, c]));
@@ -150,6 +173,23 @@ export function adjacentCombos(page: Candidate, limit = 8): Candidate[] {
     .sort((a, b) => b.score - a.score || b.c.volume - a.c.volume)
     .slice(0, limit)
     .map((x) => x.c);
+}
+
+/**
+ * Resolves a hub path to one that actually exists.
+ *
+ * The artwork gate can empty a hub (e.g. every /audience/ page held back), and
+ * a nav item pointing at an empty hub would 404. Pass candidates in order of
+ * preference; the first live one wins, falling back to /pages/ which is always
+ * built. Keeps navigation honest without hand-maintaining link lists.
+ */
+export function resolveHref(...candidates: string[]): string {
+  for (const href of candidates) {
+    const m = href.match(/^\/(subject|season|audience|style)\/([a-z0-9-]+)\/$/);
+    if (!m) continue;
+    if (hubPages(m[1], m[2]).length > 0) return href;
+  }
+  return "/pages/";
 }
 
 /** Which hub(s) a page belongs to, for breadcrumbs + internal linking. */
