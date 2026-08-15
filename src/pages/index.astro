@@ -1,0 +1,302 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Ph from "../components/Ph.astro";
+import PageCard from "../components/PageCard.astro";
+import ToolIcon from "../components/ToolIcon.astro";
+import { homeFaqs } from "../data/content";
+import { activeSeason } from "../data/seasons";
+import { axes, liveMembers, hubPages, publishedPages } from "../lib/taxonomy";
+import { h1 as getH1 } from "../lib/pagecopy";
+import { faqLd } from "../lib/schema";
+import { artworkCount } from "../lib/artwork";
+
+const season = activeSeason();
+const seasonPages = hubPages("season", season.id).slice(0, 4);
+const pubs = publishedPages();
+const popular = pubs.slice(0, 4);
+const fresh = pubs.slice(4, 8);
+const tagPages = pubs.slice(0, 12);
+const artworkTotal = pubs.reduce((sum, page) => sum + artworkCount(page.slug), 0);
+
+const features = [
+  { icon: "PDF", label: "Free PDF downloads" },
+  { icon: "A4", label: "A4 and US Letter" },
+  { icon: "🖨", label: "Print-ready quality" },
+  { icon: "💛", label: "No account needed" },
+];
+
+const toCard = (c: (typeof pubs)[number]) => ({
+  title: getH1(c), href: `/pages/${c.slug}/`, pages: artworkCount(c.slug), ages: c.ages,
+  difficulty: (c.difficulty === "detailed" ? "Detailed" : c.difficulty === "easy" ? "Easy" : "Medium") as "Easy" | "Medium" | "Detailed",
+  asset: `${c.slug}/page-1.png`,
+});
+---
+<BaseLayout
+  title="Free Printable Coloring Pages | PDF Downloads"
+  description="Browse original coloring pages for kids, teens and adults. Print animals, seasonal scenes, mandalas and more in A4 or US Letter PDF format."
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(faqLd(homeFaqs))} />
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow hero-eyebrow">Original art · Free to print</span>
+        <h1>Free coloring pages,<br />ready to print</h1>
+        <p class="lead">Browse by subject, age or difficulty, then print the design you want.</p>
+        <div class="hero-cta">
+          <a href="/pages/" class="btn btn-orange">Browse coloring pages</a>
+          <a href="/tools/coloring-book-builder/" class="btn btn-teal">Build a coloring book</a>
+        </div>
+        <form class="search" action="/pages/" method="get" role="search">
+          <span aria-hidden="true">Search</span>
+          <input type="search" name="q" placeholder="Animals, seasons, mandalas..." aria-label="Search coloring pages" />
+        </form>
+        <p class="proof"><strong>{artworkTotal}</strong> printable designs · New collections added regularly</p>
+        <ul class="features">
+          {features.map((f) => <li><span class="fi" aria-hidden="true">{f.icon}</span>{f.label}</li>)}
+        </ul>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="sheet s1"><Ph asset="hero/unicorn.png" ratio="3/4" line={true} /></div>
+        <div class="sheet s2"><Ph asset="hero/dino.png" ratio="3/4" line={true} /></div>
+        <div class="sheet s3"><Ph asset="hero/mandala.png" ratio="3/4" line={true} /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEASONAL (auto-rotating) -->
+  <section class="seasonal">
+    <div class="container">
+      <div class={`season-wrap accent-${season.accent}`}>
+        <div class="season-copy">
+          <span class="eyebrow trending">Trending now</span>
+          <h2>{season.title}</h2>
+          <p>{season.blurb}</p>
+          <a href={`/season/${season.id}/`} class="btn btn-orange">{season.cta}</a>
+        </div>
+        <div class="season-cards">
+          {seasonPages.map((c) => (
+            <a href={`/pages/${c.slug}/`} class="season-card">
+              <Ph asset={`${c.slug}/page-1.png`} ratio="1/1" line={true} radius="14px" />
+              <span>{getH1(c)}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPLORE BY AXIS (the hub) -->
+  {axes.map((axis) => (
+    <section class="axis-sec">
+      <div class="container">
+        <div class="section-head row">
+          <div><h2>{axis.title.replace("By ", "Explore by ")}</h2><p>{axis.blurb}</p></div>
+        </div>
+        <div class="axis-grid">
+          {liveMembers(axis.key).map((m) => (
+            <a href={`/${axis.key}/${m.slug}/`} class="axis-card">
+              <span class="axis-ico"><Ph asset={m.asset} ratio="1/1" radius="50%" /></span>
+              <span class="axis-label">{m.label}</span>
+              <span class="axis-count muted">{hubPages(axis.key, m.slug).length} sets</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <!-- POPULAR -->
+  <section>
+    <div class="container">
+      <div class="section-head row">
+        <h2>Popular coloring pages</h2>
+        <a href="/pages/" class="link-arrow">View all</a>
+      </div>
+      <div class="cards-4">{popular.map((c) => <PageCard {...toCard(c)} />)}</div>
+    </div>
+  </section>
+
+  <!-- NEW -->
+  <section id="new-pages" class="newpages">
+    <div class="container">
+      <div class="section-head row">
+        <div><span class="eyebrow fresh">Fresh this week</span><h2>New coloring pages</h2></div>
+        <a href="/pages/" class="link-arrow">See all new</a>
+      </div>
+      <div class="cards-4">{fresh.map((c) => <PageCard {...toCard(c)} />)}</div>
+    </div>
+  </section>
+
+  <!-- TOOLS -->
+  <section>
+    <div class="container">
+      <div class="tools">
+        <a href="/tools/coloring-book-builder/" class="tool">
+          <ToolIcon type="builder" />
+          <h3>Coloring book builder</h3>
+          <p>Pick your favorite pages and download them as one custom PDF.</p>
+          <span class="link-arrow">Open builder</span>
+        </a>
+        <a href="/tools/custom-name-page/" class="tool">
+          <ToolIcon type="name" />
+          <h3>Custom name page</h3>
+          <p>Make a coloring page with your child's name, right in the browser.</p>
+          <span class="link-arrow">Create a name page</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADULT CALLOUT -->
+  <section>
+    <div class="container">
+      <div class="adult">
+        <div class="adult-copy">
+          <h2>Coloring pages for grown-ups</h2>
+          <p>Settle into detailed mandalas, botanical art and intricate patterns created for a slower coloring session.</p>
+          <a href="/audience/adults/" class="btn btn-orange">Explore adult coloring</a>
+        </div>
+        <div class="adult-art">
+          <Ph asset="adult/mandala.png" ratio="1/1" line={true} radius="14px" />
+          <Ph asset="adult/rose.png" ratio="1/1" line={true} radius="14px" />
+          <Ph asset="adult/geometric.png" ratio="1/1" line={true} radius="14px" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRINT STEPS -->
+  <section class="steps">
+    <div class="container">
+      <div class="section-head"><h2>Print in three easy steps</h2></div>
+      <ol class="steps-row">
+        <li><span class="num n1">1</span><b>Choose a page</b></li>
+        <li class="arrow" aria-hidden="true">&gt;</li>
+        <li><span class="num n2">2</span><b>Download PDF</b></li>
+        <li class="arrow" aria-hidden="true">&gt;</li>
+        <li><span class="num n3">3</span><b>Print &amp; color</b></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="faq">
+    <div class="container narrow">
+      <div class="section-head"><h2>Frequently asked questions</h2></div>
+      {homeFaqs.map((f, i) => (
+        <details open={i === 0}><summary>{f.q}</summary><p>{f.a}</p></details>
+      ))}
+    </div>
+  </section>
+
+  <!-- TAG CLOUD -->
+  <section>
+    <div class="container">
+      <div class="section-head"><h2>More coloring ideas</h2></div>
+      <div class="tagcloud">
+        {tagPages.map((c) => <a href={`/pages/${c.slug}/`} class="tag">{getH1(c)}</a>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-wrap">
+    <div class="container">
+      <div class="cta">
+        <span class="cta-art" aria-hidden="true">🎁</span>
+        <strong>A fresh coloring pack every week</strong>
+        <a href="/subscribe/" class="btn btn-orange">Get the free pack</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero { background: linear-gradient(180deg, var(--cream), var(--bg)); padding-top: 34px; }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 40px; align-items: center; }
+  .hero-eyebrow { background: var(--orange-soft); color: var(--orange-dark); }
+  .hero h1 { margin-top: 14px; }
+  .lead { font-size: 1.12rem; max-width: 34ch; }
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0 18px; }
+  .search { display: flex; align-items: center; gap: 10px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-pill); padding: 12px 18px; box-shadow: var(--shadow-sm); max-width: 440px; }
+  .search input { border: 0; outline: 0; flex: 1; font-size: 0.98rem; background: transparent; }
+  .proof { margin: 16px 0 10px; font-size: 0.95rem; }
+  .proof strong { color: var(--teal-dark); font-family: var(--font-head); }
+  .features { list-style: none; display: flex; flex-wrap: wrap; gap: 10px 22px; padding: 0; margin: 10px 0 0; }
+  .features li { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--ink-soft); font-weight: 500; }
+  .hero-art { position: relative; min-height: 360px; }
+  .sheet { position: absolute; width: 58%; background: #fff; border-radius: var(--r-md); box-shadow: var(--shadow-lg); padding: 10px; }
+  .sheet.s1 { left: 4%; top: 6%; transform: rotate(-7deg); z-index: 3; }
+  .sheet.s2 { left: 34%; top: 0; transform: rotate(4deg); z-index: 2; }
+  .sheet.s3 { left: 30%; top: 40%; width: 52%; transform: rotate(-3deg); z-index: 1; }
+
+  .season-wrap { display: grid; grid-template-columns: 0.9fr 1.5fr; gap: 26px; align-items: center; background: var(--orange-soft); border-radius: var(--r-lg); padding: 26px 28px; }
+  .season-wrap.accent-teal { background: var(--mint-soft); }
+  .season-wrap.accent-lilac { background: var(--lilac-soft); }
+  .season-copy h2 { margin: 10px 0 6px; }
+  .trending { background: #fff; color: var(--orange-dark); }
+  .accent-teal .trending { color: var(--teal-dark); }
+  .season-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .season-card { background: #fff; border-radius: 16px; padding: 10px; text-align: center; box-shadow: var(--shadow-sm); transition: transform .12s ease; }
+  .season-card:hover { transform: translateY(-3px); }
+  .season-card span { display: block; margin-top: 8px; font-family: var(--font-head); font-weight: 600; font-size: 0.8rem; }
+
+  .axis-sec { padding: 30px 0; }
+  .axis-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+  .axis-card { text-align: center; }
+  .axis-ico { display: block; width: 84px; height: 84px; margin: 0 auto 8px; border-radius: 50%; background: var(--teal-soft); padding: 12px; }
+  .axis-ico :global(.ph) { border: none; background: transparent; }
+  .axis-label { display: block; font-family: var(--font-head); font-weight: 600; font-size: 0.88rem; }
+  .axis-count { font-size: 0.75rem; }
+  .axis-card:hover .axis-label { color: var(--teal-dark); }
+
+  .cards-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .section-head.row { display: flex; justify-content: space-between; align-items: flex-end; }
+  .newpages { background: linear-gradient(180deg, var(--mint-soft), var(--bg)); border-radius: var(--r-lg); }
+  .fresh { background: var(--teal-soft); color: var(--teal-dark); margin-bottom: 6px; }
+
+  .tools { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .tool { background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 26px; box-shadow: var(--shadow-sm); transition: transform .12s ease; }
+  .tool:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .tool h3 { margin: 16px 0 6px; }
+
+  .adult { display: grid; grid-template-columns: 0.9fr 1.4fr; gap: 26px; align-items: center; background: var(--cream); border-radius: var(--r-lg); padding: 30px 32px; }
+  .adult-art { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+  .steps-row { list-style: none; display: flex; align-items: center; justify-content: center; gap: 22px; padding: 0; flex-wrap: wrap; }
+  .steps-row li { display: flex; align-items: center; gap: 12px; }
+  .num { width: 34px; height: 34px; border-radius: 50%; color: #fff; display: grid; place-items: center; font-family: var(--font-head); font-weight: 700; }
+  .n1 { background: var(--orange); } .n2 { background: var(--teal); } .n3 { background: var(--lilac); }
+  .steps-row .arrow { color: var(--ink-faint); font-size: 1.2rem; }
+
+  .narrow { max-width: 760px; }
+  .faq details { background: #fff; border: 1px solid var(--line); border-radius: var(--r-sm); padding: 6px 18px; margin-bottom: 10px; }
+  .faq summary { font-family: var(--font-head); font-weight: 600; cursor: pointer; padding: 10px 0; list-style: none; display: flex; justify-content: space-between; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; color: var(--ink-faint); font-size: 1.3rem; }
+  .faq details[open] summary::after { content: "-"; }
+  .faq details p { margin: 0 0 12px; font-size: 0.92rem; }
+
+  .tagcloud { display: flex; flex-wrap: wrap; gap: 10px; }
+  .tag { padding: 9px 16px; border-radius: var(--r-pill); background: #fff; border: 1px solid var(--line); font-size: 0.85rem; color: var(--ink-soft); }
+  .tag:hover { border-color: var(--teal); color: var(--teal-dark); }
+
+  .cta { display: flex; align-items: center; gap: 16px; background: var(--yellow-soft); border-radius: var(--r-lg); padding: 18px 26px; }
+  .cta strong { font-family: var(--font-head); font-size: 1.15rem; flex: 1; }
+  .cta-art { font-size: 1.6rem; }
+
+  @media (max-width: 960px) {
+    .hero-grid, .adult, .season-wrap, .tools { grid-template-columns: 1fr; }
+    .hero-art { min-height: 300px; order: -1; }
+    .cards-4 { grid-template-columns: repeat(2, 1fr); }
+    .axis-grid { grid-template-columns: repeat(3, 1fr); }
+    .season-cards { grid-template-columns: repeat(4, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .cards-4, .season-cards, .axis-grid { grid-template-columns: repeat(2, 1fr); }
+    .cta { flex-direction: column; text-align: center; }
+    .hero-cta .btn { width: 100%; }
+  }
+</style>

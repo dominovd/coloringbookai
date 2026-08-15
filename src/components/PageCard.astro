@@ -1,0 +1,41 @@
+---
+import Ph from "./Ph.astro";
+interface Props {
+  title: string;
+  href: string;
+  pages: number;
+  ages: string;
+  difficulty: "Easy" | "Medium" | "Detailed";
+  asset: string;
+}
+const { title, href, pages, ages, difficulty, asset } = Astro.props;
+const badgeClass = { Easy: "badge-easy", Medium: "badge-medium", Detailed: "badge-detailed" }[difficulty];
+---
+<article class="pcard">
+  <a href={href} class="thumb" aria-label={`${title} coloring pages`}>
+    <Ph asset={asset} ratio="3/4" line={true} />
+  </a>
+  <div class="body">
+    <h3><a href={href}>{title}</a></h3>
+    <div class="meta">
+      <span class="muted">{pages} {pages === 1 ? "page" : "pages"}</span>
+      <span class="badge badge-age">{ages}</span>
+      <span class={`badge ${badgeClass}`}>{difficulty}</span>
+    </div>
+    <div class="actions">
+      <a href={href} class="btn btn-ghost btn-sm">🖨 Print</a>
+      <a href={href} class="btn btn-orange btn-sm">⬇ PDF</a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .pcard { background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform .12s ease, box-shadow .12s ease; }
+  .pcard:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .thumb { display: block; padding: 12px 12px 0; }
+  .body { padding: 12px 14px 16px; }
+  .body h3 { font-size: 1rem; margin: 0 0 8px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 0.8rem; margin-bottom: 12px; }
+  .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .actions .btn { padding: 8px 10px; }
+</style>

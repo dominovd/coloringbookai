@@ -1,0 +1,42 @@
+---
+interface Props {
+  asset?: string;
+  label?: string;
+  ratio?: string; // e.g. "1/1", "3/4", "4/3"
+  line?: boolean; // line-art style (horizontal rules) vs. generic
+  radius?: string;
+}
+const { asset, label, ratio = "1/1", line = false, radius } = Astro.props;
+const shown = label ?? asset ?? "image";
+const pngSrc = asset ? `/images/${asset}` : undefined;
+const webpSrc = pngSrc?.replace(/\.png$/i, ".webp");
+const alt = label ?? asset
+  ?.replace(/\.(png|webp|jpe?g)$/i, "")
+  .split("/")
+  .pop()
+  ?.replace(/[-_]+/g, " ")
+  ?? "Coloring page illustration";
+const eager = asset?.startsWith("hero/") ?? false;
+---
+<div
+  class="ph"
+  data-line={line ? "" : undefined}
+  style={`aspect-ratio:${ratio};${radius ? `border-radius:${radius};` : ""}`}
+  role="img"
+  aria-label={shown}
+>
+  {pngSrc && (
+    <picture>
+      {webpSrc && <source srcset={webpSrc} type="image/webp" />}
+      <img
+        src={pngSrc}
+        alt={alt}
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+        fetchpriority={eager ? "high" : "auto"}
+        onerror="this.closest('picture').hidden=true;this.closest('.ph').querySelector('.ph-fallback').hidden=false"
+      />
+    </picture>
+  )}
+  <span class="ph-fallback" hidden={Boolean(pngSrc)}>{shown}</span>
+</div>

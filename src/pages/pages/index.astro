@@ -1,0 +1,50 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { axes, liveMembers, hubPages, publishedPages } from "../../lib/taxonomy";
+import { h1 as getH1 } from "../../lib/pagecopy";
+
+const total = publishedPages().length;
+---
+<BaseLayout
+  title="Browse All Free Coloring Pages (PDF) | ColoringBookAI"
+  description="Find printable coloring pages by subject, season, age and difficulty. Browse original designs and download free PDF files for A4 or US Letter paper."
+  breadcrumbs={[{ name: "Home", url: "/" }, { name: "Coloring pages", url: "/pages/" }]}
+>
+  <section class="idx-head">
+    <div class="container">
+      <h1>All coloring pages</h1>
+      <p class="lead">Explore {total} collections organized by subject, season, age and drawing style. Use the category links to narrow your choice.</p>
+    </div>
+  </section>
+
+  {axes.map((axis) => (
+    <section class="axis">
+      <div class="container">
+        <h2>{axis.title}</h2>
+        {liveMembers(axis.key).map((m) => (
+          <div class="member">
+            <a href={`/${axis.key}/${m.slug}/`} class="member-name">{m.label} -</a>
+            <div class="member-links">
+              {hubPages(axis.key, m.slug).slice(0, 8).map((c) => (
+                <a href={`/pages/${c.slug}/`} class="pill">{getH1(c)}</a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  ))}
+</BaseLayout>
+
+<style>
+  .idx-head { background: linear-gradient(180deg, var(--cream), var(--bg)); padding: 34px 0 8px; }
+  .axis { padding: 26px 0; border-top: 1px solid var(--line); }
+  .axis h2 { margin-bottom: 16px; }
+  .member { display: grid; grid-template-columns: 180px 1fr; gap: 16px; padding: 10px 0; align-items: start; }
+  .member-name { font-family: var(--font-head); font-weight: 600; color: var(--ink); }
+  .member-name:hover { color: var(--teal-dark); }
+  .member-links { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { padding: 7px 13px; border-radius: var(--r-pill); background: #fff; border: 1px solid var(--line); font-size: 0.83rem; color: var(--ink-soft); }
+  .pill:hover { border-color: var(--teal); color: var(--teal-dark); }
+  @media (max-width: 640px) { .member { grid-template-columns: 1fr; gap: 8px; } }
+</style>

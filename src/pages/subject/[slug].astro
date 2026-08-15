@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HubPage from "../../components/HubPage.astro";
+import { liveMembers, hubPages } from "../../lib/taxonomy";
+import { hubMetaDescription } from "../../lib/hubcopy";
+
+export function getStaticPaths() {
+  return liveMembers("subject").map((member) => ({
+    params: { slug: member.slug },
+    props: { member, pages: hubPages("subject", member.slug) },
+  }));
+}
+const { member, pages } = Astro.props;
+---
+<BaseLayout
+  title={`${member.label} Coloring Page Collections | Free PDFs`}
+  description={hubMetaDescription("subject", member.slug, member.label)}
+>
+  <HubPage axisKey="subject" member={member} pages={pages} />
+</BaseLayout>

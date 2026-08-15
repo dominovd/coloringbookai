@@ -1,0 +1,95 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site";
+const updated = "August 15, 2026";
+---
+<BaseLayout
+  title="Terms of Use | ColoringBookAI"
+  description="Read the rules for printing and using ColoringBookAI artwork, including classroom use, prohibited redistribution, AI-assisted content and PDF tools."
+  breadcrumbs={[{ name: "Home", url: "/" }, { name: "Terms of Use", url: "/terms/" }]}
+>
+  <section class="prose-head editorial-head">
+    <div class="container">
+      <span class="eyebrow">Usage rules</span>
+      <h1>Terms of Use</h1>
+      <p class="lead">These terms explain what you may do with the artwork and tools on ColoringBookAI, and which uses require separate permission.</p>
+    </div>
+  </section>
+  <section>
+    <div class="container editorial-layout">
+      <nav class="page-toc" aria-label="Terms of use sections">
+        <strong>Terms sections</strong>
+        <a href="#agreement">Agreement</a>
+        <a href="#allowed">Allowed uses</a>
+        <a href="#not-allowed">Prohibited uses</a>
+        <a href="#content">Artwork and AI</a>
+        <a href="#tools">Website tools</a>
+        <a href="#rights">Rights reports</a>
+        <a href="#disclaimer">Disclaimers</a>
+      </nav>
+      <article class="prose">
+        <p class="updated">Last updated: {updated}</p>
+
+        <h2 id="agreement">Agreement and scope</h2>
+        <p>These Terms of Use apply to ColoringBookAI at {site.domain}, including its coloring pages, category text, downloadable files and browser-based tools. By accessing or using the site, you agree to follow the current terms. If you do not agree, do not download or reuse the content.</p>
+        <p>The website does not require an account. A child should use the site with the involvement of a parent, teacher or caregiver who can understand these terms and supervise downloads.</p>
+
+        <h2 id="allowed">What you may do</h2>
+        <p>Available coloring pages may be downloaded and printed without charge for the following non-commercial activities:</p>
+        <ul>
+          <li>personal coloring at home;</li>
+          <li>activities for a family or small social group;</li>
+          <li>classroom, home-school, library and childcare activities;</li>
+          <li>decorations, cards or displays made from a page you have colored;</li>
+          <li>accessibility or learning support provided without charge.</li>
+        </ul>
+        <p>Teachers and caregivers may print enough physical copies for the group they directly serve. You may share a link to a page on ColoringBookAI so another person can download their own copy.</p>
+
+        <div class="callout">
+          <h3>Simple rule</h3>
+          <p>Using a printed page in an activity is generally allowed. Republishing or selling the uncolored source artwork is not.</p>
+        </div>
+
+        <h2 id="not-allowed">What is not allowed</h2>
+        <p>Unless you receive written permission, you may not:</p>
+        <ul>
+          <li>sell, sublicense or rent an uncolored page, image file or PDF;</li>
+          <li>bundle the artwork into a paid or free digital coloring book distributed elsewhere;</li>
+          <li>upload source files to another website, app, marketplace, file-sharing service or social media download collection;</li>
+          <li>remove ownership notices and present the source artwork as your own;</li>
+          <li>use the site or its content to train, evaluate or supply a machine-learning dataset;</li>
+          <li>scrape, mirror or systematically download the catalog with automated tools;</li>
+          <li>use the artwork in a logo, trademark or product identity;</li>
+          <li>use the site in a way that disrupts security, availability or other visitors.</li>
+        </ul>
+        <p>A photograph of a finished, personally colored page may be shared online. Where practical, credit ColoringBookAI or link to the original collection.</p>
+
+        <h2 id="content">Artwork, AI assistance and ownership</h2>
+        <p>Artwork may be created with AI assistance and then selected, reviewed, prepared and organized for this project. ColoringBookAI does not intentionally publish licensed characters or direct copies of another artist's work.</p>
+        <p>AI-assisted production can still produce mistakes. A label, anatomy detail or scene may be imperfect. Content is provided for creative and recreational use, not as an authoritative educational, medical, scientific or historical reference.</p>
+        <p>Brand names and third-party marks mentioned for identification remain the property of their respective owners. Their appearance in ordinary descriptive text does not imply sponsorship or endorsement.</p>
+
+        <h2 id="tools">Coloring book builder and custom name page</h2>
+        <p>The coloring book builder combines selected artwork into a PDF in your browser. The custom name tool creates outlined text from the name entered on your device. Files produced by these tools remain subject to the same personal and educational use rules as the underlying artwork.</p>
+        <p>You are responsible for the text entered into a custom page. Do not enter unlawful, abusive or rights-infringing material. Do not use a generated name page to impersonate another person or disclose a child's personal information publicly.</p>
+
+        <h2>Third-party services and links</h2>
+        <p>The site may rely on external font or code-delivery services and may link to websites we do not control. We are not responsible for the availability, content or privacy practices of an external service. Use of a third-party service may be governed by that provider's own terms.</p>
+
+        <h2 id="rights">Copyright and other rights reports</h2>
+        <p>If you believe material on the site infringes your rights, email <a href={`mailto:${site.email}`}>{site.email}</a> with the exact URL, a description of the protected work, your relationship to the right and the action you request. Incomplete reports may require follow-up before they can be evaluated.</p>
+        <p>We may remove or replace material while a good-faith report is reviewed. Instructions for submitting a useful report are also available on the <a href="/contact/#rights">Contact page</a>.</p>
+
+        <h2 id="disclaimer">Availability, warranties and liability</h2>
+        <p>The site and its content are provided on an as-available basis. We do not promise uninterrupted access, compatibility with every printer or device, or that every image will meet a particular purpose.</p>
+        <p>To the extent permitted by applicable law, ColoringBookAI is not liable for indirect or consequential loss arising from use of the site, third-party services or printed results. Nothing in these terms excludes rights or liability that cannot legally be excluded.</p>
+
+        <h2>Changes and termination</h2>
+        <p>Collections, tools and links may be changed or removed. We may restrict access when these terms are violated or when necessary to protect the site. Material changes to the terms will be reflected by the updated date above.</p>
+
+        <h2>Contact</h2>
+        <p>Questions about permitted use can be sent to <a href={`mailto:${site.email}`}>{site.email}</a>. Privacy questions are addressed in the <a href="/privacy/">Privacy Policy</a>.</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

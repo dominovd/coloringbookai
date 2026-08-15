@@ -1,0 +1,79 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site";
+const updated = "August 15, 2026";
+---
+<BaseLayout
+  title="Privacy Policy | ColoringBookAI"
+  description="Read how ColoringBookAI handles browser requests, email messages, third-party resources, children's privacy and data choices."
+  breadcrumbs={[{ name: "Home", url: "/" }, { name: "Privacy Policy", url: "/privacy/" }]}
+>
+  <section class="prose-head editorial-head">
+    <div class="container">
+      <span class="eyebrow">Your privacy</span>
+      <h1>Privacy Policy</h1>
+      <p class="lead">This policy describes the current website, including what works locally in your browser and when an external service may receive a request.</p>
+    </div>
+  </section>
+  <section>
+    <div class="container editorial-layout">
+      <nav class="page-toc" aria-label="Privacy policy sections">
+        <strong>Policy sections</strong>
+        <a href="#summary">Plain-language summary</a>
+        <a href="#requests">Technical requests</a>
+        <a href="#tools">Browser-based tools</a>
+        <a href="#third-parties">Third-party resources</a>
+        <a href="#email">Email messages</a>
+        <a href="#children">Children's privacy</a>
+        <a href="#choices">Your choices</a>
+      </nav>
+      <article class="prose">
+        <p class="updated">Last updated: {updated}</p>
+        <p>This Privacy Policy applies to ColoringBookAI at {site.domain}. It explains the limited information involved when you visit a page, download artwork, use a browser-based tool or email us.</p>
+
+        <h2 id="summary">Plain-language summary</h2>
+        <div class="fact-grid">
+          <div class="fact-card"><h3>No user account</h3><p>The site does not require a profile, password or payment information.</p></div>
+          <div class="fact-card"><h3>No contact form</h3><p>Support uses your own email application rather than a form hosted on the site.</p></div>
+          <div class="fact-card"><h3>Local PDF tools</h3><p>Page selections and custom names are processed in your browser.</p></div>
+          <div class="fact-card"><h3>No advertising code</h3><p>The current version of the site does not include an advertising network.</p></div>
+        </div>
+
+        <h2 id="requests">Information involved in ordinary browsing</h2>
+        <p>Like most websites, the hosting service may process standard request information needed to deliver a page and protect the service. This can include an IP address, request time, requested URL, browser type, device information and basic security logs. We do not use this information to create visitor profiles.</p>
+        <p>The current site code does not include a first-party analytics service or a behavioral tracking script. If that changes, this policy will be updated before or when the new service is introduced.</p>
+
+        <h2>Cookies and local storage</h2>
+        <p>ColoringBookAI does not currently set account, preference or marketing cookies. Browser settings can be used to block or clear cookies placed by websites. Some external resources may be governed by the provider's own technical and privacy practices.</p>
+
+        <h2 id="tools">Coloring book and name tools</h2>
+        <p>The coloring book builder combines selected images into a PDF inside your browser. The custom name tool renders the text you enter in the browser. ColoringBookAI does not intentionally transmit those selections or names to its own server.</p>
+        <p>PDF generation libraries are loaded when a tool needs them. As with any externally hosted script, the provider delivering that file receives a normal network request from your browser.</p>
+
+        <h2 id="third-parties">Third-party resources</h2>
+        <p>The site currently uses externally hosted font files and may load JavaScript libraries from a content delivery network for PDF creation. When your browser requests those resources, the external provider may receive information such as your IP address, user agent, referring page and request time.</p>
+        <p>Those providers handle information under their own privacy policies. You may block external resources through browser privacy settings or content-blocking extensions, although doing so can change fonts or prevent PDF tools from working.</p>
+
+        <h2 id="email">Email correspondence</h2>
+        <p>If you email us, we receive the address, message and attachments you choose to send. We use that information to answer the request, investigate a report or maintain a reasonable record of the conversation. Email is also processed by the sender's and recipient's email providers.</p>
+        <p>Do not send passwords, payment data, government identifiers or sensitive information about a child. You may ask us to delete a support conversation unless we need to retain it for security, legal compliance or the handling of a rights claim.</p>
+
+        <h2 id="children">Children's privacy</h2>
+        <p>The artwork may be used by children, but the website is intended to be operated by parents, teachers, caregivers and other adults. We do not knowingly request personal information from children. The custom name tool works locally and should be used with adult supervision.</p>
+        <p>If you believe a child has sent personal information to us, contact <a href={`mailto:${site.email}`}>{site.email}</a> and identify the message so it can be reviewed and deleted where appropriate.</p>
+
+        <h2 id="choices">Your choices and requests</h2>
+        <p>You may use browser controls to block third-party requests, clear stored website data and disable JavaScript. Disabling JavaScript will affect interactive tools but should not prevent access to ordinary content pages.</p>
+        <p>Depending on where you live, you may have rights to request access, correction or deletion of personal information. Because the site has no accounts, most requests will concern an email conversation or technical log. Send a clear request to <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+
+        <h2>Policy changes</h2>
+        <p>We may revise this policy when the website, hosting setup or third-party services change. The date at the top will be updated when a material revision is published.</p>
+
+        <div class="callout">
+          <h3>Questions about privacy?</h3>
+          <p>Email <a href={`mailto:${site.email}`}>{site.email}</a> or use the guidance on the <a href="/contact/">Contact page</a>. Please include enough detail to identify the request without adding unnecessary personal information.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

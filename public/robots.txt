@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://coloringbookai.net/sitemap-index.xml

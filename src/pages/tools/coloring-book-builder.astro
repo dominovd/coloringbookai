@@ -1,0 +1,100 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Ph from "../../components/Ph.astro";
+import { publishedPages } from "../../lib/taxonomy";
+import { h1 as getH1 } from "../../lib/pagecopy";
+
+const pages = publishedPages();
+---
+<BaseLayout
+  title="Free Coloring Book Builder | Create a Custom PDF"
+  description="Choose printable coloring pages and combine them into one custom PDF. The free builder runs in your browser and requires no account."
+>
+  <section class="tb-head">
+    <div class="container">
+      <h1>Build your own coloring book</h1>
+      <p class="lead">Choose designs from different categories and combine them into one PDF. The file is created in your browser, so your selection is not uploaded.</p>
+      <div class="tb-bar">
+        <span id="tb-count" class="muted">0 pages selected</span>
+        <button id="tb-build" class="btn btn-teal">Download my PDF book</button>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="tb-grid">
+        {pages.map((c) => (
+          <label class="tb-card">
+            <input type="checkbox" class="tb-pick" data-title={getH1(c)} />
+            <span class="tb-thumb"><Ph asset={`${c.slug}/page-1.png`} ratio="3/4" line={true} /></span>
+            <span class="tb-title">{getH1(c)}</span>
+          </label>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const picks = () => Array.from(document.querySelectorAll<HTMLInputElement>(".tb-pick"));
+  const count = document.getElementById("tb-count");
+  const update = () => { if (count) count.textContent = `${picks().filter((p) => p.checked).length} pages selected`; };
+  document.addEventListener("change", (e) => { if ((e.target as HTMLElement).classList.contains("tb-pick")) update(); });
+
+  // Load each selected page's image FRESH (handles lazy-loading and skips any
+  // page whose artwork isn't added yet) and convert to a PNG data URL.
+  function loadPng(url: string): Promise<{ data: string; w: number; h: number } | null> {
+    return new Promise((resolve) => {
+      const im = new Image();
+      im.decoding = "async";
+      im.onload = () => {
+        try {
+          const c = document.createElement("canvas");
+          c.width = im.naturalWidth; c.height = im.naturalHeight;
+          const ctx = c.getContext("2d")!;
+          ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height);
+          ctx.drawImage(im, 0, 0);
+          resolve({ data: c.toDataURL("image/png"), w: im.naturalWidth, h: im.naturalHeight });
+        } catch { resolve(null); }
+      };
+      im.onerror = () => resolve(null);
+      im.src = url;
+    });
+  }
+
+  const buildBtn = document.getElementById("tb-build") as HTMLButtonElement | null;
+  buildBtn?.addEventListener("click", async () => {
+    const chosen = picks().filter((p) => p.checked);
+    if (!chosen.length) { alert("Select at least one page to add to your book."); return; }
+    const label = buildBtn.textContent; buildBtn.textContent = "Preparing PDF..."; buildBtn.disabled = true;
+    const loaded = await Promise.all(chosen.map((c) => {
+      const src = (c.closest(".tb-card")?.querySelector("img") as HTMLImageElement | null)?.getAttribute("src");
+      return src ? loadPng(src) : Promise.resolve(null);
+    }));
+    const pages = loaded.filter(Boolean) as { data: string; w: number; h: number }[];
+    if (label) buildBtn.textContent = label; buildBtn.disabled = false;
+    if (!pages.length) { alert("The selected pages don't have artwork yet."); return; }
+    const { jsPDF } = await import("https://cdn.jsdelivr.net/npm/jspdf@2.5.1/+esm");
+    const doc = new jsPDF({ unit: "mm", format: "a4" });
+    pages.forEach((p, i) => {
+      if (i > 0) doc.addPage();
+      const r = Math.min(190 / p.w, 277 / p.h), w = p.w * r, h = p.h * r;
+      doc.addImage(p.data, "PNG", (210 - w) / 2, (297 - h) / 2, w, h);
+    });
+    doc.save("my-coloring-book.pdf");
+  });
+</script>
+
+<style>
+  .tb-head { background: linear-gradient(180deg, var(--cream), var(--bg)); padding: 32px 0 20px; }
+  .tb-bar { display: flex; align-items: center; gap: 18px; margin-top: 16px; flex-wrap: wrap; }
+  .tb-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+  .tb-card { position: relative; display: block; background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); padding: 10px; cursor: pointer; box-shadow: var(--shadow-sm); transition: transform .12s ease; }
+  .tb-card:hover { transform: translateY(-3px); }
+  .tb-card:has(.tb-pick:checked) { border-color: var(--teal); box-shadow: 0 0 0 2px var(--teal-soft); }
+  .tb-pick { position: absolute; top: 14px; left: 14px; z-index: 2; }
+  .tb-title { display: block; margin-top: 8px; font-family: var(--font-head); font-weight: 600; font-size: 0.78rem; line-height: 1.25; }
+  @media (max-width: 960px) { .tb-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 560px) { .tb-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>

@@ -1,0 +1,526 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "ColoringBookAI home" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e9]: ColoringBookAI
+      - navigation "Primary" [ref=e10]:
+        - link "Coloring Pages" [ref=e11] [cursor=pointer]:
+          - /url: /pages/
+        - link "For Adults" [ref=e12] [cursor=pointer]:
+          - /url: /audience/adults/
+        - link "Seasonal" [ref=e13] [cursor=pointer]:
+          - /url: /season/christmas/
+        - link "PDF Builder" [ref=e14] [cursor=pointer]:
+          - /url: /tools/coloring-book-builder/
+      - link "Browse all" [ref=e15] [cursor=pointer]:
+        - /url: /pages/
+  - main [ref=e16]:
+    - generic [ref=e19]:
+      - generic [ref=e20]: Free · Printable · No sign-up
+      - heading "Free coloring pages, ready to print" [level=1] [ref=e21]: Free coloring pages,ready to print
+      - paragraph [ref=e22]: Pick a page, download the PDF, and start coloring.
+      - generic [ref=e23]:
+        - link "Browse coloring pages" [ref=e24] [cursor=pointer]:
+          - /url: /pages/
+        - link "Build a coloring book" [ref=e25] [cursor=pointer]:
+          - /url: /tools/coloring-book-builder/
+      - search [ref=e26]:
+        - generic [ref=e27]: 🔍
+        - searchbox "Search coloring pages" [ref=e28]
+      - paragraph [ref=e29]:
+        - strong [ref=e30]: 2,400+
+        - text: free printable pages · 40 new every week
+      - list [ref=e31]:
+        - listitem [ref=e32]:
+          - generic [ref=e33]: 📄
+          - text: Free PDF downloads
+        - listitem [ref=e34]:
+          - generic [ref=e35]: 📐
+          - text: A4 & US Letter
+        - listitem [ref=e36]:
+          - generic [ref=e37]: 🖨
+          - text: Print-ready quality
+        - listitem [ref=e38]:
+          - generic [ref=e39]: 💛
+          - text: No account needed
+    - generic [ref=e55]:
+      - generic [ref=e56]:
+        - generic [ref=e57]: ● Trending now
+        - heading "Halloween coloring pages" [level=2] [ref=e58]
+        - paragraph [ref=e59]: Spooky, cute, and easy pages to print for October.
+        - link "Explore Halloween" [ref=e60] [cursor=pointer]:
+          - /url: /season/halloween/
+      - generic [ref=e61]:
+        - link "halloween-coloring-pages/page-1.png Halloween Coloring Pages" [ref=e62] [cursor=pointer]:
+          - /url: /pages/halloween-coloring-pages/
+          - img "halloween-coloring-pages/page-1.png" [ref=e63]:
+            - img "page 1" [ref=e65]
+          - generic [ref=e66]: Halloween Coloring Pages
+        - link "halloween-coloring-pages-for-adults/page-1.png Halloween Coloring Pages for Adults" [ref=e67] [cursor=pointer]:
+          - /url: /pages/halloween-coloring-pages-for-adults/
+          - img "halloween-coloring-pages-for-adults/page-1.png" [ref=e68]:
+            - img "page 1" [ref=e70]
+          - generic [ref=e71]: Halloween Coloring Pages for Adults
+    - generic [ref=e73]:
+      - generic [ref=e75]:
+        - heading "Explore by subject" [level=2] [ref=e76]
+        - paragraph [ref=e77]: Animals, flowers, the ocean, vehicles and more.
+      - generic [ref=e78]:
+        - link "hub/animals.png Animals 9 sets" [ref=e79] [cursor=pointer]:
+          - /url: /subject/animals/
+          - img "hub/animals.png" [ref=e81]:
+            - img "animals" [ref=e83]
+          - generic [ref=e84]: Animals
+          - text: 9 sets
+        - link "hub/flowers.png Flowers & nature 1 sets" [ref=e85] [cursor=pointer]:
+          - /url: /subject/flowers/
+          - img "hub/flowers.png" [ref=e87]:
+            - img "flowers" [ref=e89]
+          - generic [ref=e90]: Flowers & nature
+          - text: 1 sets
+        - link "hub/ocean.png Ocean & sea 2 sets" [ref=e91] [cursor=pointer]:
+          - /url: /subject/ocean/
+          - img "hub/ocean.png" [ref=e93]:
+            - img "ocean" [ref=e95]
+          - generic [ref=e96]: Ocean & sea
+          - text: 2 sets
+        - link "hub/vehicles.png Vehicles 3 sets" [ref=e97] [cursor=pointer]:
+          - /url: /subject/vehicles/
+          - img "hub/vehicles.png" [ref=e99]:
+            - img "vehicles" [ref=e101]
+          - generic [ref=e102]: Vehicles
+          - text: 3 sets
+        - link "hub/food.png Food 1 sets" [ref=e103] [cursor=pointer]:
+          - /url: /subject/food/
+          - img "hub/food.png" [ref=e105]:
+            - img "food" [ref=e107]
+          - generic [ref=e108]: Food
+          - text: 1 sets
+        - link "hub/space.png Space 1 sets" [ref=e109] [cursor=pointer]:
+          - /url: /subject/space/
+          - img "hub/space.png" [ref=e111]:
+            - img "space" [ref=e113]
+          - generic [ref=e114]: Space
+          - text: 1 sets
+    - generic [ref=e116]:
+      - generic [ref=e118]:
+        - heading "Explore by season" [level=2] [ref=e119]
+        - paragraph [ref=e120]: Publish ahead of the date — the seasonal spike comes early.
+      - generic [ref=e121]:
+        - link "hub/christmas.png Christmas 2 sets" [ref=e122] [cursor=pointer]:
+          - /url: /season/christmas/
+          - img "hub/christmas.png" [ref=e124]:
+            - img "christmas" [ref=e126]
+          - generic [ref=e127]: Christmas
+          - text: 2 sets
+        - link "hub/halloween.png Halloween 2 sets" [ref=e128] [cursor=pointer]:
+          - /url: /season/halloween/
+          - img "hub/halloween.png" [ref=e130]:
+            - img "halloween" [ref=e132]
+          - generic [ref=e133]: Halloween
+          - text: 2 sets
+        - link "hub/easter.png Easter 1 sets" [ref=e134] [cursor=pointer]:
+          - /url: /season/easter/
+          - img "hub/easter.png" [ref=e136]:
+            - img "easter" [ref=e138]
+          - generic [ref=e139]: Easter
+          - text: 1 sets
+        - link "hub/thanksgiving.png Thanksgiving 2 sets" [ref=e140] [cursor=pointer]:
+          - /url: /season/thanksgiving/
+          - img "hub/thanksgiving.png" [ref=e142]:
+            - img "thanksgiving" [ref=e144]
+          - generic [ref=e145]: Thanksgiving
+          - text: 2 sets
+        - link "hub/valentines.png Valentine's Day 1 sets" [ref=e146] [cursor=pointer]:
+          - /url: /season/valentines/
+          - img "hub/valentines.png" [ref=e148]:
+            - img "valentines" [ref=e150]
+          - generic [ref=e151]: Valentine's Day
+          - text: 1 sets
+        - link "hub/spring.png Spring 1 sets" [ref=e152] [cursor=pointer]:
+          - /url: /season/spring/
+          - img "hub/spring.png" [ref=e154]:
+            - img "spring" [ref=e156]
+          - generic [ref=e157]: Spring
+          - text: 1 sets
+        - link "hub/summer.png Summer 2 sets" [ref=e158] [cursor=pointer]:
+          - /url: /season/summer/
+          - img "hub/summer.png" [ref=e160]:
+            - img "summer" [ref=e162]
+          - generic [ref=e163]: Summer
+          - text: 2 sets
+        - link "hub/fall.png Fall 2 sets" [ref=e164] [cursor=pointer]:
+          - /url: /season/fall/
+          - img "hub/fall.png" [ref=e166]:
+            - img "fall" [ref=e168]
+          - generic [ref=e169]: Fall
+          - text: 2 sets
+        - link "hub/winter.png Winter 1 sets" [ref=e170] [cursor=pointer]:
+          - /url: /season/winter/
+          - img "hub/winter.png" [ref=e172]:
+            - img "winter" [ref=e174]
+          - generic [ref=e175]: Winter
+          - text: 1 sets
+    - generic [ref=e177]:
+      - generic [ref=e179]:
+        - heading "Explore by age" [level=2] [ref=e180]
+        - paragraph [ref=e181]: Matched to attention span, motor skills and detail level.
+      - generic [ref=e182]:
+        - link "hub/kids.png Kids (4–8) 3 sets" [ref=e183] [cursor=pointer]:
+          - /url: /audience/kids/
+          - img "hub/kids.png" [ref=e185]:
+            - img "kids" [ref=e187]
+          - generic [ref=e188]: Kids (4–8)
+          - text: 3 sets
+        - link "hub/teens.png Teens 2 sets" [ref=e189] [cursor=pointer]:
+          - /url: /audience/teens/
+          - img "hub/teens.png" [ref=e191]:
+            - img "teens" [ref=e193]
+          - generic [ref=e194]: Teens
+          - text: 2 sets
+        - link "hub/adults.png Adults 8 sets" [ref=e195] [cursor=pointer]:
+          - /url: /audience/adults/
+          - img "hub/adults.png" [ref=e197]:
+            - img "adults" [ref=e199]
+          - generic [ref=e200]: Adults
+          - text: 8 sets
+    - generic [ref=e202]:
+      - generic [ref=e204]:
+        - heading "Explore by style" [level=2] [ref=e205]
+        - paragraph [ref=e206]: From cute and easy to detailed, relaxing patterns.
+      - generic [ref=e207]:
+        - link "hub/cute.png Cute 5 sets" [ref=e208] [cursor=pointer]:
+          - /url: /style/cute/
+          - img "hub/cute.png" [ref=e210]:
+            - img "cute" [ref=e212]
+          - generic [ref=e213]: Cute
+          - text: 5 sets
+        - link "hub/kawaii.png Kawaii 2 sets" [ref=e214] [cursor=pointer]:
+          - /url: /style/kawaii/
+          - img "hub/kawaii.png" [ref=e216]:
+            - img "kawaii" [ref=e218]
+          - generic [ref=e219]: Kawaii
+          - text: 2 sets
+        - link "hub/easy.png Easy 1 sets" [ref=e220] [cursor=pointer]:
+          - /url: /style/easy/
+          - img "hub/easy.png" [ref=e222]:
+            - img "easy" [ref=e224]
+          - generic [ref=e225]: Easy
+          - text: 1 sets
+        - link "hub/detailed.png Detailed 1 sets" [ref=e226] [cursor=pointer]:
+          - /url: /style/detailed/
+          - img "hub/detailed.png" [ref=e228]:
+            - img "detailed" [ref=e230]
+          - generic [ref=e231]: Detailed
+          - text: 1 sets
+        - link "hub/mandala.png Mandala & patterns 1 sets" [ref=e232] [cursor=pointer]:
+          - /url: /style/mandala/
+          - img "hub/mandala.png" [ref=e234]:
+            - img "mandala" [ref=e236]
+          - generic [ref=e237]: Mandala & patterns
+          - text: 1 sets
+    - generic [ref=e239]:
+      - generic [ref=e240]:
+        - heading "Popular coloring pages" [level=2] [ref=e241]
+        - link "View all →" [ref=e242] [cursor=pointer]:
+          - /url: /pages/
+      - generic [ref=e243]:
+        - article [ref=e244]:
+          - link "Christmas Coloring Pages coloring pages" [ref=e245] [cursor=pointer]:
+            - /url: /pages/christmas-coloring-pages/
+            - img "christmas-coloring-pages/page-1.png" [ref=e246]:
+              - img "page 1" [ref=e248]
+          - generic [ref=e249]:
+            - heading [level=3] [ref=e250]:
+              - link "Christmas Coloring Pages" [ref=e251] [cursor=pointer]:
+                - /url: /pages/christmas-coloring-pages/
+            - generic [ref=e252]:
+              - generic [ref=e253]: 24 pages
+              - generic [ref=e254]: All ages
+              - generic [ref=e255]: Medium
+            - generic [ref=e256]:
+              - link "🖨 Print" [ref=e257] [cursor=pointer]:
+                - /url: /pages/christmas-coloring-pages/
+              - link "⬇ PDF" [ref=e258] [cursor=pointer]:
+                - /url: /pages/christmas-coloring-pages/
+        - article [ref=e259]:
+          - link "Cute Coloring Pages coloring pages" [ref=e260] [cursor=pointer]:
+            - /url: /pages/cute-coloring-pages/
+            - img "cute-coloring-pages/page-1.png" [ref=e261]:
+              - img "page 1" [ref=e263]
+          - generic [ref=e264]:
+            - heading [level=3] [ref=e265]:
+              - link "Cute Coloring Pages" [ref=e266] [cursor=pointer]:
+                - /url: /pages/cute-coloring-pages/
+            - generic [ref=e267]:
+              - generic [ref=e268]: 24 pages
+              - generic [ref=e269]: All ages
+              - generic [ref=e270]: Medium
+            - generic [ref=e271]:
+              - link "🖨 Print" [ref=e272] [cursor=pointer]:
+                - /url: /pages/cute-coloring-pages/
+              - link "⬇ PDF" [ref=e273] [cursor=pointer]:
+                - /url: /pages/cute-coloring-pages/
+        - article [ref=e274]:
+          - link "Halloween Coloring Pages coloring pages" [ref=e275] [cursor=pointer]:
+            - /url: /pages/halloween-coloring-pages/
+            - img "halloween-coloring-pages/page-1.png" [ref=e276]:
+              - img "page 1" [ref=e278]
+          - generic [ref=e279]:
+            - heading [level=3] [ref=e280]:
+              - link "Halloween Coloring Pages" [ref=e281] [cursor=pointer]:
+                - /url: /pages/halloween-coloring-pages/
+            - generic [ref=e282]:
+              - generic [ref=e283]: 24 pages
+              - generic [ref=e284]: All ages
+              - generic [ref=e285]: Medium
+            - generic [ref=e286]:
+              - link "🖨 Print" [ref=e287] [cursor=pointer]:
+                - /url: /pages/halloween-coloring-pages/
+              - link "⬇ PDF" [ref=e288] [cursor=pointer]:
+                - /url: /pages/halloween-coloring-pages/
+        - article [ref=e289]:
+          - link "Unicorn Coloring Pages coloring pages" [ref=e290] [cursor=pointer]:
+            - /url: /pages/unicorn-coloring-pages/
+            - img "unicorn-coloring-pages/page-1.png" [ref=e291]:
+              - img "page 1" [ref=e293]
+          - generic [ref=e294]:
+            - heading [level=3] [ref=e295]:
+              - link "Unicorn Coloring Pages" [ref=e296] [cursor=pointer]:
+                - /url: /pages/unicorn-coloring-pages/
+            - generic [ref=e297]:
+              - generic [ref=e298]: 24 pages
+              - generic [ref=e299]: All ages
+              - generic [ref=e300]: Medium
+            - generic [ref=e301]:
+              - link "🖨 Print" [ref=e302] [cursor=pointer]:
+                - /url: /pages/unicorn-coloring-pages/
+              - link "⬇ PDF" [ref=e303] [cursor=pointer]:
+                - /url: /pages/unicorn-coloring-pages/
+    - generic [ref=e305]:
+      - generic [ref=e306]:
+        - generic [ref=e307]:
+          - generic [ref=e308]: ✦ Fresh this week
+          - heading "New coloring pages" [level=2] [ref=e309]
+        - link "See all new →" [ref=e310] [cursor=pointer]:
+          - /url: /pages/
+      - generic [ref=e311]:
+        - article [ref=e312]:
+          - link "Dinosaur Coloring Pages coloring pages" [ref=e313] [cursor=pointer]:
+            - /url: /pages/dinosaur-coloring-pages/
+            - img "dinosaur-coloring-pages/page-1.png" [ref=e314]:
+              - img "page 1" [ref=e316]
+          - generic [ref=e317]:
+            - heading [level=3] [ref=e318]:
+              - link "Dinosaur Coloring Pages" [ref=e319] [cursor=pointer]:
+                - /url: /pages/dinosaur-coloring-pages/
+            - generic [ref=e320]:
+              - generic [ref=e321]: 24 pages
+              - generic [ref=e322]: All ages
+              - generic [ref=e323]: Medium
+            - generic [ref=e324]:
+              - link "🖨 Print" [ref=e325] [cursor=pointer]:
+                - /url: /pages/dinosaur-coloring-pages/
+              - link "⬇ PDF" [ref=e326] [cursor=pointer]:
+                - /url: /pages/dinosaur-coloring-pages/
+        - article [ref=e327]:
+          - link "Flower Coloring Pages coloring pages" [ref=e328] [cursor=pointer]:
+            - /url: /pages/flower-coloring-pages/
+            - img "flower-coloring-pages/page-1.png" [ref=e329]:
+              - img "page 1" [ref=e331]
+          - generic [ref=e332]:
+            - heading [level=3] [ref=e333]:
+              - link "Flower Coloring Pages" [ref=e334] [cursor=pointer]:
+                - /url: /pages/flower-coloring-pages/
+            - generic [ref=e335]:
+              - generic [ref=e336]: 24 pages
+              - generic [ref=e337]: All ages
+              - generic [ref=e338]: Medium
+            - generic [ref=e339]:
+              - link "🖨 Print" [ref=e340] [cursor=pointer]:
+                - /url: /pages/flower-coloring-pages/
+              - link "⬇ PDF" [ref=e341] [cursor=pointer]:
+                - /url: /pages/flower-coloring-pages/
+        - article [ref=e342]:
+          - link "Princess Coloring Pages coloring pages" [ref=e343] [cursor=pointer]:
+            - /url: /pages/princess-coloring-pages/
+            - img "princess-coloring-pages/page-1.png" [ref=e344]:
+              - img "page 1" [ref=e346]
+          - generic [ref=e347]:
+            - heading [level=3] [ref=e348]:
+              - link "Princess Coloring Pages" [ref=e349] [cursor=pointer]:
+                - /url: /pages/princess-coloring-pages/
+            - generic [ref=e350]:
+              - generic [ref=e351]: 24 pages
+              - generic [ref=e352]: All ages
+              - generic [ref=e353]: Medium
+            - generic [ref=e354]:
+              - link "🖨 Print" [ref=e355] [cursor=pointer]:
+                - /url: /pages/princess-coloring-pages/
+              - link "⬇ PDF" [ref=e356] [cursor=pointer]:
+                - /url: /pages/princess-coloring-pages/
+        - article [ref=e357]:
+          - link "Spring Coloring Pages coloring pages" [ref=e358] [cursor=pointer]:
+            - /url: /pages/spring-coloring-pages/
+            - img "spring-coloring-pages/page-1.png" [ref=e359]:
+              - img "page 1" [ref=e361]
+          - generic [ref=e362]:
+            - heading [level=3] [ref=e363]:
+              - link "Spring Coloring Pages" [ref=e364] [cursor=pointer]:
+                - /url: /pages/spring-coloring-pages/
+            - generic [ref=e365]:
+              - generic [ref=e366]: 24 pages
+              - generic [ref=e367]: All ages
+              - generic [ref=e368]: Medium
+            - generic [ref=e369]:
+              - link "🖨 Print" [ref=e370] [cursor=pointer]:
+                - /url: /pages/spring-coloring-pages/
+              - link "⬇ PDF" [ref=e371] [cursor=pointer]:
+                - /url: /pages/spring-coloring-pages/
+    - generic [ref=e374]:
+      - link [ref=e375] [cursor=pointer]:
+        - /url: /tools/coloring-book-builder/
+        - text: 📚
+        - heading "Coloring book builder" [level=3] [ref=e376]
+        - paragraph [ref=e377]: Pick your favorite pages and download them as one custom PDF.
+        - text: Open builder →
+      - link [ref=e378] [cursor=pointer]:
+        - /url: /tools/custom-name-page/
+        - text: 🔤
+        - heading "Custom name page" [level=3] [ref=e379]
+        - paragraph [ref=e380]: Make a coloring page with your child's name, right in the browser.
+        - text: Create a name page →
+    - generic [ref=e383]:
+      - generic [ref=e384]:
+        - heading "Coloring pages for grown-ups" [level=2] [ref=e385]
+        - paragraph [ref=e386]: Mandalas, florals and intricate patterns — detailed designs for relaxing. Zero characters, all original.
+        - link "Explore adult coloring" [ref=e387] [cursor=pointer]:
+          - /url: /audience/adults/
+      - generic [ref=e388]:
+        - img "adult/mandala.png" [ref=e389]:
+          - img "mandala" [ref=e391]
+        - img "adult/rose.png" [ref=e392]:
+          - img "rose" [ref=e394]
+        - img "adult/geometric.png" [ref=e395]:
+          - img "geometric" [ref=e397]
+    - generic [ref=e399]:
+      - heading "Print in three easy steps" [level=2] [ref=e401]
+      - list [ref=e402]:
+        - listitem [ref=e403]:
+          - generic [ref=e404]: "1"
+          - generic [ref=e405]: Choose a page
+        - listitem [ref=e406]: →
+        - listitem [ref=e407]:
+          - generic [ref=e408]: "2"
+          - generic [ref=e409]: Download PDF
+        - listitem [ref=e410]: →
+        - listitem [ref=e411]:
+          - generic [ref=e412]: "3"
+          - generic [ref=e413]: Print & color
+    - generic [ref=e415]:
+      - heading "Frequently asked questions" [level=2] [ref=e417]
+      - group [ref=e418]:
+        - generic "Are the coloring pages really free? –" [ref=e419] [cursor=pointer]
+        - paragraph [ref=e420]: Yes. Every page can be printed or downloaded as a PDF for free, with no sign-up required.
+      - group [ref=e421]:
+        - generic "Can I print them on A4 and US Letter? +" [ref=e422] [cursor=pointer]
+      - group [ref=e423]:
+        - generic "Do I need to create an account? +" [ref=e424] [cursor=pointer]
+      - group [ref=e425]:
+        - generic "Can I download several pages as one PDF? +" [ref=e426] [cursor=pointer]
+      - group [ref=e427]:
+        - generic "Which pages are best for toddlers? +" [ref=e428] [cursor=pointer]
+      - group [ref=e429]:
+        - generic "Can teachers use these pages in class? +" [ref=e430] [cursor=pointer]
+    - generic [ref=e432]:
+      - heading "More coloring ideas" [level=2] [ref=e434]
+      - generic [ref=e435]:
+        - link "Christmas Coloring Pages" [ref=e436] [cursor=pointer]:
+          - /url: /pages/christmas-coloring-pages/
+        - link "Cute Coloring Pages" [ref=e437] [cursor=pointer]:
+          - /url: /pages/cute-coloring-pages/
+        - link "Halloween Coloring Pages" [ref=e438] [cursor=pointer]:
+          - /url: /pages/halloween-coloring-pages/
+        - link "Unicorn Coloring Pages" [ref=e439] [cursor=pointer]:
+          - /url: /pages/unicorn-coloring-pages/
+        - link "Dinosaur Coloring Pages" [ref=e440] [cursor=pointer]:
+          - /url: /pages/dinosaur-coloring-pages/
+        - link "Flower Coloring Pages" [ref=e441] [cursor=pointer]:
+          - /url: /pages/flower-coloring-pages/
+        - link "Princess Coloring Pages" [ref=e442] [cursor=pointer]:
+          - /url: /pages/princess-coloring-pages/
+        - link "Spring Coloring Pages" [ref=e443] [cursor=pointer]:
+          - /url: /pages/spring-coloring-pages/
+        - link "Cat Coloring Pages" [ref=e444] [cursor=pointer]:
+          - /url: /pages/cat-coloring-pages/
+        - link "Easter Coloring Pages" [ref=e445] [cursor=pointer]:
+          - /url: /pages/easter-coloring-pages/
+        - link "Fall Coloring Pages" [ref=e446] [cursor=pointer]:
+          - /url: /pages/fall-coloring-pages/
+        - link "Mandala Coloring Pages" [ref=e447] [cursor=pointer]:
+          - /url: /pages/mandala-coloring-pages/
+    - generic [ref=e450]:
+      - generic [ref=e451]: 🎁
+      - strong [ref=e452]: A fresh coloring pack every week
+      - link "Get the free pack" [ref=e453] [cursor=pointer]:
+        - /url: /subscribe/
+  - contentinfo [ref=e454]:
+    - generic [ref=e455]:
+      - generic [ref=e456]:
+        - link "ColoringBookAI home" [ref=e457] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e461]: ColoringBookAI
+        - paragraph [ref=e462]: Free printable coloring pages for everyone.
+        - generic "Social links" [ref=e463]:
+          - link "Facebook" [ref=e464] [cursor=pointer]:
+            - /url: "#"
+            - text: f
+          - link "Pinterest" [ref=e465] [cursor=pointer]:
+            - /url: "#"
+            - text: P
+          - link "Instagram" [ref=e466] [cursor=pointer]:
+            - /url: "#"
+            - text: ◎
+          - link "Email" [ref=e467] [cursor=pointer]:
+            - /url: "#"
+            - text: ✉
+      - navigation "Explore" [ref=e468]:
+        - heading "Explore" [level=4] [ref=e469]
+        - link "Coloring Pages" [ref=e470] [cursor=pointer]:
+          - /url: /pages/
+        - link "For Adults" [ref=e471] [cursor=pointer]:
+          - /url: /audience/adults/
+        - link "Seasonal" [ref=e472] [cursor=pointer]:
+          - /url: /season/christmas/
+        - link "New Pages" [ref=e473] [cursor=pointer]:
+          - /url: /pages/#new-pages
+      - navigation "Tools" [ref=e474]:
+        - heading "Tools" [level=4] [ref=e475]
+        - link "PDF Builder" [ref=e476] [cursor=pointer]:
+          - /url: /tools/coloring-book-builder/
+        - link "Custom Name Page" [ref=e477] [cursor=pointer]:
+          - /url: /tools/custom-name-page/
+        - link "Paper Sizes" [ref=e478] [cursor=pointer]:
+          - /url: /guides/paper-sizes/
+      - navigation "About" [ref=e479]:
+        - heading "About" [level=4] [ref=e480]
+        - link "About Us" [ref=e481] [cursor=pointer]:
+          - /url: /about/
+        - link "Contact" [ref=e482] [cursor=pointer]:
+          - /url: /contact/
+        - link "Privacy Policy" [ref=e483] [cursor=pointer]:
+          - /url: /privacy/
+        - link "Terms of Use" [ref=e484] [cursor=pointer]:
+          - /url: /terms/
+      - navigation "Help" [ref=e485]:
+        - heading "Help" [level=4] [ref=e486]
+        - link "FAQ" [ref=e487] [cursor=pointer]:
+          - /url: /#faq
+        - link "Troubleshooting" [ref=e488] [cursor=pointer]:
+          - /url: /guides/troubleshooting/
+        - link "Support" [ref=e489] [cursor=pointer]:
+          - /url: /contact/
+    - generic [ref=e490]: © 2026 ColoringBookAI. Pages may be AI-assisted and are free for personal & classroom use.

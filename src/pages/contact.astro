@@ -1,0 +1,74 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site";
+---
+<BaseLayout
+  title="Contact ColoringBookAI | Requests and Support"
+  description="Contact ColoringBookAI. Email us with questions, page requests, feedback, or copyright concerns."
+  breadcrumbs={[{ name: "Home", url: "/" }, { name: "Contact", url: "/contact/" }]}
+>
+  <section class="prose-head editorial-head">
+    <div class="container">
+      <span class="eyebrow">Contact</span>
+      <h1>How can we help?</h1>
+      <p class="lead">Send a page request, report a printing problem, share feedback or contact us about rights and attribution.</p>
+    </div>
+  </section>
+  <section>
+    <div class="container editorial-layout">
+      <nav class="page-toc" aria-label="Contact page sections">
+        <strong>Contact topics</strong>
+        <a href="#email">Email</a>
+        <a href="#request">Request artwork</a>
+        <a href="#printing">Printing help</a>
+        <a href="#rights">Rights concerns</a>
+        <a href="#response">Response times</a>
+      </nav>
+      <article class="prose">
+        <h2 id="email">Email ColoringBookAI</h2>
+        <p>We currently handle support by email. Please use a clear subject line and include the relevant page URL when your question concerns a specific design.</p>
+        <a class="contact-email" href={`mailto:${site.email}`}>{site.email}</a>
+        <p class="muted">Please do not send sensitive personal information, payment details or information about a child.</p>
+
+        <div class="fact-grid">
+          <div class="fact-card"><h3>New subjects</h3><p>Suggest an animal, season, activity, style or age group that is missing from the library.</p></div>
+          <div class="fact-card"><h3>Print support</h3><p>Tell us which browser, paper size and printer setting produced the problem.</p></div>
+          <div class="fact-card"><h3>Corrections</h3><p>Share the page address and describe the visual or factual issue you noticed.</p></div>
+          <div class="fact-card"><h3>Rights questions</h3><p>Provide enough detail for us to identify the artwork and understand your concern.</p></div>
+        </div>
+
+        <h2 id="request">Requesting a new coloring page</h2>
+        <p>Reader requests help us decide which collections to expand. A useful request includes:</p>
+        <ul>
+          <li>the subject or scene you would like;</li>
+          <li>the intended age group;</li>
+          <li>easy, medium or detailed difficulty;</li>
+          <li>portrait or landscape orientation, if it matters;</li>
+          <li>the activity date, especially for holidays or classroom lessons.</li>
+        </ul>
+        <p>We cannot promise that every idea will be published, but specific suggestions are easier to evaluate than broad requests.</p>
+
+        <h2 id="printing">Getting help with printing or PDF files</h2>
+        <p>Before emailing, try printing at 100% scale with Fit to page turned off. Confirm that the selected paper size matches A4 or US Letter. If a PDF still looks cropped or blank, include the page URL, device type, browser name and a short description of what happened.</p>
+        <p>The <a href="/tools/coloring-book-builder/">coloring book builder</a> combines selected designs in your browser. The <a href="/tools/custom-name-page/">custom name page</a> also runs locally in the browser and does not upload the entered name to our site.</p>
+
+        <h2 id="rights">Copyright and rights concerns</h2>
+        <p>ColoringBookAI aims to publish original artwork and does not intentionally use licensed characters. If you believe content infringes a copyright, trademark or another right, email us with:</p>
+        <ul>
+          <li>your name and preferred contact method;</li>
+          <li>the exact URL of the material in question;</li>
+          <li>a description of the protected work or right;</li>
+          <li>an explanation of the requested correction or removal;</li>
+          <li>any supporting links or documentation.</li>
+        </ul>
+        <p>We review complete reports and may temporarily remove material while a concern is investigated.</p>
+
+        <h2 id="response">Response times and related policies</h2>
+        <p>We aim to answer clear support requests within a few business days. Complex rights reports may take longer because the material must be reviewed.</p>
+        <div class="callout">
+          <p>Rules for printing and sharing artwork appear in the <a href="/terms/">Terms of Use</a>. Information about browsing data and email correspondence appears in the <a href="/privacy/">Privacy Policy</a>.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,43 @@
+---
+interface Props {
+  type: "builder" | "name";
+}
+const { type } = Astro.props;
+---
+
+<span class={`tool-icon tool-icon-${type}`} aria-hidden="true">
+  {type === "builder" ? (
+    <svg viewBox="0 0 72 72" role="presentation">
+      <rect x="1" y="1" width="70" height="70" rx="21" fill="#FFF2CF" />
+      <path d="M18 18.5h30a5 5 0 0 1 5 5v34H23a5 5 0 0 1-5-5v-34Z" fill="#D7F3EF" stroke="#2B2B3A" stroke-width="2.4" />
+      <path d="M14 14.5h30a5 5 0 0 1 5 5v34H19a5 5 0 0 1-5-5v-34Z" fill="#fff" stroke="#2B2B3A" stroke-width="2.4" />
+      <path d="M22 27h19M22 34h15M22 41h12" fill="none" stroke="#17B3A6" stroke-width="2.8" stroke-linecap="round" />
+      <path d="m43.5 48.5 12-12 5 5-12 12-7 2Z" fill="#F5683C" stroke="#2B2B3A" stroke-width="2.4" stroke-linejoin="round" />
+      <path d="m55.5 36.5 2.4-2.4a2.3 2.3 0 0 1 3.2 0l1.8 1.8a2.3 2.3 0 0 1 0 3.2l-2.4 2.4" fill="#B8A6F0" stroke="#2B2B3A" stroke-width="2.4" />
+      <path d="m41.5 55.5 2-7 5 5Z" fill="#2B2B3A" />
+    </svg>
+  ) : (
+    <svg viewBox="0 0 72 72" role="presentation">
+      <rect x="1" y="1" width="70" height="70" rx="21" fill="#EEE7FF" />
+      <rect x="14" y="13" width="44" height="48" rx="8" fill="#fff" stroke="#2B2B3A" stroke-width="2.4" />
+      <path d="M23 44 29.5 25 36 44M25.5 37h8" fill="none" stroke="#17B3A6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M39 34.5c2.6-2.2 8-1.7 8 2.4v7.3m0-4.8c-4.5-1.1-8.2.3-8.2 3.2 0 3.7 5.8 3.7 8.2.4" fill="none" stroke="#F5683C" stroke-width="3" stroke-linecap="round" />
+      <path d="m54 10 1.7 4.3L60 16l-4.3 1.7L54 22l-1.7-4.3L48 16l4.3-1.7Z" fill="#FFD36A" stroke="#2B2B3A" stroke-width="1.8" stroke-linejoin="round" />
+      <circle cx="18" cy="56" r="5" fill="#D7F3EF" stroke="#2B2B3A" stroke-width="2" />
+    </svg>
+  )}
+</span>
+
+<style>
+  .tool-icon {
+    display: block;
+    width: 72px;
+    height: 72px;
+    transition: transform 0.18s ease;
+  }
+  .tool-icon svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  :global(.tool:hover) .tool-icon { transform: translateY(-3px) rotate(-2deg); }
+  .tool-icon-name { transform: rotate(1deg); }
+  :global(.tool:hover) .tool-icon-name { transform: translateY(-3px) rotate(3deg); }
+  @media (prefers-reduced-motion: reduce) { .tool-icon { transition: none; } }
+</style>

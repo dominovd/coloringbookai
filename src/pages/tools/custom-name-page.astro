@@ -1,0 +1,112 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+<BaseLayout
+  title="Custom Name Coloring Page | Free PDF Maker"
+  description="Create a printable name coloring page with outlined letters. Adjust the style, preview it in your browser and save a free PDF."
+>
+  <section class="np-head">
+    <div class="container">
+      <h1>Custom name coloring page</h1>
+      <p class="lead">Type a name to create large outline letters for coloring. Use the result for classroom activities, party tables or a personalized gift.</p>
+      <div class="np-controls">
+        <label>Name
+          <input id="np-name" type="text" maxlength="12" value="Emma" aria-label="Name" />
+        </label>
+        <label>Style
+          <select id="np-style" aria-label="Letter style">
+            <option value="rounded">Rounded</option>
+            <option value="bold">Bold</option>
+          </select>
+        </label>
+        <button id="np-print" class="btn btn-ghost">🖨 Print</button>
+        <button id="np-pdf" class="btn btn-orange">Download PDF</button>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="np-stage" id="np-stage">
+        <svg id="np-svg" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Name coloring preview">
+          <rect width="1000" height="700" fill="#ffffff" />
+          <text id="np-text" x="500" y="380" text-anchor="middle"
+                font-family="Poppins, Arial, sans-serif" font-weight="700" font-size="220"
+                fill="none" stroke="#111111" stroke-width="3">Emma</text>
+        </svg>
+      </div>
+      <p class="muted note">Outline letters print with no fill so kids can color them in. Adjust size automatically to fit the page.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const nameEl = document.getElementById("np-name") as HTMLInputElement;
+  const styleEl = document.getElementById("np-style") as HTMLSelectElement;
+  const textEl = document.getElementById("np-text") as unknown as SVGTextElement;
+  const svg = document.getElementById("np-svg") as unknown as SVGSVGElement;
+
+  function render() {
+    const val = (nameEl.value || "Name").slice(0, 12);
+    textEl.textContent = val;
+    textEl.setAttribute("stroke-width", styleEl.value === "bold" ? "7" : "3");
+    // auto-fit: shrink font-size until it fits width
+    let size = 240;
+    textEl.setAttribute("font-size", String(size));
+    while (size > 40 && (textEl.getBBox().width > 900)) { size -= 8; textEl.setAttribute("font-size", String(size)); }
+  }
+  nameEl.addEventListener("input", render);
+  styleEl.addEventListener("change", render);
+  window.addEventListener("load", render);
+  render();
+
+  function svgString() {
+    return new XMLSerializer().serializeToString(svg);
+  }
+  document.getElementById("np-print")?.addEventListener("click", () => {
+    const w = window.open("", "_blank"); if (!w) return;
+    w.document.write(`<html><head><title>Name coloring page</title></head><body style="margin:0">${svgString()}</body></html>`);
+    w.document.close(); w.focus(); w.print();
+  });
+  document.getElementById("np-pdf")?.addEventListener("click", async () => {
+    const { jsPDF } = await import("https://cdn.jsdelivr.net/npm/jspdf@2.5.1/+esm");
+    const svg2pdf = await import("https://cdn.jsdelivr.net/npm/svg2pdf.js@2.2.3/+esm").catch(() => null);
+    const doc = new jsPDF({ unit: "pt", format: "a4", orientation: "landscape" });
+    if (svg2pdf && (doc as any).svg) {
+      await (doc as any).svg(svg, { x: 0, y: 0, width: 842, height: 595 });
+    } else {
+      // Fallback: rasterize the SVG to PNG, then place it.
+      const png = await rasterize();
+      doc.addImage(png, "PNG", 0, 0, 842, 595);
+    }
+    doc.save("name-coloring-page.pdf");
+  });
+
+  function rasterize(): Promise<string> {
+    return new Promise((resolve) => {
+      const blob = new Blob([svgString()], { type: "image/svg+xml" });
+      const url = URL.createObjectURL(blob);
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = 1000; canvas.height = 700;
+        const ctx = canvas.getContext("2d")!;
+        ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, 1000, 700);
+        ctx.drawImage(img, 0, 0);
+        URL.revokeObjectURL(url);
+        resolve(canvas.toDataURL("image/png"));
+      };
+      img.src = url;
+    });
+  }
+</script>
+
+<style>
+  .np-head { background: linear-gradient(180deg, var(--cream), var(--bg)); padding: 32px 0 20px; }
+  .np-controls { display: flex; flex-wrap: wrap; gap: 14px; align-items: end; margin-top: 16px; }
+  .np-controls label { display: flex; flex-direction: column; gap: 5px; font-family: var(--font-head); font-weight: 600; font-size: 0.82rem; color: var(--ink-soft); }
+  .np-controls input, .np-controls select { border: 1px solid var(--line); border-radius: var(--r-sm); padding: 10px 12px; font-size: 0.95rem; min-width: 180px; }
+  .np-stage { background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; box-shadow: var(--shadow-sm); }
+  .np-stage svg { width: 100%; height: auto; display: block; }
+  .note { margin-top: 12px; font-size: 0.85rem; }
+</style>

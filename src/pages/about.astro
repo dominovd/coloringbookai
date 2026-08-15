@@ -1,0 +1,66 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site";
+---
+<BaseLayout
+  title="About ColoringBookAI | Original Printable Art"
+  description="Learn how ColoringBookAI creates original printable coloring pages for children and adults, with clear usage terms and no licensed characters."
+  breadcrumbs={[{ name: "Home", url: "/" }, { name: "About Us", url: "/about/" }]}
+>
+  <section class="prose-head editorial-head">
+    <div class="container">
+      <span class="eyebrow">About the project</span>
+      <h1>About ColoringBookAI</h1>
+      <p class="lead">We build an easy-to-browse library of original coloring pages for families, teachers, teens and adults.</p>
+    </div>
+  </section>
+  <section>
+    <div class="container editorial-layout">
+      <nav class="page-toc" aria-label="About page sections">
+        <strong>On this page</strong>
+        <a href="#purpose">Our purpose</a>
+        <a href="#library">What you can find</a>
+        <a href="#process">How pages are made</a>
+        <a href="#standards">Editorial standards</a>
+        <a href="#use">Using the artwork</a>
+      </nav>
+      <article class="prose">
+        <h2 id="purpose">A practical library for creative time</h2>
+        <p>ColoringBookAI helps people find a printable activity without an account, a paywall or a maze of unrelated links. Each collection is organized by subject, intended age and difficulty. That structure makes it easier to choose a simple page for a young child, a themed classroom activity or a detailed design for a quiet evening.</p>
+        <p>The project is designed for home printers. Available artwork is supplied as clean black-and-white line art and sized to work on both A4 and US Letter paper.</p>
+
+        <div class="fact-grid">
+          <div class="fact-card"><h3>Original subjects</h3><p>Our catalog avoids licensed characters and focuses on original scenes, animals, objects and patterns.</p></div>
+          <div class="fact-card"><h3>Clear difficulty labels</h3><p>Easy, medium and detailed tags help visitors choose a page with the right amount of complexity.</p></div>
+          <div class="fact-card"><h3>Useful print formats</h3><p>Pages are prepared for common home and classroom paper sizes.</p></div>
+          <div class="fact-card"><h3>No account needed</h3><p>Visitors can browse and use available print tools without creating a profile.</p></div>
+        </div>
+
+        <h2 id="library">What you can find</h2>
+        <p>The library covers animals, flowers, ocean life, vehicles, food, space and imaginative subjects. Seasonal collections include Christmas, Halloween, Easter, Thanksgiving, Valentine's Day and activities for each part of the year.</p>
+        <p>Age and style hubs provide another way to browse. Families can start with <a href="/audience/kids/">coloring pages for kids</a>, teens can find more involved scenes, and adults can explore <a href="/audience/adults/">mandalas, botanicals and detailed artwork</a>. The complete index is available under <a href="/pages/">All coloring pages</a>.</p>
+
+        <h2 id="process">How the pages are made</h2>
+        <ol>
+          <li><strong>Topic selection.</strong> We group related search needs into useful collections instead of publishing disconnected pages.</li>
+          <li><strong>Original generation.</strong> Artwork may be created with AI assistance using prompts written for this project.</li>
+          <li><strong>Visual review.</strong> We check composition, line clarity, recognizable forms and suitability for the intended age.</li>
+          <li><strong>Print preparation.</strong> Approved artwork is exported in a high-resolution format and optimized separately for fast website previews.</li>
+        </ol>
+
+        <div class="callout">
+          <h3>Our approach to AI</h3>
+          <p>AI is a production tool, not a substitute for editorial decisions. Category planning, prompts, selection, file preparation and site organization are handled as part of the publishing process.</p>
+        </div>
+
+        <h2 id="standards">Editorial standards</h2>
+        <p>We do not intentionally publish trademarked or licensed characters. We also avoid copying another artist's identifiable work. New images are reviewed for common generation problems such as unclear anatomy, broken outlines, unwanted text, visual noise and shapes that would be frustrating to color.</p>
+        <p>If something has slipped through, send the page URL and a short explanation through the <a href="/contact/">contact page</a>. Useful corrections are treated as part of maintaining the library.</p>
+
+        <h2 id="use">Using the artwork</h2>
+        <p>Parents, teachers, caregivers and libraries may print available pages for personal and educational activities. Republishing the source files, selling them or placing them in another downloadable collection is not permitted. The full rules are explained in the <a href="/terms/">Terms of Use</a>.</p>
+        <p>Questions or requests can be sent to <a href={`mailto:${site.email}`}>{site.email}</a>. The <a href="/privacy/">Privacy Policy</a> explains what happens when you browse the site or contact us.</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

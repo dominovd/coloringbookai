@@ -1,0 +1,3 @@
+[    2563ms] [ERROR] Failed to load resource: the server responded with a status of 504 (Outdated Optimize Dep) @ http://localhost:4321/node_modules/.vite/deps/astro___aria-query.js?v=e08068f4:0
+[    2567ms] Failed to fetch dynamically imported module: http://localhost:4321/node_modules/astro/dist/runtime/client/dev-toolbar/apps/audit/index.js?v=e08068f4
+[    2563ms] [ERROR] Failed to load resource: the server responded with a status of 504 (Outdated Optimize Dep) @ http://localhost:4321/node_modules/.vite/deps/astro___axobject-query.js?v=e08068f4:0

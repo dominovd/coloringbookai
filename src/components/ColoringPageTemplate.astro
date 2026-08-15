@@ -1,0 +1,405 @@
+---
+import Ph from "./Ph.astro";
+import { artworkNumbers } from "../lib/artwork";
+import type { Candidate } from "../lib/pagemap";
+import {
+  h1 as getH1, shortAnswer, params, printTips, faqs, relatedSearches, titleCase,
+} from "../lib/pagecopy";
+import { adjacentCombos, pageHubs, liveMembers } from "../lib/taxonomy";
+import { breadcrumbLd, faqLd, imageGalleryLd } from "../lib/schema";
+
+interface Props { page: Candidate; }
+const { page } = Astro.props;
+
+const H1 = getH1(page);
+const answer = shortAnswer(page);
+const rows = params(page);
+const pageFaqs = faqs(page);
+const related = relatedSearches(page);
+const adjacent = adjacentCombos(page, 6);
+const hubs = pageHubs(page);
+const url = `/pages/${page.slug}/`;
+
+// A short noun for headings/labels: "unicorn coloring pages" -> "unicorn".
+const nounRaw = page.keyword
+  .replace(/\bcoloring pages?\b/g, "")
+  .replace(/\bfor (adults|kids|toddlers|teens)\b/g, "")
+  .replace(/\bfree|printable|to print\b/g, "")
+  .trim();
+const noun = nounRaw || "coloring";
+const cardNoun = titleCase(noun.split(" ")[0]);
+
+const sheets = artworkNumbers(page.slug, page.sheets);
+const pageCountLabel = `${sheets.length} printable ${sheets.length === 1 ? "page" : "pages"}`;
+const diffLabel = page.difficulty === "easy" ? "Easy" : page.difficulty === "detailed" ? "Detailed" : "Medium";
+const specChips = [pageCountLabel, page.ages, diffLabel, "A4 and US Letter"];
+
+// ---- Filter block (block 6): real hub links per axis ----
+const ageFilters = liveMembers("audience").map((m) => ({
+  label: m.label, href: `/audience/${m.slug}/`, active: page.audience === m.slug,
+}));
+const diffFilters = [
+  { label: "Easy", href: "/style/easy/", active: page.difficulty === "easy" },
+  { label: "Medium", href: "/style/cute/", active: page.difficulty === "medium" },
+  { label: "Detailed", href: "/style/detailed/", active: page.difficulty === "detailed" },
+];
+// "Scene" chips = real sibling pages (share the head noun); link when published.
+const sceneChips = related.slice(0, 4).map((r) => ({
+  label: titleCase(r.text.replace(/\bcoloring pages?\b/g, "").trim()), href: r.href,
+}));
+
+// ---- Schema ----
+const crumbs = [
+  { name: "Home", url: "/" },
+  { name: "Coloring pages", url: "/pages/" },
+  { name: H1, url },
+];
+const galleryImages = sheets.slice(0, 12).map((n) => ({
+  url: `/images/${page.slug}/page-${n}.png`, caption: `${H1}, page ${n}`,
+}));
+const ld = [breadcrumbLd(crumbs), faqLd(pageFaqs), imageGalleryLd(H1, url, galleryImages)];
+---
+<!-- ===== Block 1 + 2: head, hero, spec chips, primary CTAs ===== -->
+<section class="cp-head">
+  <div class="container">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span>/</span>
+      {hubs[0] && <><a href={`/${hubs[0].key}/${hubs[0].member.slug}/`}>{hubs[0].member.label}</a><span>/</span></>}
+      <span aria-current="page">{H1}</span>
+    </nav>
+    <div class="head-grid">
+      <div class="head-copy">
+        <h1>{H1}</h1>
+        <p class="answer">{answer}</p>
+        <div class="spec-chips">
+          {specChips.map((s) => <span class="spec">{s}</span>)}
+        </div>
+        <div class="head-cta">
+          <button id="cp-download-all" class="btn btn-orange">Download {sheets.length === 1 ? "this page" : `all ${sheets.length} pages`}</button>
+          <a href="/tools/coloring-book-builder/" class="btn btn-ghost">Build a custom PDF</a>
+        </div>
+        <p class="free-note">Free · No sign-up</p>
+      </div>
+      <div class="head-art" aria-hidden="true">
+        <div class="head-sheet"><Ph asset={`${page.slug}/page-1.png`} ratio="3/4" line={true} /></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Block 6: filters (real links) ===== -->
+<section class="cp-filter">
+  <div class="container">
+    <div class="filter-top">
+      <h2 class="band-h">Filter {noun} coloring pages</h2>
+      <a href={url} class="link-arrow">Clear filters</a>
+    </div>
+    <div class="frow"><span class="flabel">Age</span><div class="chips">
+      {ageFilters.map((f) => <a href={f.href} class={`chip ${f.active ? "on" : ""}`}>{f.label}</a>)}
+    </div></div>
+    <div class="frow"><span class="flabel">Difficulty</span><div class="chips">
+      {diffFilters.map((f) => <a href={f.href} class={`chip ${f.active ? "on" : ""}`}>{f.label}</a>)}
+    </div></div>
+    {sceneChips.length > 0 && (
+      <div class="frow"><span class="flabel">Scene</span><div class="chips">
+        {sceneChips.map((f) => (f.href ? <a href={f.href} class="chip">{f.label}</a> : <span class="chip static">{f.label}</span>))}
+      </div></div>
+    )}
+    <div class="frow"><span class="flabel">Layout</span><div class="chips" role="group" aria-label="Layout">
+      <button class="chip layout on" data-layout="portrait" aria-pressed="true">Portrait</button>
+      <button class="chip layout" data-layout="landscape" aria-pressed="false">Landscape</button>
+    </div></div>
+  </div>
+</section>
+
+<!-- ===== Block 3 + 4: preview grid with per-card actions (+ ad after 8th) ===== -->
+<section class="cp-grid-sec">
+  <div class="container">
+    <h2>Free printable {noun} coloring pages</h2>
+    <div class="cp-grid" id="cp-grid">
+      {sheets.map((n) => (
+        <>
+          <article class="cp-card">
+            <label class="pick"><input type="checkbox" class="cp-pick" data-title={`${cardNoun}, page ${n}`} /></label>
+            <div class="cp-thumb"><Ph asset={`${page.slug}/page-${n}.png`} ratio="3/4" line={true} /></div>
+            <h3 class="cp-title">{cardNoun} #{n}</h3>
+            <div class="cp-meta">
+              <span class="badge badge-age">{page.ages}</span>
+              <span class={`badge ${page.difficulty === "detailed" ? "badge-detailed" : page.difficulty === "easy" ? "badge-easy" : "badge-medium"}`}>{diffLabel}</span>
+            </div>
+            <div class="cp-actions">
+              <button class="btn btn-ghost btn-sm cp-print" type="button">🖨 Print</button>
+              <button class="btn btn-orange btn-sm cp-pdf" type="button">PDF</button>
+            </div>
+          </article>
+          {n === 8 && (
+            <div class="adslot" role="complementary" aria-label="Advertisement">Advertisement</div>
+          )}
+        </>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ===== Block 5: favorites - one PDF ===== -->
+<section class="cp-fav-sec">
+  <div class="container">
+    <div class="cp-fav">
+      <span class="fav-ico" aria-hidden="true">*</span>
+      <div class="fav-copy">
+        <strong>Choose your favorites</strong>
+        <span class="muted">Select any pages and download one custom PDF.</span>
+      </div>
+      <div class="fav-actions">
+        <button id="cp-build" class="btn btn-teal">Download selected PDF</button>
+        <button id="cp-selectall" class="link-arrow" type="button">Select all {sheets.length}</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Block 7 + 8: params + print how-to ===== -->
+<section>
+  <div class="container two-col">
+    <div>
+      <h2>About this coloring pack</h2>
+      <table class="params">
+        <tbody>{rows.map((r) => (<tr><th>{r.label}</th><td>{r.value}</td></tr>))}</tbody>
+      </table>
+    </div>
+    <div>
+      <h2>How to print these {noun} pages</h2>
+      <div class="howto-art" aria-hidden="true"><Ph asset="misc/printer.png" ratio="4/3" /></div>
+      <ul class="tips">{printTips.map((t) => <li>{t}</li>)}</ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Block 9: adjacent combinations ===== -->
+{adjacent.length > 0 && (
+  <section class="cp-band">
+    <div class="container">
+      <h2 class="band-h">More {noun} coloring pages</h2>
+      <div class="adj-grid">
+        {adjacent.map((a) => (
+          <a href={`/pages/${a.slug}/`} class="adj">
+            <Ph asset={`${a.slug}/page-1.png`} ratio="1/1" line={true} radius="12px" />
+            <span>{getH1(a)}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<!-- ===== Block 10: FAQ ===== -->
+<section class="cp-faq">
+  <div class="container narrow">
+    <h2>Frequently asked questions</h2>
+    {pageFaqs.map((f, i) => (
+      <details open={i === 0}>
+        <summary>{f.q}</summary>
+        <p>{f.a}</p>
+      </details>
+    ))}
+  </div>
+</section>
+
+<!-- ===== Block 11: related searches ===== -->
+<section>
+  <div class="container">
+    <h2 class="band-h">Related searches</h2>
+    <div class="chips">
+      {related.map((r) => (r.href ? <a href={r.href} class="tag">{r.text}</a> : <span class="tag static">{r.text}</span>))}
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify(ld)} />
+
+<script>
+  // Layout toggle (view-only, not a URL facet).
+  document.querySelectorAll<HTMLButtonElement>(".layout").forEach((b) => {
+    b.addEventListener("click", () => {
+      document.querySelectorAll(".layout").forEach((x) => { x.classList.remove("on"); x.setAttribute("aria-pressed", "false"); });
+      b.classList.add("on"); b.setAttribute("aria-pressed", "true");
+      document.getElementById("cp-grid")?.classList.toggle("landscape", b.dataset.layout === "landscape");
+    });
+  });
+
+  // Block 5: bundle selected (or all) pages into one PDF via jsPDF (on demand).
+  const picks = () => Array.from(document.querySelectorAll<HTMLInputElement>(".cp-pick"));
+  const selectAllBtn = document.getElementById("cp-selectall");
+  selectAllBtn?.addEventListener("click", () => {
+    const allOn = picks().every((p) => p.checked);
+    picks().forEach((p) => (p.checked = !allOn));
+  });
+
+  // The <img> in each card may be lazy-loaded (off-screen) or 404 (artwork not
+  // added yet). So for PDF/print we load each source FRESH and convert to a PNG
+  // data URL, this captures every real page regardless of scroll position, and
+  // lets us skip pages that don't have artwork instead of emitting blank ones.
+  function cardSrc(card: Element | null | undefined): string | null {
+    const img = card?.querySelector("img") as HTMLImageElement | null;
+    return img?.getAttribute("src") || null; // the .png source
+  }
+  function loadPng(url: string): Promise<{ data: string; w: number; h: number } | null> {
+    return new Promise((resolve) => {
+      const im = new Image();
+      im.decoding = "async";
+      im.onload = () => {
+        try {
+          const c = document.createElement("canvas");
+          c.width = im.naturalWidth; c.height = im.naturalHeight;
+          const ctx = c.getContext("2d")!;
+          ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height);
+          ctx.drawImage(im, 0, 0);
+          resolve({ data: c.toDataURL("image/png"), w: im.naturalWidth, h: im.naturalHeight });
+        } catch { resolve(null); }
+      };
+      im.onerror = () => resolve(null);
+      im.src = url;
+    });
+  }
+  function place(doc: any, img: { data: string; w: number; h: number }) {
+    const maxW = 190, maxH = 277;               // A4 minus 10mm margins
+    const r = Math.min(maxW / img.w, maxH / img.h);
+    const w = img.w * r, h = img.h * r;
+    doc.addImage(img.data, "PNG", (210 - w) / 2, (297 - h) / 2, w, h);
+  }
+
+  async function buildPdf(all: boolean, trigger?: HTMLElement) {
+    let chosen = picks().filter((p) => p.checked);
+    if (all || !chosen.length) chosen = picks();
+    const label = trigger?.textContent;
+    if (trigger) { trigger.textContent = "Preparing PDF..."; (trigger as HTMLButtonElement).disabled = true; }
+    const loaded = await Promise.all(
+      chosen.map((c) => { const s = cardSrc(c.closest(".cp-card")); return s ? loadPng(s) : Promise.resolve(null); })
+    );
+    const pages = loaded.filter(Boolean) as { data: string; w: number; h: number }[];
+    if (trigger) { if (label) trigger.textContent = label; (trigger as HTMLButtonElement).disabled = false; }
+    if (!pages.length) { alert("These pages don't have artwork yet, so there's nothing to export."); return; }
+    const { jsPDF } = await import("https://cdn.jsdelivr.net/npm/jspdf@2.5.1/+esm");
+    const doc = new jsPDF({ unit: "mm", format: "a4" });
+    pages.forEach((p, i) => { if (i > 0) doc.addPage(); place(doc, p); });
+    doc.save("coloring-book.pdf");
+  }
+  document.getElementById("cp-build")?.addEventListener("click", (e) => buildPdf(false, e.currentTarget as HTMLElement));
+  document.getElementById("cp-download-all")?.addEventListener("click", (e) => buildPdf(true, e.currentTarget as HTMLElement));
+
+  // Per-card Print + PDF.
+  document.querySelectorAll<HTMLButtonElement>(".cp-print").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const card = btn.closest(".cp-card");
+      const title = card?.querySelector<HTMLInputElement>(".cp-pick")?.getAttribute("data-title") ?? "Coloring page";
+      const src = cardSrc(card);
+      const w = window.open("", "_blank");
+      if (!w) { alert("Please allow pop-ups to print."); return; }
+      const body = src
+        ? `<img src="${src}" onload="window.print()" onerror="document.body.innerHTML='Artwork not available yet.'" style="width:100%" />`
+        : `<h2 style="font-family:sans-serif">${title}</h2><p style="font-family:sans-serif">Add the artwork to print this page.</p>`;
+      w.document.write(`<html><head><title>${title}</title><style>@page{margin:10mm}body{margin:0}</style></head><body>${body}</body></html>`);
+      w.document.close();
+    });
+  });
+
+  document.querySelectorAll<HTMLButtonElement>(".cp-pdf").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const card = btn.closest(".cp-card");
+      const title = card?.querySelector<HTMLInputElement>(".cp-pick")?.getAttribute("data-title") ?? "coloring-page";
+      const src = cardSrc(card);
+      const img = src ? await loadPng(src) : null;
+      if (!img) { alert("This page doesn't have artwork yet."); return; }
+      const { jsPDF } = await import("https://cdn.jsdelivr.net/npm/jspdf@2.5.1/+esm");
+      const doc = new jsPDF({ unit: "mm", format: "a4" });
+      place(doc, img);
+      doc.save(title.replace(/[^a-z0-9]+/gi, "-").toLowerCase() + ".pdf");
+    });
+  });
+</script>
+
+<style>
+  .cp-head { background: #fff; border-bottom: 1px solid var(--line); padding: 24px 0 26px; }
+  .crumbs { font-size: 0.82rem; color: var(--ink-faint); display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .crumbs a:hover { color: var(--teal-dark); }
+  .head-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 30px; align-items: center; }
+  .answer { max-width: 52ch; font-size: 1.04rem; color: var(--ink); margin: 6px 0 16px; }
+  .spec-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .spec { padding: 7px 14px; border-radius: var(--r-pill); background: var(--bg); border: 1px solid var(--line); font-family: var(--font-head); font-weight: 500; font-size: 0.82rem; }
+  .head-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .free-note { margin: 12px 0 0; font-size: 0.85rem; color: var(--ink-faint); }
+  .head-art { display: flex; align-items: center; justify-content: center; }
+  .head-sheet { width: 100%; max-width: 290px; background: #fff; border-radius: var(--r-md); box-shadow: var(--shadow-lg); padding: 12px; transform: rotate(3deg); }
+
+  .cp-filter { background: #fff; border-bottom: 1px solid var(--line); }
+  .filter-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .frow { display: grid; grid-template-columns: 90px 1fr; gap: 12px; align-items: center; padding: 8px 0; }
+  .flabel { font-family: var(--font-head); font-weight: 600; font-size: 0.82rem; color: var(--ink-soft); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { display: inline-flex; align-items: center; padding: 8px 15px; border-radius: var(--r-pill); background: #fff; border: 1px solid var(--line); font-family: var(--font-head); font-weight: 500; font-size: 0.85rem; color: var(--ink); cursor: pointer; }
+  .chip:hover { border-color: var(--teal); color: var(--teal-dark); }
+  .chip.on { background: var(--teal); color: #fff; border-color: var(--teal); }
+  .chip.static { opacity: 0.65; cursor: default; }
+  .band-h { font-size: 1.15rem; margin: 0; }
+
+  .cp-grid-sec h2 { margin-bottom: 18px; }
+  .cp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .cp-grid.landscape .cp-thumb :global(.ph) { aspect-ratio: 4 / 3 !important; }
+  .cp-card { position: relative; background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); padding: 12px; box-shadow: var(--shadow-sm); transition: transform .12s ease, box-shadow .12s ease; }
+  .cp-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .pick { position: absolute; top: 16px; left: 16px; z-index: 2; background: #fff; border-radius: 6px; padding: 3px; box-shadow: var(--shadow-sm); line-height: 0; }
+  .cp-title { font-size: 0.95rem; margin: 10px 0 6px; }
+  .cp-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .cp-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .adslot { grid-column: 1 / -1; display: grid; place-items: center; min-height: 90px; border: 1px dashed var(--line); border-radius: var(--r-md); color: var(--ink-faint); font-size: 0.8rem; background: #fbfbfd; }
+  .note { margin-top: 18px; font-size: 0.84rem; }
+  .note code { background: #fff; border: 1px solid var(--line); border-radius: 6px; padding: 2px 6px; font-size: 0.8rem; }
+
+  .cp-fav-sec { padding-top: 0; }
+  .cp-fav { display: grid; grid-template-columns: auto 1fr auto; gap: 18px; align-items: center; background: var(--mint-soft); border-radius: var(--r-lg); padding: 18px 24px; }
+  .fav-ico { width: 44px; height: 44px; border-radius: 50%; background: #fff; display: grid; place-items: center; color: var(--teal); font-size: 1.2rem; }
+  .fav-copy { display: flex; flex-direction: column; }
+  .fav-copy strong { font-family: var(--font-head); }
+  .fav-actions { display: flex; align-items: center; gap: 16px; }
+  #cp-selectall { background: none; border: 0; padding: 0; cursor: pointer; white-space: nowrap; font-family: var(--font-head); }
+  #cp-selectall:hover { text-decoration: underline; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .params { width: 100%; border-collapse: collapse; }
+  .params th, .params td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--line); font-size: 0.92rem; }
+  .params th { color: var(--ink-soft); font-weight: 600; width: 45%; font-family: var(--font-head); }
+  .howto-art { max-width: 320px; margin-bottom: 16px; }
+  .tips { padding-left: 18px; margin: 0; }
+  .tips li { margin-bottom: 8px; font-size: 0.92rem; color: var(--ink-soft); }
+
+  .cp-band { background: var(--cream); }
+  .adj-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+  .adj { background: #fff; border-radius: 14px; padding: 8px; box-shadow: var(--shadow-sm); text-align: center; transition: transform .12s ease; }
+  .adj:hover { transform: translateY(-3px); }
+  .adj span { display: block; margin-top: 6px; font-family: var(--font-head); font-weight: 600; font-size: 0.76rem; line-height: 1.25; }
+
+  .narrow { max-width: 760px; }
+  .cp-faq details { background: #fff; border: 1px solid var(--line); border-radius: var(--r-sm); padding: 6px 18px; margin-bottom: 10px; }
+  .cp-faq summary { font-family: var(--font-head); font-weight: 600; cursor: pointer; padding: 10px 0; list-style: none; display: flex; justify-content: space-between; }
+  .cp-faq summary::-webkit-details-marker { display: none; }
+  .cp-faq summary::after { content: "+"; color: var(--ink-faint); font-size: 1.3rem; }
+  .cp-faq details[open] summary::after { content: "-"; }
+  .cp-faq details p { margin: 0 0 12px; font-size: 0.92rem; }
+
+  .tag { padding: 8px 14px; border-radius: var(--r-pill); background: #fff; border: 1px solid var(--line); font-size: 0.85rem; color: var(--ink-soft); }
+  a.tag:hover { border-color: var(--teal); color: var(--teal-dark); }
+  .tag.static { opacity: 0.7; }
+
+  @media (max-width: 960px) {
+    .head-grid, .two-col { grid-template-columns: 1fr; }
+    .head-art { order: -1; min-height: 220px; }
+    .cp-grid { grid-template-columns: repeat(2, 1fr); }
+    .adj-grid { grid-template-columns: repeat(3, 1fr); }
+    .cp-fav { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+  }
+  @media (max-width: 560px) {
+    .frow { grid-template-columns: 1fr; }
+    .adj-grid { grid-template-columns: repeat(2, 1fr); }
+    .head-cta .btn { width: 100%; }
+  }
+</style>

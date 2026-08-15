@@ -1,0 +1,103 @@
+---
+import Ph from "./Ph.astro";
+import type { Candidate } from "../lib/pagemap";
+import { h1 as getH1 } from "../lib/pagecopy";
+import { axisDef, liveMembers, type HubMember } from "../lib/taxonomy";
+import { breadcrumbLd, collectionLd } from "../lib/schema";
+import { hubLead } from "../lib/hubcopy";
+import { artworkCount } from "../lib/artwork";
+
+interface Props {
+  axisKey: "subject" | "season" | "audience" | "style";
+  member: HubMember;
+  pages: Candidate[];
+}
+const { axisKey, member, pages } = Astro.props;
+const axis = axisDef(axisKey)!;
+const siblings = liveMembers(axisKey).filter((m) => m.slug !== member.slug);
+const diffBadge = (c: Candidate) =>
+  c.difficulty === "detailed" ? "badge-detailed" : c.difficulty === "easy" ? "badge-easy" : "badge-medium";
+const diffLabel = (c: Candidate) =>
+  c.difficulty === "detailed" ? "Detailed" : c.difficulty === "easy" ? "Easy" : "Medium";
+
+const hubUrl = `/${axisKey}/${member.slug}/`;
+const ld = [
+  breadcrumbLd([
+    { name: "Home", url: "/" },
+    { name: `${member.label} coloring pages`, url: hubUrl },
+  ]),
+  collectionLd(
+    `${member.label} coloring pages`,
+    hubUrl,
+    pages.map((c) => ({ name: getH1(c), url: `/pages/${c.slug}/` })),
+  ),
+];
+---
+<script type="application/ld+json" set:html={JSON.stringify(ld)} />
+<section class="hub-head">
+  <div class="container">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span>/</span>
+      <span>{axis.title.replace("By ", "")}</span><span>/</span>
+      <span aria-current="page">{member.label}</span>
+    </nav>
+    <h1>{member.label} coloring pages</h1>
+    <p class="lead">{hubLead(member.slug)}</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    {pages.length > 0 ? (
+      <div class="hub-grid">
+        {pages.map((c) => (
+          <article class="hcard">
+            <a href={`/pages/${c.slug}/`} class="hthumb"><Ph asset={`${c.slug}/page-1.png`} ratio="3/4" line={true} /></a>
+            <div class="hbody">
+              <h2><a href={`/pages/${c.slug}/`}>{getH1(c)}</a></h2>
+              <div class="hmeta">
+                <span class="muted">{artworkCount(c.slug)} {artworkCount(c.slug) === 1 ? "page" : "pages"}</span>
+                <span class="badge badge-age">{c.ages}</span>
+                <span class={`badge ${diffBadge(c)}`}>{diffLabel(c)}</span>
+              </div>
+              <a href={`/pages/${c.slug}/`} class="btn btn-orange btn-sm">View pages →</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <p class="muted">New {member.label.toLowerCase()} artwork is being prepared. Check back soon.</p>
+    )}
+  </div>
+</section>
+
+{siblings.length > 0 && (
+  <section class="hub-more">
+    <div class="container">
+      <h2 class="band-h">More {axis.title.replace("By ", "").toLowerCase()}s</h2>
+      <div class="chips">
+        {siblings.map((s) => <a href={`/${axisKey}/${s.slug}/`} class="chip">{s.label} →</a>)}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .hub-head { background: #fff; border-bottom: 1px solid var(--line); padding: 28px 0 22px; }
+  .crumbs { font-size: 0.82rem; color: var(--ink-faint); display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .crumbs a:hover { color: var(--teal-dark); }
+  .lead { max-width: 60ch; font-size: 1.04rem; }
+  .hub-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .hcard { background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform .12s ease, box-shadow .12s ease; }
+  .hcard:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .hthumb { display: block; padding: 12px 12px 0; }
+  .hbody { padding: 12px 14px 16px; }
+  .hbody h2 { font-size: 1rem; margin: 0 0 8px; }
+  .hmeta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 0.8rem; margin-bottom: 12px; }
+  .hub-more { background: var(--cream); }
+  .band-h { font-size: 1.1rem; margin-bottom: 14px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { padding: 8px 15px; border-radius: var(--r-pill); background: #fff; border: 1px solid var(--line); font-family: var(--font-head); font-weight: 500; font-size: 0.85rem; }
+  .chip:hover { border-color: var(--teal); color: var(--teal-dark); }
+  @media (max-width: 960px) { .hub-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>

@@ -1,0 +1,16 @@
+---
+interface Props { size?: number; }
+const { size = 26 } = Astro.props;
+---
+<a href="/" class="logo" aria-label="ColoringBookAI home">
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M3 17.5V21h3.5L18 9.5 14.5 6 3 17.5Z" fill="var(--orange)"/>
+    <path d="M16 4.5 19.5 8l1.7-1.7a1.6 1.6 0 0 0 0-2.3l-1.2-1.2a1.6 1.6 0 0 0-2.3 0L16 4.5Z" fill="var(--teal)"/>
+  </svg>
+  <span><b>ColoringBook</b><i>AI</i></span>
+  <style>
+    .logo { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-head); font-size: 1.15rem; }
+    .logo b { font-weight: 700; color: var(--ink); }
+    .logo i { font-style: normal; font-weight: 700; color: var(--teal); }
+  </style>
+</a>

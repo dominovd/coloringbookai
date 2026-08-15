@@ -1,0 +1,56 @@
+---
+import Logo from "./Logo.astro";
+import { footerCols as cols } from "../data/content";
+---
+<footer class="site-footer">
+  <div class="container foot">
+    <div class="brandcol">
+      <Logo />
+      <p class="muted">Free printable coloring pages for everyone.</p>
+      <div class="social" aria-label="Social links">
+        <a href="#" aria-label="Facebook">f</a>
+        <a href="#" aria-label="Pinterest">P</a>
+        <a href="#" aria-label="Instagram">◎</a>
+        <a href="#" aria-label="Email">✉</a>
+      </div>
+    </div>
+    {cols.map((c) => (
+      <nav class="col" aria-label={c.title}>
+        <h4>{c.title}</h4>
+        {c.items.map((i) => <a href={i.href}>{i.label}</a>)}
+      </nav>
+    ))}
+  </div>
+  <div class="container legal">
+    <span class="muted">© {new Date().getFullYear()} ColoringBookAI. Pages may be AI-assisted and are free for personal & classroom use.</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer { background: var(--cream); border-top: 1px solid var(--line); margin-top: 20px; }
+  .foot {
+    display: grid; grid-template-columns: 1.6fr repeat(4, 1fr);
+    gap: 28px; padding: 44px 20px 30px;
+  }
+  .brandcol p { margin-top: 12px; font-size: 0.9rem; max-width: 220px; }
+  .social { display: flex; gap: 8px; margin-top: 12px; }
+  .social a {
+    width: 34px; height: 34px; border-radius: 50%; background: #fff;
+    border: 1px solid var(--line); display: grid; place-items: center;
+    font-family: var(--font-head); color: var(--ink-soft);
+  }
+  .social a:hover { color: var(--teal-dark); border-color: var(--teal); }
+  .col { display: flex; flex-direction: column; gap: 9px; }
+  .col h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-faint); margin-bottom: 4px; }
+  .col a { font-size: 0.9rem; color: var(--ink-soft); }
+  .col a:hover { color: var(--teal-dark); }
+  .legal { padding: 16px 20px 30px; border-top: 1px solid var(--line); font-size: 0.82rem; }
+
+  @media (max-width: 860px) {
+    .foot { grid-template-columns: 1fr 1fr; }
+    .brandcol { grid-column: 1 / -1; }
+  }
+  @media (max-width: 520px) {
+    .foot { grid-template-columns: 1fr; }
+  }
+</style>
