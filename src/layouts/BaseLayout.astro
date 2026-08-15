@@ -3,6 +3,7 @@ import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { organizationLd, websiteLd, breadcrumbLd } from "../lib/schema";
+import Analytics from "@vercel/analytics/astro";
 
 interface Props {
   title: string;
@@ -23,6 +24,7 @@ if (breadcrumbs && breadcrumbs.length) siteLd.push(breadcrumbLd(breadcrumbs));
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google-site-verification" content="OchLScs1fjWj9Xw3SQIryH9sYAixbe0dLpoQAh6QZhI" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
@@ -49,6 +51,7 @@ if (breadcrumbs && breadcrumbs.length) siteLd.push(breadcrumbLd(breadcrumbs));
       <slot />
     </main>
     <Footer />
+    <Analytics />
     <style>
       .skip { position: absolute; left: -999px; top: 0; background: #fff; padding: 10px 16px; border-radius: 0 0 8px 0; z-index: 100; }
       .skip:focus { left: 0; }
