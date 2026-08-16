@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import WorksheetShell from "../../components/WorksheetShell.astro";
+import SheetControls from "../../components/SheetControls.astro";
+import { generatorBySlug } from "../../lib/worksheets";
+
+const gen = generatorBySlug.get("dot-to-dot-printable")!;
+---
+<BaseLayout
+  title={gen.title}
+  description={gen.description}
+  image={`/images/worksheets/${gen.slug}.png`}
+>
+  <WorksheetShell gen={gen}>
+    <Fragment slot="controls">
+      <label>Shape
+        <select data-p="shape">
+          <option value="star">Star</option>
+          <option value="heart">Heart</option>
+          <option value="flower">Flower</option>
+          <option value="butterfly">Butterfly</option>
+          <option value="sun">Sun</option>
+          <option value="spiral">Spiral snail</option>
+          <option value="fish">Fish</option>
+          <option value="moon">Crescent moon</option>
+        </select>
+      </label>
+      <label>Dots
+        <select data-p="dots">
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+          <option value="40">40</option>
+        </select>
+      </label>
+      <SheetControls show={[]} more={["color", "orient"]} />
+      <label class="inline-more">Show outline
+        <select data-p="hint">
+          <option value="no">No (puzzle)</option>
+          <option value="yes">Yes (guide)</option>
+        </select>
+      </label>
+    </Fragment>
+  </WorksheetShell>
+</BaseLayout>
+
+<script>
+  import { mountTool } from "../../lib/sheetkit";
+  import { draws } from "../../lib/draws";
+
+  mountTool({
+    file: "dot-to-dot-printable",
+    params: [
+      { name: "shape", def: "star" },
+      { name: "dots", def: "20" },
+      { name: "hint", def: "no" },
+      { name: "color", def: "#111111" },
+      { name: "orient", def: "portrait" },
+    ],
+    draw: draws["dot-to-dot-printable"],
+  });
+</script>

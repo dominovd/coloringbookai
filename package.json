@@ -9,7 +9,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "composites": "node scripts/make-composites.mjs",
-    "audit": "node scripts/audit-pages.mjs"
+    "audit": "node scripts/audit-pages.mjs",
+    "previews": "node scripts/make-worksheet-previews.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.2.1",

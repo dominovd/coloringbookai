@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import WorksheetShell from "../../components/WorksheetShell.astro";
+import SheetControls from "../../components/SheetControls.astro";
+import { generatorBySlug } from "../../lib/worksheets";
+
+const gen = generatorBySlug.get("cursive-practice-sheets")!;
+---
+<BaseLayout
+  title={gen.title}
+  description={gen.description}
+  image={`/images/worksheets/${gen.slug}.png`}
+>
+  <WorksheetShell gen={gen}>
+    <Fragment slot="controls">
+      <label>Text
+        <input type="text" data-p="text" maxlength="40" value="alphabet" placeholder="Words, or &ldquo;alphabet&rdquo;" />
+      </label>
+      <SheetControls
+        show={["rows", "style"]}
+        more={["guides", "color", "orient"]}
+        rowsDefault="5"
+      />
+      <label class="inline-more">Slant guides
+        <select data-p="slant">
+          <option value="yes">Show</option>
+          <option value="no">Hide</option>
+        </select>
+      </label>
+    </Fragment>
+  </WorksheetShell>
+</BaseLayout>
+
+<script>
+  import { mountTool } from "../../lib/sheetkit";
+  import { draws } from "../../lib/draws";
+
+  mountTool({
+    file: "cursive-practice-sheets",
+    params: [
+      { name: "text", def: "alphabet" },
+      { name: "slant", def: "yes" },
+      { name: "rows", def: "5" },
+      { name: "style", def: "dotted" },
+      { name: "guides", def: "yes" },
+      { name: "color", def: "#111111" },
+      { name: "orient", def: "portrait" },
+    ],
+    draw: draws["cursive-practice-sheets"],
+  });
+</script>

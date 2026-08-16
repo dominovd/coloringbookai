@@ -8,6 +8,7 @@ const seasonalHref = resolveHref("/season/christmas/", "/season/halloween/", "/s
 
 export const nav = [
   { label: "Coloring Pages", href: "/pages/" },
+  { label: "Worksheets", href: "/worksheets/" },
   { label: "For Adults", href: adultsHref },
   { label: "Seasonal", href: seasonalHref },
   { label: "PDF Builder", href: "/tools/coloring-book-builder/" },
@@ -18,6 +19,7 @@ export const footerCols = [
     title: "Explore",
     items: [
       { label: "Coloring Pages", href: "/pages/" },
+      { label: "Worksheets", href: "/worksheets/" },
       { label: "For Adults", href: adultsHref },
       { label: "Seasonal", href: seasonalHref },
       { label: "New Pages", href: "/pages/#new-pages" },
@@ -27,6 +29,9 @@ export const footerCols = [
     title: "Tools",
     items: [
       { label: "PDF Builder", href: "/tools/coloring-book-builder/" },
+      { label: "Name Tracing", href: "/tools/name-tracing-worksheet/" },
+      { label: "Letter Tracing", href: "/tools/letter-tracing-worksheet/" },
+      { label: "Dot to Dot", href: "/tools/dot-to-dot-printable/" },
       { label: "Custom Name Page", href: "/tools/custom-name-page/" },
       // Guides aren't built yet — re-add when /guides/* exists.
     ],

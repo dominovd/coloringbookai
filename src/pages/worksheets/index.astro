@@ -1,0 +1,149 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { generators, worksheetHubs, generatorsInHub } from "../../lib/worksheets";
+import { breadcrumbLd, collectionLd } from "../../lib/schema";
+
+const phase1 = generators.filter((g) => g.phase === 1);
+const phase2 = generators.filter((g) => g.phase === 2);
+
+const ld = [
+  breadcrumbLd([
+    { name: "Home", url: "/" },
+    { name: "Worksheets", url: "/worksheets/" },
+  ]),
+  collectionLd(
+    "Free printable worksheet makers",
+    "/worksheets/",
+    generators.map((g) => ({ name: g.h1, url: `/tools/${g.slug}/` })),
+  ),
+];
+---
+<BaseLayout
+  title="Free Printable Worksheet Makers | Tracing & Handwriting PDF"
+  description="Create printable worksheets for names, letters, numbers, words, cursive, pre-writing and dot to dot. Adjust each sheet and download a PDF."
+  image="/images/worksheets/index.png"
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(ld)} />
+
+  <section class="ws-head">
+    <div class="container">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a><span>/</span><span aria-current="page">Worksheets</span>
+      </nav>
+      <h1>Printable worksheet makers</h1>
+      <p class="lead">
+        Type what you need and the sheet builds itself: a child's name, one letter or this week's
+        spelling list. Each maker prints on A4 or US Letter and lets you adjust the practice before downloading.
+      </p>
+      <div class="ws-features">
+        <span>Free PDF</span><span>Nothing to install</span>
+        <span>No sign-up</span><span>Unlimited sheets</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2>Handwriting &amp; tracing</h2>
+      <div class="ws-grid">
+        {phase1.map((g) => (
+          <a href={`/tools/${g.slug}/`} class="ws-card">
+            <picture>
+              <source srcset={`/images/worksheets/${g.slug}-guide.webp`} type="image/webp" />
+              <img src={`/images/worksheets/${g.slug}-guide.png`} alt="" width="1536" height="1024" loading="lazy" />
+            </picture>
+            <h3>{g.h1}</h3>
+            <p>{g.card}</p>
+            <span class="link-arrow">Create a {g.nav.toLowerCase()} sheet</span>
+          </a>
+        ))}
+      </div>
+
+      <h2 class="mt">Numbers, words &amp; puzzles</h2>
+      <div class="ws-grid">
+        {phase2.map((g) => (
+          <a href={`/tools/${g.slug}/`} class="ws-card">
+            <picture>
+              <source srcset={`/images/worksheets/${g.slug}-guide.webp`} type="image/webp" />
+              <img src={`/images/worksheets/${g.slug}-guide.png`} alt="" width="1536" height="1024" loading="lazy" />
+            </picture>
+            <h3>{g.h1}</h3>
+            <p>{g.card}</p>
+            <span class="link-arrow">Create a {g.nav.toLowerCase()} sheet</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="ws-guide">
+    <div class="container">
+      <h2>Choose a worksheet by the skill being practised</h2>
+      <div class="guide-grid">
+        <article>
+          <h3>Before letters and numbers</h3>
+          <p>Use pre-writing lines when a child is still learning to guide a pencil across the page. Broad lines, waves and arches build control without asking the child to remember a symbol at the same time. Dot to dot adds number order once counting is familiar.</p>
+        </article>
+        <article>
+          <h3>First handwriting</h3>
+          <p>Name and letter tracing work well when print is new. Begin with a small target, keep handwriting rules visible and finish with one blank line. Number tracing belongs here too, but a beginner should master 1-10 before moving to a crowded 1-100 page.</p>
+        </article>
+        <article>
+          <h3>Words and joined writing</h3>
+          <p>Word tracing is useful for a short spelling list that the child can already read. Cursive tools suit learners who print comfortably and are ready to practise joins, rhythm and slant. A familiar name is often the easiest first connected word.</p>
+        </article>
+      </div>
+      <div class="print-note">
+        <h2>Printing and reuse</h2>
+        <p>Every preview is designed for A4 and US Letter paper. Print at actual size rather than fitting several pages onto one sheet. Ordinary copy paper works for pencil practice; heavier paper or a plastic sleeve is useful when a page will be reused with a dry-erase marker.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="ws-hubs">
+    <div class="container">
+      <h2>Browse by age and type</h2>
+      <div class="hub-row">
+        {worksheetHubs.map((hb) => (
+          <a href={`/worksheets/${hb.slug}/`} class="hub-chip">
+            {hb.h1} <span class="muted">({generatorsInHub(hb.slug).length})</span>
+          </a>
+        ))}
+      </div>
+      <p class="muted mt-s">
+        Looking for something to colour instead? <a href="/pages/">Browse the free coloring pages</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .ws-head { background: linear-gradient(180deg, var(--cream), var(--bg)); padding: 32px 0 22px; }
+  .crumbs { font-size: 0.82rem; color: var(--ink-faint); display: flex; gap: 8px; margin-bottom: 12px; }
+  .lead { max-width: 64ch; font-size: 1.06rem; }
+  .ws-features { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 10px; font-size: 0.86rem; color: var(--ink-soft); font-weight: 500; }
+  .ws-features span::before { content: "· "; color: var(--teal); font-weight: 700; }
+  .ws-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .ws-card { background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); padding: 14px 14px 20px; box-shadow: var(--shadow-sm); transition: transform .12s ease, box-shadow .12s ease; overflow: hidden; }
+  .ws-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .ws-card picture { display: block; margin: 0 0 16px; }
+  .ws-card img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; display: block; border-radius: calc(var(--r-md) - 6px); }
+  .ws-card h3 { font-size: 1rem; margin: 0 6px 8px; }
+  .ws-card p { font-size: 0.88rem; margin-bottom: 12px; }
+  .ws-card p, .ws-card .link-arrow { margin-left: 6px; margin-right: 6px; }
+  .mt { margin-top: 34px; }
+  .mt-s { margin-top: 16px; }
+  .ws-hubs { background: var(--cream); }
+  .ws-guide { background: #fff; }
+  .guide-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .guide-grid article { border-top: 3px solid var(--teal); padding-top: 14px; }
+  .guide-grid h3 { font-size: 1rem; margin: 0 0 8px; }
+  .guide-grid p, .print-note p { font-size: 0.94rem; }
+  .print-note { max-width: 76ch; margin-top: 30px; }
+  .print-note h2 { font-size: 1.15rem; margin-bottom: 8px; }
+  .hub-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .hub-chip { padding: 10px 18px; border-radius: var(--r-pill); background: #fff; border: 1px solid var(--line); font-family: var(--font-head); font-weight: 600; font-size: 0.9rem; }
+  .hub-chip:hover { border-color: var(--teal); color: var(--teal-dark); }
+  @media (max-width: 900px) { .ws-grid { grid-template-columns: 1fr 1fr; } .guide-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) { .ws-grid { grid-template-columns: 1fr; } }
+</style>

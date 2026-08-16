@@ -1,0 +1,76 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import WorksheetShell from "../../components/WorksheetShell.astro";
+import SheetControls from "../../components/SheetControls.astro";
+import { generatorBySlug } from "../../lib/worksheets";
+
+const gen = generatorBySlug.get("letter-tracing-worksheet")!;
+---
+<BaseLayout
+  title={gen.title}
+  description={gen.description}
+  image={`/images/worksheets/${gen.slug}.png`}
+>
+  <WorksheetShell gen={gen}>
+    <Fragment slot="controls">
+      <label>Letter
+        <select data-p="letter">
+          <option value="all">Whole alphabet</option>
+          <option value="a">A a</option>
+          <option value="b">B b</option>
+          <option value="c">C c</option>
+          <option value="d">D d</option>
+          <option value="e">E e</option>
+          <option value="f">F f</option>
+          <option value="g">G g</option>
+          <option value="h">H h</option>
+          <option value="i">I i</option>
+          <option value="j">J j</option>
+          <option value="k">K k</option>
+          <option value="l">L l</option>
+          <option value="m">M m</option>
+          <option value="n">N n</option>
+          <option value="o">O o</option>
+          <option value="p">P p</option>
+          <option value="q">Q q</option>
+          <option value="r">R r</option>
+          <option value="s">S s</option>
+          <option value="t">T t</option>
+          <option value="u">U u</option>
+          <option value="v">V v</option>
+          <option value="w">W w</option>
+          <option value="x">X x</option>
+          <option value="y">Y y</option>
+          <option value="z">Z z</option>
+        </select>
+      </label>
+      <label>Case
+        <select data-p="case">
+          <option value="both">Both</option>
+          <option value="upper">Uppercase</option>
+          <option value="lower">Lowercase</option>
+        </select>
+      </label>
+      <SheetControls show={["style"]} more={["font", "guides", "color", "orient"]} />
+    </Fragment>
+  </WorksheetShell>
+</BaseLayout>
+
+<script>
+  import { mountTool } from "../../lib/sheetkit";
+  import { draws } from "../../lib/draws";
+
+  mountTool({
+    file: "letter-tracing-worksheet",
+    params: [
+      { name: "letter", def: "a" },
+      { name: "case", def: "both" },
+      { name: "style", def: "dotted" },
+      { name: "font", def: "school" },
+      { name: "guides", def: "yes" },
+      { name: "color", def: "#111111" },
+      { name: "orient", def: "portrait" },
+    ],
+    draw: draws["letter-tracing-worksheet"],
+  });
+</script>

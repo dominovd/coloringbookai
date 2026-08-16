@@ -1,0 +1,120 @@
+---
+// Reusable control fields. `data-p="<name>"` is the contract with mountTool().
+//
+// Conversion note: every extra control costs some share of visitors who reach
+// Print. The competitor's flagship exposes two. So each tool keeps at most
+// three primary fields visible and hides the rest behind "More settings".
+type Field = "style" | "font" | "color" | "orient" | "rows" | "guides" | "caps";
+
+interface Props {
+  /** always visible */
+  show: Field[];
+  /** collapsed behind a disclosure */
+  more?: Field[];
+  rowsMax?: number;
+  rowsDefault?: string;
+  styleDefault?: string;
+  fontDefault?: string;
+}
+const {
+  show,
+  more = [],
+  rowsMax = 8,
+  rowsDefault = "5",
+  styleDefault = "dotted",
+  fontDefault = "school",
+} = Astro.props;
+
+const styles = [
+  { v: "dotted", l: "Dotted" },
+  { v: "start", l: "Starting dot outline" },
+  { v: "arrows", l: "Dotted with arrows" },
+  { v: "outline", l: "Hollow outline" },
+  { v: "solid", l: "Normal (solid)" },
+];
+const fonts = [
+  // Single-stroke skeleton alphabet — the one that looks like a real
+  // worksheet. The rest are ordinary fonts and can only be outlined.
+  { v: "school", l: "School (single stroke)" },
+  { v: "print", l: "Print (outline)" },
+  { v: "rounded", l: "Rounded" },
+  { v: "classic", l: "Classic school" },
+  { v: "serif", l: "Serif" },
+  { v: "cursive", l: "Script" },
+];
+const rowChoices = Array.from({ length: rowsMax - 2 }, (_, i) => String(i + 3));
+---
+{[["show", show], ["more", more]].map(([kind, list]) => {
+  const fields = list as Field[];
+  if (!fields.length) return null;
+  const body = (
+    <>
+      {fields.includes("style") && (
+        <label>Letter style
+          <select data-p="style">
+            {styles.map((s) => <option value={s.v} selected={s.v === styleDefault}>{s.l}</option>)}
+          </select>
+        </label>
+      )}
+      {fields.includes("rows") && (
+        <label>Repetitions
+          <select data-p="rows">
+            {rowChoices.map((r) => <option value={r} selected={r === rowsDefault}>{r}</option>)}
+          </select>
+        </label>
+      )}
+      {fields.includes("font") && (
+        <label>Font
+          <select data-p="font">
+            {fonts.map((f) => <option value={f.v} selected={f.v === fontDefault}>{f.l}</option>)}
+          </select>
+        </label>
+      )}
+      {fields.includes("caps") && (
+        <label>Capitalise
+          <select data-p="caps">
+            <option value="yes">First letter</option>
+            <option value="no">Leave as typed</option>
+          </select>
+        </label>
+      )}
+      {fields.includes("guides") && (
+        <label>Guide lines
+          <select data-p="guides">
+            <option value="yes">Show</option>
+            <option value="no">Hide</option>
+          </select>
+        </label>
+      )}
+      {fields.includes("color") && (
+        <label>Ink colour
+          <input type="color" data-p="color" value="#111111" />
+        </label>
+      )}
+      {fields.includes("orient") && (
+        <label>Orientation
+          <select data-p="orient">
+            <option value="portrait">Portrait</option>
+            <option value="landscape">Landscape</option>
+          </select>
+        </label>
+      )}
+    </>
+  );
+  return kind === "show"
+    ? body
+    : <details class="more-settings"><summary>More settings</summary><div class="more-grid">{body}</div></details>;
+})}
+
+<style>
+  .more-settings { flex: 1 1 100%; margin-top: 2px; }
+  .more-settings summary {
+    cursor: pointer; list-style: none; font-family: var(--font-head);
+    font-weight: 600; font-size: 0.82rem; color: var(--teal-dark);
+    padding: 6px 0; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .more-settings summary::-webkit-details-marker { display: none; }
+  .more-settings summary::after { content: "▾"; font-size: 0.8em; }
+  .more-settings[open] summary::after { content: "▴"; }
+  .more-grid { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px; }
+</style>

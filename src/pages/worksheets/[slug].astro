@@ -1,0 +1,112 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { worksheetHubs, hubBySlug, generatorsInHub } from "../../lib/worksheets";
+import { breadcrumbLd, collectionLd } from "../../lib/schema";
+
+export function getStaticPaths() {
+  return worksheetHubs.map((hub) => ({
+    params: { slug: hub.slug },
+    props: { hub, tools: generatorsInHub(hub.slug) },
+  }));
+}
+const { hub, tools } = Astro.props;
+const url = `/worksheets/${hub.slug}/`;
+
+const ld = [
+  breadcrumbLd([
+    { name: "Home", url: "/" },
+    { name: "Worksheets", url: "/worksheets/" },
+    { name: hub.h1, url },
+  ]),
+  collectionLd(hub.h1, url, tools.map((t) => ({ name: t.h1, url: `/tools/${t.slug}/` }))),
+];
+const others = worksheetHubs.filter((h) => h.slug !== hub.slug);
+---
+<BaseLayout
+  title={hub.title}
+  description={hub.description}
+  image={`/images/worksheets/hub-${hub.slug}.png`}
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(ld)} />
+
+  <section class="hb-head">
+    <div class="container">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a><span>/</span>
+        <a href="/worksheets/">Worksheets</a><span>/</span>
+        <span aria-current="page">{hub.h1}</span>
+      </nav>
+      <h1>{hub.h1}</h1>
+      {hub.intro.map((p) => <p class="lead">{p}</p>)}
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="hb-grid">
+        {tools.map((t) => (
+          <a href={`/tools/${t.slug}/`} class="hb-card">
+            <picture>
+              <source srcset={`/images/worksheets/${t.slug}-guide.webp`} type="image/webp" />
+              <img src={`/images/worksheets/${t.slug}-guide.png`} alt="" width="1536" height="1024" loading="lazy" />
+            </picture>
+            <h2>{t.h1}</h2>
+            <p>{t.card}</p>
+            <span class="link-arrow">Create a {t.nav.toLowerCase()} sheet</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="hb-guide">
+    <div class="container">
+      <h2>Using these worksheets well</h2>
+      <div class="guide-grid">
+        {hub.guide.map((item) => (
+          <article>
+            <h3>{item.heading}</h3>
+            <p>{item.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="hb-more">
+    <div class="container">
+      <h2 class="band-h">Other collections</h2>
+      <div class="chips">
+        {others.map((o) => <a href={`/worksheets/${o.slug}/`} class="chip">{o.h1}</a>)}
+        <a href="/pages/" class="chip">Coloring pages</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hb-head { background: linear-gradient(180deg, var(--cream), var(--bg)); padding: 30px 0 20px; }
+  .crumbs { font-size: 0.82rem; color: var(--ink-faint); display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .lead { max-width: 68ch; font-size: 1.04rem; margin-bottom: 9px; }
+  .hb-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .hb-card { background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); padding: 14px 14px 22px; box-shadow: var(--shadow-sm); transition: transform .12s ease, box-shadow .12s ease; overflow: hidden; }
+  .hb-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .hb-card picture { display: block; margin-bottom: 16px; }
+  .hb-card img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; display: block; border-radius: calc(var(--r-md) - 6px); }
+  .hb-card h2 { font-size: 1.05rem; margin: 0 6px 8px; }
+  .hb-card p { font-size: 0.9rem; margin-bottom: 12px; }
+  .hb-card p, .hb-card .link-arrow { margin-left: 6px; margin-right: 6px; }
+  .hb-guide { background: #fff; }
+  .hb-guide h2 { margin-bottom: 18px; }
+  .guide-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .guide-grid article { border-top: 3px solid var(--teal); padding-top: 14px; }
+  .guide-grid h3 { font-size: 1rem; margin: 0 0 8px; }
+  .guide-grid p { font-size: 0.94rem; }
+  .hb-more { background: var(--cream); }
+  .band-h { font-size: 1.1rem; margin-bottom: 14px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { padding: 9px 16px; border-radius: var(--r-pill); background: #fff; border: 1px solid var(--line); font-family: var(--font-head); font-weight: 500; font-size: 0.87rem; }
+  .chip:hover { border-color: var(--teal); color: var(--teal-dark); }
+  @media (max-width: 800px) { .guide-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 700px) { .hb-grid { grid-template-columns: 1fr; } }
+</style>

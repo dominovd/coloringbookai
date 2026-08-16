@@ -1,0 +1,211 @@
+---
+// Shared shell for all eight generator pages.
+// Layout follows the structure proven by the competitor's flagship
+// (1,049 keywords / 48,342 visits from one page): tool on the right on
+// desktop and ABOVE the text on mobile, copy and internal links on the left.
+import type { Generator } from "../lib/worksheets";
+import { generatorBySlug } from "../lib/worksheets";
+import { hubBySlug } from "../lib/worksheets";
+import { breadcrumbLd, faqLd } from "../lib/schema";
+
+interface Props { gen: Generator; }
+const { gen } = Astro.props;
+const url = `/tools/${gen.slug}/`;
+
+const ld = [
+  breadcrumbLd([
+    { name: "Home", url: "/" },
+    { name: "Worksheets", url: "/worksheets/" },
+    { name: gen.h1, url },
+  ]),
+  faqLd(gen.faqs),
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: gen.h1,
+    url: `https://coloringbookai.net${url}`,
+    applicationCategory: "EducationalApplication",
+    operatingSystem: "Any (web browser)",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  },
+];
+
+const related = gen.related
+  .map((s) => generatorBySlug.get(s))
+  .filter(Boolean) as Generator[];
+---
+<section class="tool-head">
+  <div class="container">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span>/</span>
+      <a href="/worksheets/">Worksheets</a><span>/</span>
+      <span aria-current="page">{gen.nav}</span>
+    </nav>
+    <h1>{gen.h1}</h1>
+    <p class="lead">{gen.intro[0]}</p>
+    <div class="tool-features">
+      <span>Free PDF</span><span>A4 and US Letter</span>
+      <span>Runs in your browser</span><span>No account needed</span>
+    </div>
+  </div>
+</section>
+
+<section class="tool-body">
+  <div class="container tool-grid">
+    <!-- Tool column: first in the DOM so mobile gets it above the copy. -->
+    <div class="tool-col">
+      <div class="tool-panel">
+        <div class="controls"><slot name="controls" /></div>
+        <div class="stage" id="sheet-stage" aria-live="polite"></div>
+        <div class="stage-actions">
+          <button id="sheet-print" class="btn btn-ghost" type="button">Print</button>
+          <button id="sheet-pdf" class="btn btn-orange" type="button">Download PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="copy-col">
+      {gen.intro.slice(1).map((p) => <p>{p}</p>)}
+
+      <figure class="guide-visual">
+        <picture>
+          <source srcset={`/images/worksheets/${gen.slug}-guide.webp`} type="image/webp" />
+          <img
+            src={`/images/worksheets/${gen.slug}-guide.png`}
+            alt={gen.imageAlt}
+            width="1536"
+            height="1024"
+            loading="lazy"
+          />
+        </picture>
+      </figure>
+
+      <h2>How to use this worksheet</h2>
+      <div class="guide-list">
+        {gen.guide.map((item) => (
+          <div class="guide-item">
+            <h3>{item.heading}</h3>
+            <p>{item.body}</p>
+          </div>
+        ))}
+      </div>
+
+      <h2>Try a prepared sheet</h2>
+      <div class="chips">
+        {gen.examples.map((e) => <a href={e.href} class="chip">{e.label}</a>)}
+      </div>
+
+      {gen.article && gen.article.length > 0 && (
+        <div class="article-copy">
+          <h2>Building confident name writing</h2>
+          {gen.article.map((item) => (
+            <section>
+              <h3>{item.heading}</h3>
+              <p>{item.body}</p>
+            </section>
+          ))}
+        </div>
+      )}
+
+      {related.length > 0 && (
+        <>
+          <h2>Related makers</h2>
+          <ul class="rel">
+            {related.map((r) => (
+              <li><a href={`/tools/${r.slug}/`}>{r.h1}</a></li>
+            ))}
+          </ul>
+        </>
+      )}
+
+      <h2>Where this fits</h2>
+      <p class="muted small">
+        Part of the{" "}
+        {gen.hubs.map((h, i) => (
+          <>
+            {i > 0 && ", "}
+            <a href={`/worksheets/${h}/`}>{hubBySlug.get(h)?.h1.toLowerCase()}</a>
+          </>
+        ))}{" "}
+        collections. Looking for something to colour instead?{" "}
+        <a href="/pages/">Browse the coloring pages</a>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="tool-faq">
+  <div class="container narrow">
+    <h2>Frequently asked questions</h2>
+    {gen.faqs.map((f, i) => (
+      <details open={i === 0}>
+        <summary>{f.q}</summary>
+        <p>{f.a}</p>
+      </details>
+    ))}
+  </div>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify(ld)} />
+
+<style>
+  .tool-head { background: #fff; border-bottom: 1px solid var(--line); padding: 26px 0 22px; }
+  .crumbs { font-size: 0.82rem; color: var(--ink-faint); display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .crumbs a:hover { color: var(--teal-dark); }
+  .lead { max-width: 62ch; font-size: 1.05rem; color: var(--ink); }
+  .tool-features { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 10px; font-size: 0.86rem; color: var(--ink-soft); font-weight: 500; }
+  .tool-features span::before { content: "· "; color: var(--teal); font-weight: 700; }
+
+  .tool-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 36px; align-items: start; }
+  /* Tool column sits second on desktop, first on mobile. */
+  .tool-col { order: 2; position: sticky; top: 84px; }
+  .copy-col { order: 1; }
+
+  .tool-panel { background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 18px; box-shadow: var(--shadow-md); }
+  .controls { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 14px; }
+  .controls :global(label) { display: flex; flex-direction: column; gap: 5px; font-family: var(--font-head); font-weight: 600; font-size: 0.78rem; color: var(--ink-soft); flex: 1 1 140px; }
+  .controls :global(input), .controls :global(select) {
+    border: 1px solid var(--line); border-radius: var(--r-sm); padding: 10px 12px; font-size: 0.95rem; width: 100%; background: #fff;
+  }
+  .controls :global(input:focus), .controls :global(select:focus) { outline: 2px solid var(--teal); outline-offset: 1px; }
+  .stage { background: #fff; border: 1px solid var(--line); border-radius: var(--r-sm); overflow: hidden; }
+  .stage :global(svg) { width: 100%; height: auto; display: block; }
+  .stage-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+
+  .copy-col p { max-width: 62ch; }
+  .copy-col h2 { font-size: 1.15rem; margin-top: 1.4em; }
+  .guide-visual { margin: 24px 0 8px; border-radius: var(--r-md); overflow: hidden; border: 1px solid var(--line); background: var(--cream); box-shadow: var(--shadow-sm); }
+  .guide-visual img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
+  .guide-list { display: grid; gap: 14px; }
+  .guide-item { padding: 16px 18px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-sm); }
+  .guide-item h3 { font-size: 0.98rem; margin: 0 0 6px; }
+  .guide-item p { margin: 0; font-size: 0.92rem; }
+  .article-copy { margin-top: 28px; }
+  .article-copy h2 { margin-bottom: 16px; }
+  .article-copy section { margin-bottom: 20px; }
+  .article-copy h3 { font-size: 1rem; margin: 0 0 6px; }
+  .article-copy p { font-size: 0.94rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { padding: 8px 14px; border-radius: var(--r-pill); background: #fff; border: 1px solid var(--line); font-family: var(--font-head); font-weight: 500; font-size: 0.85rem; }
+  .chip:hover { border-color: var(--teal); color: var(--teal-dark); background: var(--teal-soft); }
+  .rel { padding-left: 18px; margin: 0; }
+  .rel li { margin-bottom: 6px; }
+  .rel a { color: var(--teal-dark); font-weight: 500; }
+  .rel a:hover { color: var(--orange-dark); }
+  .small { font-size: 0.9rem; }
+  .copy-col a { color: var(--teal-dark); }
+
+  .narrow { max-width: 760px; }
+  .tool-faq details { background: #fff; border: 1px solid var(--line); border-radius: var(--r-sm); padding: 6px 18px; margin-bottom: 10px; }
+  .tool-faq summary { font-family: var(--font-head); font-weight: 600; cursor: pointer; padding: 10px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  .tool-faq summary::-webkit-details-marker { display: none; }
+  .tool-faq summary::after { content: "+"; color: var(--ink-faint); font-size: 1.3rem; }
+  .tool-faq details[open] summary::after { content: "-"; }
+  .tool-faq details p { margin: 0 0 12px; font-size: 0.92rem; }
+
+  @media (max-width: 900px) {
+    .tool-grid { grid-template-columns: 1fr; }
+    .tool-col { order: 0; position: static; }
+    .copy-col { order: 1; }
+  }
+</style>
