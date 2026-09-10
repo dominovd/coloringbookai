@@ -31,6 +31,23 @@ export const EMAIL = `info@${DOMAIN}`;
 /** Wordmark stamped onto generated worksheets and composite images. */
 export const WATERMARK = DOMAIN;
 
+/**
+ * Search Console verification tokens, rendered as <meta> on every page.
+ *
+ * Both properties are listed on purpose. The old domain keeps its token while
+ * it still serves HTML, so the property stays verified long enough to run the
+ * change-of-address tool — Google re-checks periodically, and losing
+ * verification mid-move invalidates the request. (Belt and braces: the old
+ * property is also verified by DNS TXT, which survives once the domain serves
+ * nothing but redirects and the meta tag becomes unreachable.)
+ *
+ * Safe to drop the old entry ~180 days after the move completes.
+ */
+export const SEARCH_CONSOLE_TOKENS = [
+  "LFsOXdjUKdXrlXoOs0U47q45chaOaOfLqbHXJ8rupEg", // coloringpagekit.com
+  "OchLScs1fjWj9Xw3SQIryH9sYAixbe0dLpoQAh6QZhI", // coloringbookai.net (legacy)
+];
+
 export const site = {
   name: BRAND,
   head: BRAND_HEAD,
