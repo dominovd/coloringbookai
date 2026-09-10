@@ -1,6 +1,7 @@
 ---
 import Logo from "./Logo.astro";
 import { footerCols as cols } from "../data/content";
+import { BRAND } from "../../site.config.mjs";
 ---
 <footer class="site-footer">
   <div class="container foot">
@@ -22,7 +23,7 @@ import { footerCols as cols } from "../data/content";
     ))}
   </div>
   <div class="container legal">
-    <span class="muted">© {new Date().getFullYear()} ColoringBookAI. Pages may be AI-assisted and are free for personal & classroom use.</span>
+    <span class="muted">© {new Date().getFullYear()} {BRAND}. Pages may be AI-assisted and are free for personal & classroom use.</span>
   </div>
 </footer>
 

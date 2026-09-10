@@ -1,0 +1,163 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/audience/adults/",
+      "destination": "https://coloringpagekit.com/adult-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/audience/kids/",
+      "destination": "https://coloringpagekit.com/coloring-pages-for-kids/",
+      "permanent": true
+    },
+    {
+      "source": "/audience/teens/",
+      "destination": "https://coloringpagekit.com/coloring-pages-for-teens/",
+      "permanent": true
+    },
+    {
+      "source": "/pages/",
+      "destination": "https://coloringpagekit.com/coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/pages/adult-coloring-pages-to-print/",
+      "destination": "https://coloringpagekit.com/adult-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/season/christmas/",
+      "destination": "https://coloringpagekit.com/christmas-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/season/easter/",
+      "destination": "https://coloringpagekit.com/easter-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/season/fall/",
+      "destination": "https://coloringpagekit.com/fall-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/season/halloween/",
+      "destination": "https://coloringpagekit.com/halloween-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/season/spring/",
+      "destination": "https://coloringpagekit.com/spring-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/season/summer/",
+      "destination": "https://coloringpagekit.com/summer-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/season/thanksgiving/",
+      "destination": "https://coloringpagekit.com/thanksgiving-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/season/valentines/",
+      "destination": "https://coloringpagekit.com/valentines-day-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/season/winter/",
+      "destination": "https://coloringpagekit.com/winter-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/style/cute/",
+      "destination": "https://coloringpagekit.com/cute-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/style/detailed/",
+      "destination": "https://coloringpagekit.com/detailed-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/style/easy/",
+      "destination": "https://coloringpagekit.com/easy-coloring-pages-for-adults/",
+      "permanent": true
+    },
+    {
+      "source": "/style/kawaii/",
+      "destination": "https://coloringpagekit.com/kawaii-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/style/mandala/",
+      "destination": "https://coloringpagekit.com/mandala-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/subject/animals/",
+      "destination": "https://coloringpagekit.com/animal-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/subject/flowers/",
+      "destination": "https://coloringpagekit.com/flower-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/subject/food/",
+      "destination": "https://coloringpagekit.com/food-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/subject/ocean/",
+      "destination": "https://coloringpagekit.com/ocean-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/subject/space/",
+      "destination": "https://coloringpagekit.com/space-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/subject/vehicles/",
+      "destination": "https://coloringpagekit.com/vehicle-coloring-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/pages/:slug/",
+      "destination": "https://coloringpagekit.com/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/pages/:slug",
+      "destination": "https://coloringpagekit.com/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "coloringbookai.net"
+        }
+      ],
+      "destination": "https://coloringpagekit.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.coloringbookai.net"
+        }
+      ],
+      "destination": "https://coloringpagekit.com/:path*",
+      "permanent": true
+    }
+  ]
+}

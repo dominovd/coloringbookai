@@ -132,7 +132,7 @@ export function header(title: string, sub: string, w: number, h: number) {
     ${sub ? `<text x="60" y="106" font-family="Verdana,sans-serif" font-size="20" fill="#7b8794">${esc(sub)}</text>` : ""}
     <line x1="60" y1="126" x2="${w - 60}" y2="126" stroke="#dfe4ea" stroke-width="2"/>
     <text x="${w - 60}" y="${h - 32}" text-anchor="end" font-family="Verdana,sans-serif"
-          font-size="16" fill="#9aa4b2">coloringbookai.net</text>`;
+          font-size="16" fill="#9aa4b2">coloringpagekit.com</text>`;
 }
 
 /** Handwriting rule: top line, dashed midline, solid baseline. */

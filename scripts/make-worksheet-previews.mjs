@@ -18,6 +18,7 @@
 import { mkdirSync, existsSync, rmSync, writeFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { WATERMARK } from "../site.config.mjs";
 import { build } from "esbuild";
 import sharp from "sharp";
 
@@ -81,7 +82,7 @@ function footBand(note) {
         .d{font-family:Poppins,Verdana,sans-serif;font-weight:700;fill:#17b3a6}
         .n{font-family:Verdana,sans-serif;fill:#8a8a99}
       </style>
-      <text x="${W / 2}" y="28" text-anchor="middle" class="d" font-size="28">coloringbookai.net</text>
+      <text x="${W / 2}" y="28" text-anchor="middle" class="d" font-size="28">${WATERMARK}</text>
       <text x="${W / 2}" y="50" text-anchor="middle" class="n" font-size="18">${esc(note)}</text>
     </svg>`);
 }

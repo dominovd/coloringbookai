@@ -93,6 +93,36 @@ function ageBand(a: Audience, d: Difficulty): string {
   return "All ages";
 }
 
+/**
+ * Trademark blocklist — a safety net over the CSV's `licensed_character` flag.
+ *
+ * That flag is not reliable: 7 rows carrying other people's marks (Jurassic
+ * World/Park, LEGO, Ninjago, Pixar) were exported as `no` + `BUILD`, and the
+ * brand names surfaced in the "Related searches" block on live pages. A missed
+ * flag in a data export must not be able to put a trademark on the site, so
+ * the name itself is checked here too.
+ *
+ * Matching is word-boundary and phrase-based to avoid false positives — plain
+ * "star" or "stitch" is fine, "star wars" and "lilo and stitch" are not.
+ */
+const TRADEMARKS = [
+  // film / TV / games
+  "jurassic", "pixar", "disney", "marvel", "spiderman", "spider-man",
+  "star wars", "harry potter", "batman", "superman", "minions?",
+  "pokemon", "pikachu", "mario", "sonic the hedgehog", "minecraft", "roblox",
+  "among us", "naruto", "spongebob", "paw patrol", "bluey", "peppa",
+  "cocomelon", "encanto", "moana", "frozen elsa", "\\belsa\\b", "mickey mouse",
+  "lilo and stitch", "lilo & stitch", "hello kitty", "sanrio", "barbie",
+  "labubu", "gabby'?s dollhouse", "unicorn academy", "pete the cat",
+  // toy / product brands
+  "legos?", "ninjago", "crayola", "abcmouse", "play-?doh", "melissa and doug",
+];
+const TRADEMARK_RE = new RegExp(`(^|\\s)(${TRADEMARKS.join("|")})(\\s|$)`, "i");
+
+export function isTrademarked(keyword: string): boolean {
+  return TRADEMARK_RE.test(keyword);
+}
+
 let _cache: Candidate[] | null = null;
 
 export function loadCandidates(): Candidate[] {
@@ -113,7 +143,8 @@ export function loadCandidates(): Candidate[] {
       cpc: parseFloat(cpc) || 0,
       aiOverview: aio.trim() === "yes",
       axis: (axis.trim() as Axis) || "other",
-      licensed: /yes/i.test(licensed),
+      // Flag from the CSV OR the name itself — whichever catches it first.
+      licensed: /yes/i.test(licensed) || isTrademarked(kw),
       build: rec.trim() === "BUILD",
       audience: detectAudience(kw),
       difficulty: detectDifficulty(kw),

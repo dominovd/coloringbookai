@@ -7,6 +7,8 @@ import type { Generator } from "../lib/worksheets";
 import { generatorBySlug } from "../lib/worksheets";
 import { hubBySlug } from "../lib/worksheets";
 import { breadcrumbLd, faqLd } from "../lib/schema";
+import { COLORING_INDEX } from "../lib/urls";
+import { ORIGIN } from "../../site.config.mjs";
 
 interface Props { gen: Generator; }
 const { gen } = Astro.props;
@@ -23,7 +25,7 @@ const ld = [
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: gen.h1,
-    url: `https://coloringbookai.net${url}`,
+    url: `${ORIGIN}${url}`,
     applicationCategory: "EducationalApplication",
     operatingSystem: "Any (web browser)",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
@@ -128,7 +130,7 @@ const related = gen.related
           </>
         ))}{" "}
         collections. Looking for something to colour instead?{" "}
-        <a href="/pages/">Browse the coloring pages</a>.
+        <a href={COLORING_INDEX}>Browse the coloring pages</a>.
       </p>
     </div>
   </div>

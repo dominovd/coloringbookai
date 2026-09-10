@@ -2,13 +2,14 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { axes, liveMembers, hubPages, publishedPages } from "../../lib/taxonomy";
 import { h1 as getH1 } from "../../lib/pagecopy";
+import { pageHref, hubHref, COLORING_INDEX } from "../../lib/urls";
 
 const total = publishedPages().length;
 ---
 <BaseLayout
-  title="Browse All Free Coloring Pages (PDF) | ColoringBookAI"
+  title="Browse All Free Coloring Pages (PDF) | ColoringPageKit"
   description="Find printable coloring pages by subject, season, age and difficulty. Browse original designs and download free PDF files for A4 or US Letter paper."
-  breadcrumbs={[{ name: "Home", url: "/" }, { name: "Coloring pages", url: "/pages/" }]}
+  breadcrumbs={[{ name: "Home", url: "/" }, { name: "Coloring pages", url: COLORING_INDEX }]}
 >
   <section class="idx-head">
     <div class="container">
@@ -23,10 +24,10 @@ const total = publishedPages().length;
         <h2>{axis.title}</h2>
         {liveMembers(axis.key).map((m) => (
           <div class="member">
-            <a href={`/${axis.key}/${m.slug}/`} class="member-name">{m.label} -</a>
+            <a href={hubHref(axis.key, m.slug)} class="member-name">{m.label} -</a>
             <div class="member-links">
               {hubPages(axis.key, m.slug).slice(0, 8).map((c) => (
-                <a href={`/pages/${c.slug}/`} class="pill">{getH1(c)}</a>
+                <a href={pageHref(c.slug)} class="pill">{getH1(c)}</a>
               ))}
             </div>
           </div>

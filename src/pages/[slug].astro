@@ -1,0 +1,67 @@
+---
+// ============================================================
+// The whole coloring library lives at the root: /{slug}/
+// ------------------------------------------------------------
+// Two kinds of page share this namespace on purpose.
+//
+//   kind: "page"  a keyword collection, e.g. /dinosaur-coloring-pages/
+//   kind: "hub"   an axis member with no collection of its own name,
+//                 e.g. /vehicle-coloring-pages/ over car + truck + monster truck
+//
+// They are siblings rather than separate branches because before the
+// restructure they were competitors: /season/christmas/ and
+// /pages/christmas-coloring-pages/ were two URLs for one idea, eighteen pairs
+// in all (MIGRATION.md §3.2). Sharing one namespace makes that collision
+// impossible to reintroduce — a slug is taken or it isn't.
+//
+// Static routes (/about/, /worksheets/, /tools/…) win over this dynamic one
+// in Astro's route priority, so they are unaffected.
+// ============================================================
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ColoringPageTemplate from "../components/ColoringPageTemplate.astro";
+import HubPage from "../components/HubPage.astro";
+import { publishedPages, standaloneHubs, hubPages } from "../lib/taxonomy";
+import { pageSlug, hubTargetSlug } from "../lib/urls";
+import { metaTitle, metaDescription } from "../lib/pagecopy";
+import { hubMetaDescription } from "../lib/hubcopy";
+
+export function getStaticPaths() {
+  // One static page per PUBLISHED keyword. Add slugs to PUBLISHED
+  // (taxonomy.ts) to go live wave by wave; drafts in the CSV never render.
+  const leaves = publishedPages().map((page) => ({
+    params: { slug: pageSlug(page.slug) },
+    props: { kind: "page" as const, page },
+  }));
+
+  const hubs = standaloneHubs().map(({ key, member }) => ({
+    params: { slug: hubTargetSlug(key, member.slug)! },
+    props: {
+      kind: "hub" as const,
+      axisKey: key,
+      member,
+      pages: hubPages(key, member.slug),
+    },
+  }));
+
+  return [...leaves, ...hubs];
+}
+
+const props = Astro.props;
+---
+{props.kind === "page" ? (
+  <BaseLayout
+    title={metaTitle(props.page)}
+    description={metaDescription(props.page)}
+    image={`/images/${props.page.slug}/composite.png`}
+  >
+    <ColoringPageTemplate page={props.page} />
+  </BaseLayout>
+) : (
+  <BaseLayout
+    title={`${props.member.label} Coloring Page Collections | Free PDFs`}
+    description={hubMetaDescription(props.axisKey, props.member.slug, props.member.label)}
+    image={props.pages[0] ? `/images/${props.pages[0].slug}/composite.png` : undefined}
+  >
+    <HubPage axisKey={props.axisKey} member={props.member} pages={props.pages} />
+  </BaseLayout>
+)}

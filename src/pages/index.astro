@@ -5,7 +5,8 @@ import PageCard from "../components/PageCard.astro";
 import ToolIcon from "../components/ToolIcon.astro";
 import { homeFaqs } from "../data/content";
 import { activeSeason } from "../data/seasons";
-import { axes, liveMembers, hubPages, publishedPages, resolveHref } from "../lib/taxonomy";
+import { axes, liveMembers, hubPages, publishedPages, resolveHub } from "../lib/taxonomy";
+import { pageHref, hubHref, COLORING_INDEX } from "../lib/urls";
 import { h1 as getH1 } from "../lib/pagecopy";
 import { faqLd } from "../lib/schema";
 import { artworkCount } from "../lib/artwork";
@@ -17,9 +18,9 @@ const popular = pubs.slice(0, 4);
 const fresh = pubs.slice(4, 8);
 const tagPages = pubs.slice(0, 12);
 const artworkTotal = pubs.reduce((sum, page) => sum + artworkCount(page.slug), 0);
-// Guarded against the artwork gate emptying a hub (see resolveHref).
-const adultsHref = resolveHref("/audience/adults/", "/style/detailed/", "/style/mandala/");
-const seasonHref = resolveHref(`/season/${season.id}/`);
+// Guarded against the artwork gate emptying a hub (see resolveHub).
+const adultsHref = resolveHub(["audience", "adults"], ["style", "detailed"], ["style", "mandala"]);
+const seasonHref = resolveHub(["season", season.id]);
 
 const features = [
   { icon: "PDF", label: "Free PDF downloads" },
@@ -29,7 +30,7 @@ const features = [
 ];
 
 const toCard = (c: (typeof pubs)[number]) => ({
-  title: getH1(c), href: `/pages/${c.slug}/`, pages: artworkCount(c.slug), ages: c.ages,
+  title: getH1(c), href: pageHref(c.slug), pages: artworkCount(c.slug), ages: c.ages,
   difficulty: (c.difficulty === "detailed" ? "Detailed" : c.difficulty === "easy" ? "Easy" : "Medium") as "Easy" | "Medium" | "Detailed",
   asset: `${c.slug}/page-1.png`,
 });
@@ -48,10 +49,10 @@ const toCard = (c: (typeof pubs)[number]) => ({
         <h1>Free coloring pages,<br />ready to print</h1>
         <p class="lead">Browse by subject, age or difficulty, then print the design you want.</p>
         <div class="hero-cta">
-          <a href="/pages/" class="btn btn-orange">Browse coloring pages</a>
+          <a href={COLORING_INDEX} class="btn btn-orange">Browse coloring pages</a>
           <a href="/tools/coloring-book-builder/" class="btn btn-teal">Build a coloring book</a>
         </div>
-        <form class="search" action="/pages/" method="get" role="search">
+        <form class="search" action={COLORING_INDEX} method="get" role="search">
           <span aria-hidden="true">Search</span>
           <input type="search" name="q" placeholder="Animals, seasons, mandalas..." aria-label="Search coloring pages" />
         </form>
@@ -61,9 +62,9 @@ const toCard = (c: (typeof pubs)[number]) => ({
         </ul>
       </div>
       <div class="hero-art" aria-hidden="true">
-        <div class="sheet s1"><Ph asset="hero/unicorn.png" ratio="3/4" line={true} /></div>
-        <div class="sheet s2"><Ph asset="hero/dino.png" ratio="3/4" line={true} /></div>
-        <div class="sheet s3"><Ph asset="hero/mandala.png" ratio="3/4" line={true} /></div>
+        <div class="sheet s1"><Ph asset="hero/unicorn.png" label="Unicorn coloring sheet" ratio="3/4" line={true} /></div>
+        <div class="sheet s2"><Ph asset="hero/dino.png" label="Dinosaur coloring sheet" ratio="3/4" line={true} /></div>
+        <div class="sheet s3"><Ph asset="hero/mandala.png" label="Mandala coloring sheet" ratio="3/4" line={true} /></div>
       </div>
     </div>
   </section>
@@ -80,8 +81,8 @@ const toCard = (c: (typeof pubs)[number]) => ({
         </div>
         <div class="season-cards">
           {seasonPages.map((c) => (
-            <a href={`/pages/${c.slug}/`} class="season-card">
-              <Ph asset={`${c.slug}/page-1.png`} ratio="1/1" line={true} radius="14px" />
+            <a href={pageHref(c.slug)} class="season-card">
+              <Ph asset={`${c.slug}/page-1.png`} label={getH1(c)} ratio="1/1" line={true} radius="14px" />
               <span>{getH1(c)}</span>
             </a>
           ))}
@@ -99,8 +100,8 @@ const toCard = (c: (typeof pubs)[number]) => ({
         </div>
         <div class="axis-grid">
           {liveMembers(axis.key).map((m) => (
-            <a href={`/${axis.key}/${m.slug}/`} class="axis-card">
-              <span class="axis-ico"><Ph asset={m.asset} ratio="1/1" radius="50%" /></span>
+            <a href={hubHref(axis.key, m.slug)} class="axis-card">
+              <span class="axis-ico"><Ph asset={m.asset} label={m.label} ratio="1/1" radius="50%" /></span>
               <span class="axis-label">{m.label}</span>
               <span class="axis-count muted">{hubPages(axis.key, m.slug).length} sets</span>
             </a>
@@ -115,7 +116,7 @@ const toCard = (c: (typeof pubs)[number]) => ({
     <div class="container">
       <div class="section-head row">
         <h2>Popular coloring pages</h2>
-        <a href="/pages/" class="link-arrow">View all</a>
+        <a href={COLORING_INDEX} class="link-arrow">View all</a>
       </div>
       <div class="cards-4">{popular.map((c) => <PageCard {...toCard(c)} />)}</div>
     </div>
@@ -126,7 +127,7 @@ const toCard = (c: (typeof pubs)[number]) => ({
     <div class="container">
       <div class="section-head row">
         <div><span class="eyebrow fresh">Fresh this week</span><h2>New coloring pages</h2></div>
-        <a href="/pages/" class="link-arrow">See all new</a>
+        <a href={COLORING_INDEX} class="link-arrow">See all new</a>
       </div>
       <div class="cards-4">{fresh.map((c) => <PageCard {...toCard(c)} />)}</div>
     </div>
@@ -162,9 +163,9 @@ const toCard = (c: (typeof pubs)[number]) => ({
           <a href={adultsHref} class="btn btn-orange">Explore adult coloring</a>
         </div>
         <div class="adult-art">
-          <Ph asset="adult/mandala.png" ratio="1/1" line={true} radius="14px" />
-          <Ph asset="adult/rose.png" ratio="1/1" line={true} radius="14px" />
-          <Ph asset="adult/geometric.png" ratio="1/1" line={true} radius="14px" />
+          <Ph asset="adult/mandala.png" label="Detailed mandala for adults" ratio="1/1" line={true} radius="14px" />
+          <Ph asset="adult/rose.png" label="Botanical rose line art" ratio="1/1" line={true} radius="14px" />
+          <Ph asset="adult/geometric.png" label="Geometric pattern for adults" ratio="1/1" line={true} radius="14px" />
         </div>
       </div>
     </div>
@@ -199,7 +200,7 @@ const toCard = (c: (typeof pubs)[number]) => ({
     <div class="container">
       <div class="section-head"><h2>More coloring ideas</h2></div>
       <div class="tagcloud">
-        {tagPages.map((c) => <a href={`/pages/${c.slug}/`} class="tag">{getH1(c)}</a>)}
+        {tagPages.map((c) => <a href={pageHref(c.slug)} class="tag">{getH1(c)}</a>)}
       </div>
     </div>
   </section>
@@ -212,7 +213,7 @@ const toCard = (c: (typeof pubs)[number]) => ({
       <div class="cta">
         <span class="cta-art" aria-hidden="true">🎁</span>
         <strong>New coloring sets added regularly</strong>
-        <a href="/pages/" class="btn btn-orange">Browse all pages</a>
+        <a href={COLORING_INDEX} class="btn btn-orange">Browse all pages</a>
       </div>
     </div>
   </section>

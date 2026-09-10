@@ -19,6 +19,7 @@ import { readdirSync, existsSync, mkdirSync, statSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
+import { WATERMARK } from "../site.config.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const IMAGES = join(ROOT, "public", "images");
@@ -82,7 +83,7 @@ function footerSvg(count) {
         .d { font-family: Poppins, Verdana, sans-serif; font-weight: 700; fill: #17b3a6; }
         .n { font-family: Verdana, sans-serif; fill: #8a8a99; }
       </style>
-      <text x="${W / 2}" y="30" text-anchor="middle" class="d" font-size="30">coloringbookai.net</text>
+      <text x="${W / 2}" y="30" text-anchor="middle" class="d" font-size="30">${WATERMARK}</text>
       <text x="${W / 2}" y="54" text-anchor="middle" class="n" font-size="19">${count} pages · A4 &amp; US Letter · no sign-up</text>
     </svg>`);
 }

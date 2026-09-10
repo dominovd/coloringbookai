@@ -1,12 +1,14 @@
 // ============================================================
 // taxonomy.ts, axes, publish gate, and page relationships
 // ------------------------------------------------------------
-// Four axes (subject / season / audience / style) each expose hub pages, and
-// individual keyword pages live at /pages/[slug]/. Membership is computed from
-// PUBLISHED pages only, so no hub ever links to a page that isn't live.
+// Four axes (subject / season / audience / style). Since the 2026-09
+// restructure both collections and the axis members that survived it live at
+// /[slug]/ — see urls.ts for why. Membership is computed from PUBLISHED pages
+// only, so no hub ever links to a page that isn't live.
 // ============================================================
 import { buildPages, type Candidate, type Axis } from "./pagemap";
 import { artworkCount } from "./artwork";
+import { pageSlug, hubTargetSlug, COLORING_INDEX } from "./urls";
 
 // ---- Publish gate: launch waves 1 + 2 from the brief (+ a few combos so
 // every hub has real members). Promote more by adding slugs here, that is the
@@ -176,25 +178,71 @@ export function adjacentCombos(page: Candidate, limit = 8): Candidate[] {
 }
 
 /**
- * Resolves a hub path to one that actually exists.
+ * Axis members that still get a page of their own after the 2026-09 merge.
  *
- * The artwork gate can empty a hub (e.g. every /audience/ page held back), and
- * a nav item pointing at an empty hub would 404. Pass candidates in order of
- * preference; the first live one wins, falling back to /pages/ which is always
- * built. Keeps navigation honest without hand-maintaining link lists.
+ * A member is standalone only when its target slug (urls.ts `HUB_TARGET`) is
+ * not already a published collection. Where the two collide — `season/christmas`
+ * and the `christmas-coloring-pages` collection — the pair was two addresses
+ * for one idea, so only the collection survives and the hub 301s into it
+ * (MIGRATION.md §3.2). Deriving this instead of listing it means promoting a
+ * slug into PUBLISHED automatically retires the duplicate hub, with no second
+ * list to keep in step.
  */
-export function resolveHref(...candidates: string[]): string {
-  for (const href of candidates) {
-    const m = href.match(/^\/(subject|season|audience|style)\/([a-z0-9-]+)\/$/);
-    if (!m) continue;
-    if (hubPages(m[1], m[2]).length > 0) return href;
+export function standaloneHubs(): { key: AxisDef["key"]; member: HubMember }[] {
+  const leaves = new Set(publishedPages().map((c) => pageSlug(c.slug)));
+  const out: { key: AxisDef["key"]; member: HubMember }[] = [];
+  for (const a of axes) {
+    for (const m of a.members) {
+      if (hubPages(a.key, m.slug).length === 0) continue; // artwork gate emptied it
+      const target = hubTargetSlug(a.key, m.slug);
+      if (target && !leaves.has(target)) out.push({ key: a.key, member: m });
+    }
   }
-  return "/pages/";
+  return out;
 }
 
-/** Which hub(s) a page belongs to, for breadcrumbs + internal linking. */
+/** True when this axis member resolves to a URL that is actually built. */
+export function hubIsLive(axisKey: string, memberSlug: string): boolean {
+  const target = hubTargetSlug(axisKey, memberSlug);
+  if (!target) return false;
+  if (publishedPages().some((c) => pageSlug(c.slug) === target)) return true;
+  return hubPages(axisKey, memberSlug).length > 0;
+}
+
+/**
+ * Resolves a list of axis members to the first URL that actually exists.
+ *
+ * The artwork gate can empty a hub, and a nav item pointing at an empty hub
+ * would 404. Pass [axis, member] pairs in order of preference; the first live
+ * one wins, falling back to the coloring index, which is always built.
+ */
+export function resolveHub(...candidates: [string, string][]): string {
+  for (const [axisKey, memberSlug] of candidates) {
+    if (hubIsLive(axisKey, memberSlug)) {
+      const target = hubTargetSlug(axisKey, memberSlug)!;
+      return `/${target}/`;
+    }
+  }
+  return COLORING_INDEX;
+}
+
+/**
+ * Which hub(s) a page belongs to, for breadcrumbs and internal linking.
+ *
+ * Self-matches are dropped: after the merge, `christmas-coloring-pages` is a
+ * member of `season/christmas`, whose URL is that same page — a breadcrumb
+ * reading Home / Christmas / Christmas, linking to itself.
+ */
 export function pageHubs(page: Candidate): { key: string; member: HubMember }[] {
+  const self = pageSlug(page.slug);
   const out: { key: string; member: HubMember }[] = [];
-  for (const a of axes) for (const m of a.members) if (m.match(page)) out.push({ key: a.key, member: m });
+  for (const a of axes) {
+    for (const m of a.members) {
+      if (!m.match(page)) continue;
+      if (hubTargetSlug(a.key, m.slug) === self) continue;
+      if (!hubIsLive(a.key, m.slug)) continue;
+      out.push({ key: a.key, member: m });
+    }
+  }
   return out;
 }

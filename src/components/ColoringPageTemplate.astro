@@ -6,6 +6,9 @@ import {
   h1 as getH1, shortAnswer, params, printTips, faqs, relatedSearches, titleCase,
 } from "../lib/pagecopy";
 import { adjacentCombos, pageHubs, liveMembers } from "../lib/taxonomy";
+import { sheetName } from "../data/sheetnames";
+import { pageHref, hubHref, COLORING_INDEX } from "../lib/urls";
+import { ORIGIN } from "../../site.config.mjs";
 import { breadcrumbLd, faqLd, imageGalleryLd } from "../lib/schema";
 
 interface Props { page: Candidate; }
@@ -18,7 +21,7 @@ const pageFaqs = faqs(page);
 const related = relatedSearches(page);
 const adjacent = adjacentCombos(page, 6);
 const hubs = pageHubs(page);
-const url = `/pages/${page.slug}/`;
+const url = pageHref(page.slug);
 
 // A short noun for headings/labels: "unicorn coloring pages" -> "unicorn".
 const nounRaw = page.keyword
@@ -30,13 +33,16 @@ const noun = nounRaw || "coloring";
 const cardNoun = titleCase(noun.split(" ")[0]);
 
 const sheets = artworkNumbers(page.slug, page.sheets);
+// Real names where we have them (src/data/sheetnames.ts); the numbered form
+// only where artwork has been added but not yet described.
+const named = sheets.map((n) => ({ n, name: sheetName(page.slug, n) ?? `${cardNoun} #${n}` }));
 const pageCountLabel = `${sheets.length} printable ${sheets.length === 1 ? "page" : "pages"}`;
 const diffLabel = page.difficulty === "easy" ? "Easy" : page.difficulty === "detailed" ? "Detailed" : "Medium";
 const specChips = [pageCountLabel, page.ages, diffLabel, "A4 and US Letter"];
 
 // ---- Filter block (block 6): real hub links per axis ----
 const ageFilters = liveMembers("audience").map((m) => ({
-  label: m.label, href: `/audience/${m.slug}/`, active: page.audience === m.slug,
+  label: m.label, href: hubHref("audience", m.slug), active: page.audience === m.slug,
 }));
 // Only offer a difficulty filter if that style hub actually has live pages.
 const diffFilters = [
@@ -45,7 +51,7 @@ const diffFilters = [
   { label: "Detailed", slug: "detailed", active: page.difficulty === "detailed" },
 ]
   .filter((d) => liveMembers("style").some((m) => m.slug === d.slug))
-  .map((d) => ({ label: d.label, href: `/style/${d.slug}/`, active: d.active }));
+  .map((d) => ({ label: d.label, href: hubHref("style", d.slug), active: d.active }));
 // "Scene" chips = real sibling pages (share the head noun); link when published.
 const sceneChips = related.slice(0, 4).map((r) => ({
   label: titleCase(r.text.replace(/\bcoloring pages?\b/g, "").trim()), href: r.href,
@@ -54,11 +60,11 @@ const sceneChips = related.slice(0, 4).map((r) => ({
 // ---- Schema ----
 const crumbs = [
   { name: "Home", url: "/" },
-  { name: "Coloring pages", url: "/pages/" },
+  { name: "Coloring pages", url: COLORING_INDEX },
   { name: H1, url },
 ];
-const galleryImages = sheets.slice(0, 12).map((n) => ({
-  url: `/images/${page.slug}/page-${n}.png`, caption: `${H1}, page ${n}`,
+const galleryImages = named.slice(0, 12).map(({ n, name }) => ({
+  url: `/images/${page.slug}/page-${n}.png`, caption: `${name} — ${H1.toLowerCase()}`,
 }));
 const ld = [breadcrumbLd(crumbs), faqLd(pageFaqs), imageGalleryLd(H1, url, galleryImages)];
 ---
@@ -67,7 +73,7 @@ const ld = [breadcrumbLd(crumbs), faqLd(pageFaqs), imageGalleryLd(H1, url, galle
   <div class="container">
     <nav class="crumbs" aria-label="Breadcrumb">
       <a href="/">Home</a><span>/</span>
-      {hubs[0] && <><a href={`/${hubs[0].key}/${hubs[0].member.slug}/`}>{hubs[0].member.label}</a><span>/</span></>}
+      {hubs[0] && <><a href={hubHref(hubs[0].key, hubs[0].member.slug)}>{hubs[0].member.label}</a><span>/</span></>}
       <span aria-current="page">{H1}</span>
     </nav>
     <div class="head-grid">
@@ -84,7 +90,7 @@ const ld = [breadcrumbLd(crumbs), faqLd(pageFaqs), imageGalleryLd(H1, url, galle
                shows vertical images far better and it's the same asset as og:image. -->
           <a
             class="btn btn-pin"
-            href={`https://pinterest.com/pin/create/button/?url=${encodeURIComponent(`https://coloringbookai.net${url}`)}&media=${encodeURIComponent(`https://coloringbookai.net/images/${page.slug}/composite.png`)}&description=${encodeURIComponent(`${H1} — free printable PDF, A4 & US Letter, no sign-up`)}`}
+            href={`https://pinterest.com/pin/create/button/?url=${encodeURIComponent(`${ORIGIN}${url}`)}&media=${encodeURIComponent(`${ORIGIN}/images/${page.slug}/composite.png`)}&description=${encodeURIComponent(`${H1} — free printable PDF, A4 & US Letter, no sign-up`)}`}
             target="_blank"
             rel="noopener nofollow"
             data-pin-do="none"
@@ -93,7 +99,7 @@ const ld = [breadcrumbLd(crumbs), faqLd(pageFaqs), imageGalleryLd(H1, url, galle
         <p class="free-note">Free · No sign-up</p>
       </div>
       <div class="head-art" aria-hidden="true">
-        <div class="head-sheet"><Ph asset={`${page.slug}/page-1.png`} ratio="3/4" line={true} /></div>
+        <div class="head-sheet"><Ph asset={`${page.slug}/page-1.png`} label={named[0]?.name ?? H1} ratio="3/4" line={true} /></div>
       </div>
     </div>
   </div>
@@ -129,12 +135,12 @@ const ld = [breadcrumbLd(crumbs), faqLd(pageFaqs), imageGalleryLd(H1, url, galle
   <div class="container">
     <h2>Free printable {noun} coloring pages</h2>
     <div class="cp-grid" id="cp-grid">
-      {sheets.map((n) => (
+      {named.map(({ n, name }) => (
         <>
           <article class="cp-card">
-            <label class="pick"><input type="checkbox" class="cp-pick" data-title={`${cardNoun}, page ${n}`} /></label>
-            <div class="cp-thumb"><Ph asset={`${page.slug}/page-${n}.png`} ratio="3/4" line={true} /></div>
-            <h3 class="cp-title">{cardNoun} #{n}</h3>
+            <label class="pick"><input type="checkbox" class="cp-pick" data-title={name} /></label>
+            <div class="cp-thumb"><Ph asset={`${page.slug}/page-${n}.png`} label={`${name} — ${H1.toLowerCase()}`} ratio="3/4" line={true} /></div>
+            <h3 class="cp-title">{name}</h3>
             <div class="cp-meta">
               <span class="badge badge-age">{page.ages}</span>
               <span class={`badge ${page.difficulty === "detailed" ? "badge-detailed" : page.difficulty === "easy" ? "badge-easy" : "badge-medium"}`}>{diffLabel}</span>
@@ -194,8 +200,8 @@ const ld = [breadcrumbLd(crumbs), faqLd(pageFaqs), imageGalleryLd(H1, url, galle
       <h2 class="band-h">More {noun} coloring pages</h2>
       <div class="adj-grid">
         {adjacent.map((a) => (
-          <a href={`/pages/${a.slug}/`} class="adj">
-            <Ph asset={`${a.slug}/page-1.png`} ratio="1/1" line={true} radius="12px" />
+          <a href={pageHref(a.slug)} class="adj">
+            <Ph asset={`${a.slug}/page-1.png`} label={getH1(a)} ratio="1/1" line={true} radius="12px" />
             <span>{getH1(a)}</span>
           </a>
         ))}
@@ -217,15 +223,11 @@ const ld = [breadcrumbLd(crumbs), faqLd(pageFaqs), imageGalleryLd(H1, url, galle
   </div>
 </section>
 
-<!-- ===== Block 11: related searches ===== -->
-<section>
-  <div class="container">
-    <h2 class="band-h">Related searches</h2>
-    <div class="chips">
-      {related.map((r) => (r.href ? <a href={r.href} class="tag">{r.text}</a> : <span class="tag static">{r.text}</span>))}
-    </div>
-  </div>
-</section>
+<!-- Block 11 (the bare keyword band that used to sit here) was removed in the
+     2026-09 restructure: an undifferentiated list of query strings at the foot
+     of a page is a doorway signal, and it was also the route by which
+     trademarked phrases from the CSV reached live pages. Sibling pages are
+     still linked, in context, from the "More …" block above. -->
 
 <script type="application/ld+json" set:html={JSON.stringify(ld)} />
 

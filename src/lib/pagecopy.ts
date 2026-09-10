@@ -1,5 +1,6 @@
 import { buildPages, type Candidate } from "./pagemap";
 import { publishedPages } from "./taxonomy";
+import { pageHref } from "./urls";
 
 const SMALL = new Set(["for", "and", "the", "of", "to", "a", "in", "on", "with"]);
 export function titleCase(s: string): string {
@@ -146,6 +147,6 @@ export function relatedSearches(c: Candidate, limit = 10): { text: string; href:
   const live = new Set(publishedPages().map((p) => p.slug));
   return sibs.map((x) => ({
     text: x.keyword,
-    href: live.has(x.slug) ? `/pages/${x.slug}/` : null,
+    href: live.has(x.slug) ? pageHref(x.slug) : null,
   }));
 }

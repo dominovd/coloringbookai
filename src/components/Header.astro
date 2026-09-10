@@ -1,6 +1,7 @@
 ---
 import Logo from "./Logo.astro";
 import { nav } from "../data/content";
+import { COLORING_INDEX } from "../lib/urls";
 ---
 <header class="site-header">
   <div class="container bar">
@@ -8,14 +9,14 @@ import { nav } from "../data/content";
     <nav class="nav" aria-label="Primary">
       {nav.map((item) => <a href={item.href}>{item.label}</a>)}
     </nav>
-    <a href="/pages/" class="btn btn-ghost btn-sm browse-all">Browse all</a>
+    <a href={COLORING_INDEX} class="btn btn-ghost btn-sm browse-all">Browse all</a>
     <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </div>
   <nav class="mobile-nav" aria-label="Mobile">
     {nav.map((item) => <a href={item.href}>{item.label}</a>)}
-    <a href="/pages/" class="btn btn-orange btn-sm">Browse all pages</a>
+    <a href={COLORING_INDEX} class="btn btn-orange btn-sm">Browse all pages</a>
   </nav>
 </header>
 

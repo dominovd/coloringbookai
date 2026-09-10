@@ -1,0 +1,92 @@
+old,new,old_path,new_path,action
+https://coloringbookai.net/,https://coloringpagekit.com/,/,/,без изменений
+https://coloringbookai.net/about/,https://coloringpagekit.com/about/,/about/,/about/,без изменений
+https://coloringbookai.net/audience/adults/,https://coloringpagekit.com/adult-coloring-pages/,/audience/adults/,/adult-coloring-pages/,склейка дубля
+https://coloringbookai.net/audience/kids/,https://coloringpagekit.com/coloring-pages-for-kids/,/audience/kids/,/coloring-pages-for-kids/,склейка дубля
+https://coloringbookai.net/audience/teens/,https://coloringpagekit.com/coloring-pages-for-teens/,/audience/teens/,/coloring-pages-for-teens/,склейка дубля
+https://coloringbookai.net/contact/,https://coloringpagekit.com/contact/,/contact/,/contact/,без изменений
+https://coloringbookai.net/pages/,https://coloringpagekit.com/coloring-pages/,/pages/,/coloring-pages/,индекс раздела
+https://coloringbookai.net/pages/adult-coloring-pages-to-print/,https://coloringpagekit.com/adult-coloring-pages/,/pages/adult-coloring-pages-to-print/,/adult-coloring-pages/,склейка + снят префикс
+https://coloringbookai.net/pages/animal-coloring-pages/,https://coloringpagekit.com/animal-coloring-pages/,/pages/animal-coloring-pages/,/animal-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/anime-coloring-pages/,https://coloringpagekit.com/anime-coloring-pages/,/pages/anime-coloring-pages/,/anime-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/axolotl-coloring-page/,https://coloringpagekit.com/axolotl-coloring-page/,/pages/axolotl-coloring-page/,/axolotl-coloring-page/,снят префикс /pages/
+https://coloringbookai.net/pages/bird-coloring-pages/,https://coloringpagekit.com/bird-coloring-pages/,/pages/bird-coloring-pages/,/bird-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/car-coloring-pages/,https://coloringpagekit.com/car-coloring-pages/,/pages/car-coloring-pages/,/car-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/cat-coloring-pages/,https://coloringpagekit.com/cat-coloring-pages/,/pages/cat-coloring-pages/,/cat-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/christmas-coloring-pages-for-adults/,https://coloringpagekit.com/christmas-coloring-pages-for-adults/,/pages/christmas-coloring-pages-for-adults/,/christmas-coloring-pages-for-adults/,снят префикс /pages/
+https://coloringbookai.net/pages/christmas-coloring-pages/,https://coloringpagekit.com/christmas-coloring-pages/,/pages/christmas-coloring-pages/,/christmas-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/coloring-pages-for-teens/,https://coloringpagekit.com/coloring-pages-for-teens/,/pages/coloring-pages-for-teens/,/coloring-pages-for-teens/,снят префикс /pages/
+https://coloringbookai.net/pages/cute-coloring-pages-for-adults/,https://coloringpagekit.com/cute-coloring-pages-for-adults/,/pages/cute-coloring-pages-for-adults/,/cute-coloring-pages-for-adults/,снят префикс /pages/
+https://coloringbookai.net/pages/cute-coloring-pages-for-teens/,https://coloringpagekit.com/cute-coloring-pages-for-teens/,/pages/cute-coloring-pages-for-teens/,/cute-coloring-pages-for-teens/,снят префикс /pages/
+https://coloringbookai.net/pages/cute-coloring-pages/,https://coloringpagekit.com/cute-coloring-pages/,/pages/cute-coloring-pages/,/cute-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/cute-kawaii-coloring-pages/,https://coloringpagekit.com/cute-kawaii-coloring-pages/,/pages/cute-kawaii-coloring-pages/,/cute-kawaii-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/detailed-coloring-pages/,https://coloringpagekit.com/detailed-coloring-pages/,/pages/detailed-coloring-pages/,/detailed-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/dinosaur-coloring-pages/,https://coloringpagekit.com/dinosaur-coloring-pages/,/pages/dinosaur-coloring-pages/,/dinosaur-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/dog-coloring-pages/,https://coloringpagekit.com/dog-coloring-pages/,/pages/dog-coloring-pages/,/dog-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/dragon-coloring-pages/,https://coloringpagekit.com/dragon-coloring-pages/,/pages/dragon-coloring-pages/,/dragon-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/easter-coloring-pages/,https://coloringpagekit.com/easter-coloring-pages/,/pages/easter-coloring-pages/,/easter-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/easy-coloring-pages-for-adults/,https://coloringpagekit.com/easy-coloring-pages-for-adults/,/pages/easy-coloring-pages-for-adults/,/easy-coloring-pages-for-adults/,снят префикс /pages/
+https://coloringbookai.net/pages/fall-coloring-pages-for-kids/,https://coloringpagekit.com/fall-coloring-pages-for-kids/,/pages/fall-coloring-pages-for-kids/,/fall-coloring-pages-for-kids/,снят префикс /pages/
+https://coloringbookai.net/pages/fall-coloring-pages/,https://coloringpagekit.com/fall-coloring-pages/,/pages/fall-coloring-pages/,/fall-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/flower-coloring-pages-for-adults/,https://coloringpagekit.com/flower-coloring-pages-for-adults/,/pages/flower-coloring-pages-for-adults/,/flower-coloring-pages-for-adults/,снят префикс /pages/
+https://coloringbookai.net/pages/flower-coloring-pages/,https://coloringpagekit.com/flower-coloring-pages/,/pages/flower-coloring-pages/,/flower-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/food-coloring-pages/,https://coloringpagekit.com/food-coloring-pages/,/pages/food-coloring-pages/,/food-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/halloween-coloring-pages-for-adults/,https://coloringpagekit.com/halloween-coloring-pages-for-adults/,/pages/halloween-coloring-pages-for-adults/,/halloween-coloring-pages-for-adults/,снят префикс /pages/
+https://coloringbookai.net/pages/halloween-coloring-pages/,https://coloringpagekit.com/halloween-coloring-pages/,/pages/halloween-coloring-pages/,/halloween-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/horse-coloring-pages/,https://coloringpagekit.com/horse-coloring-pages/,/pages/horse-coloring-pages/,/horse-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/kawaii-coloring-pages/,https://coloringpagekit.com/kawaii-coloring-pages/,/pages/kawaii-coloring-pages/,/kawaii-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/mandala-coloring-pages-for-adults/,https://coloringpagekit.com/mandala-coloring-pages-for-adults/,/pages/mandala-coloring-pages-for-adults/,/mandala-coloring-pages-for-adults/,снят префикс /pages/
+https://coloringbookai.net/pages/mandala-coloring-pages/,https://coloringpagekit.com/mandala-coloring-pages/,/pages/mandala-coloring-pages/,/mandala-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/mermaid-coloring-pages/,https://coloringpagekit.com/mermaid-coloring-pages/,/pages/mermaid-coloring-pages/,/mermaid-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/monster-truck-coloring-pages/,https://coloringpagekit.com/monster-truck-coloring-pages/,/pages/monster-truck-coloring-pages/,/monster-truck-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/ocean-coloring-pages/,https://coloringpagekit.com/ocean-coloring-pages/,/pages/ocean-coloring-pages/,/ocean-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/princess-coloring-pages/,https://coloringpagekit.com/princess-coloring-pages/,/pages/princess-coloring-pages/,/princess-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/rainbow-coloring-page/,https://coloringpagekit.com/rainbow-coloring-page/,/pages/rainbow-coloring-page/,/rainbow-coloring-page/,снят префикс /pages/
+https://coloringbookai.net/pages/space-coloring-pages/,https://coloringpagekit.com/space-coloring-pages/,/pages/space-coloring-pages/,/space-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/spring-coloring-pages/,https://coloringpagekit.com/spring-coloring-pages/,/pages/spring-coloring-pages/,/spring-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/stress-relief-coloring-pages/,https://coloringpagekit.com/stress-relief-coloring-pages/,/pages/stress-relief-coloring-pages/,/stress-relief-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/summer-coloring-pages-for-kids/,https://coloringpagekit.com/summer-coloring-pages-for-kids/,/pages/summer-coloring-pages-for-kids/,/summer-coloring-pages-for-kids/,снят префикс /pages/
+https://coloringbookai.net/pages/summer-coloring-pages/,https://coloringpagekit.com/summer-coloring-pages/,/pages/summer-coloring-pages/,/summer-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/thanksgiving-coloring-pages-for-kids/,https://coloringpagekit.com/thanksgiving-coloring-pages-for-kids/,/pages/thanksgiving-coloring-pages-for-kids/,/thanksgiving-coloring-pages-for-kids/,снят префикс /pages/
+https://coloringbookai.net/pages/thanksgiving-coloring-pages/,https://coloringpagekit.com/thanksgiving-coloring-pages/,/pages/thanksgiving-coloring-pages/,/thanksgiving-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/truck-coloring-pages/,https://coloringpagekit.com/truck-coloring-pages/,/pages/truck-coloring-pages/,/truck-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/unicorn-coloring-pages/,https://coloringpagekit.com/unicorn-coloring-pages/,/pages/unicorn-coloring-pages/,/unicorn-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/valentines-day-coloring-pages/,https://coloringpagekit.com/valentines-day-coloring-pages/,/pages/valentines-day-coloring-pages/,/valentines-day-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/pages/winter-coloring-pages/,https://coloringpagekit.com/winter-coloring-pages/,/pages/winter-coloring-pages/,/winter-coloring-pages/,снят префикс /pages/
+https://coloringbookai.net/privacy/,https://coloringpagekit.com/privacy/,/privacy/,/privacy/,без изменений
+https://coloringbookai.net/season/christmas/,https://coloringpagekit.com/christmas-coloring-pages/,/season/christmas/,/christmas-coloring-pages/,склейка дубля
+https://coloringbookai.net/season/easter/,https://coloringpagekit.com/easter-coloring-pages/,/season/easter/,/easter-coloring-pages/,склейка дубля
+https://coloringbookai.net/season/fall/,https://coloringpagekit.com/fall-coloring-pages/,/season/fall/,/fall-coloring-pages/,склейка дубля
+https://coloringbookai.net/season/halloween/,https://coloringpagekit.com/halloween-coloring-pages/,/season/halloween/,/halloween-coloring-pages/,склейка дубля
+https://coloringbookai.net/season/spring/,https://coloringpagekit.com/spring-coloring-pages/,/season/spring/,/spring-coloring-pages/,склейка дубля
+https://coloringbookai.net/season/summer/,https://coloringpagekit.com/summer-coloring-pages/,/season/summer/,/summer-coloring-pages/,склейка дубля
+https://coloringbookai.net/season/thanksgiving/,https://coloringpagekit.com/thanksgiving-coloring-pages/,/season/thanksgiving/,/thanksgiving-coloring-pages/,склейка дубля
+https://coloringbookai.net/season/valentines/,https://coloringpagekit.com/valentines-day-coloring-pages/,/season/valentines/,/valentines-day-coloring-pages/,склейка дубля
+https://coloringbookai.net/season/winter/,https://coloringpagekit.com/winter-coloring-pages/,/season/winter/,/winter-coloring-pages/,склейка дубля
+https://coloringbookai.net/style/cute/,https://coloringpagekit.com/cute-coloring-pages/,/style/cute/,/cute-coloring-pages/,склейка дубля
+https://coloringbookai.net/style/detailed/,https://coloringpagekit.com/detailed-coloring-pages/,/style/detailed/,/detailed-coloring-pages/,склейка дубля
+https://coloringbookai.net/style/easy/,https://coloringpagekit.com/easy-coloring-pages-for-adults/,/style/easy/,/easy-coloring-pages-for-adults/,склейка дубля
+https://coloringbookai.net/style/kawaii/,https://coloringpagekit.com/kawaii-coloring-pages/,/style/kawaii/,/kawaii-coloring-pages/,склейка дубля
+https://coloringbookai.net/style/mandala/,https://coloringpagekit.com/mandala-coloring-pages/,/style/mandala/,/mandala-coloring-pages/,склейка дубля
+https://coloringbookai.net/subject/animals/,https://coloringpagekit.com/animal-coloring-pages/,/subject/animals/,/animal-coloring-pages/,склейка дубля
+https://coloringbookai.net/subject/flowers/,https://coloringpagekit.com/flower-coloring-pages/,/subject/flowers/,/flower-coloring-pages/,склейка дубля
+https://coloringbookai.net/subject/food/,https://coloringpagekit.com/food-coloring-pages/,/subject/food/,/food-coloring-pages/,склейка дубля
+https://coloringbookai.net/subject/ocean/,https://coloringpagekit.com/ocean-coloring-pages/,/subject/ocean/,/ocean-coloring-pages/,склейка дубля
+https://coloringbookai.net/subject/space/,https://coloringpagekit.com/space-coloring-pages/,/subject/space/,/space-coloring-pages/,склейка дубля
+https://coloringbookai.net/subject/vehicles/,https://coloringpagekit.com/vehicle-coloring-pages/,/subject/vehicles/,/vehicle-coloring-pages/,"хаб, переименован"
+https://coloringbookai.net/terms/,https://coloringpagekit.com/terms/,/terms/,/terms/,без изменений
+https://coloringbookai.net/tools/coloring-book-builder/,https://coloringpagekit.com/tools/coloring-book-builder/,/tools/coloring-book-builder/,/tools/coloring-book-builder/,без изменений
+https://coloringbookai.net/tools/cursive-name-tracing/,https://coloringpagekit.com/tools/cursive-name-tracing/,/tools/cursive-name-tracing/,/tools/cursive-name-tracing/,без изменений
+https://coloringbookai.net/tools/cursive-practice-sheets/,https://coloringpagekit.com/tools/cursive-practice-sheets/,/tools/cursive-practice-sheets/,/tools/cursive-practice-sheets/,без изменений
+https://coloringbookai.net/tools/custom-name-page/,https://coloringpagekit.com/tools/custom-name-page/,/tools/custom-name-page/,/tools/custom-name-page/,без изменений
+https://coloringbookai.net/tools/dot-to-dot-printable/,https://coloringpagekit.com/tools/dot-to-dot-printable/,/tools/dot-to-dot-printable/,/tools/dot-to-dot-printable/,без изменений
+https://coloringbookai.net/tools/letter-tracing-worksheet/,https://coloringpagekit.com/tools/letter-tracing-worksheet/,/tools/letter-tracing-worksheet/,/tools/letter-tracing-worksheet/,без изменений
+https://coloringbookai.net/tools/name-tracing-worksheet/,https://coloringpagekit.com/tools/name-tracing-worksheet/,/tools/name-tracing-worksheet/,/tools/name-tracing-worksheet/,без изменений
+https://coloringbookai.net/tools/number-tracing-worksheet/,https://coloringpagekit.com/tools/number-tracing-worksheet/,/tools/number-tracing-worksheet/,/tools/number-tracing-worksheet/,без изменений
+https://coloringbookai.net/tools/prewriting-practice/,https://coloringpagekit.com/tools/prewriting-practice/,/tools/prewriting-practice/,/tools/prewriting-practice/,без изменений
+https://coloringbookai.net/tools/word-tracing-worksheet/,https://coloringpagekit.com/tools/word-tracing-worksheet/,/tools/word-tracing-worksheet/,/tools/word-tracing-worksheet/,без изменений
+https://coloringbookai.net/worksheets/,https://coloringpagekit.com/worksheets/,/worksheets/,/worksheets/,без изменений
+https://coloringbookai.net/worksheets/handwriting/,https://coloringpagekit.com/worksheets/handwriting/,/worksheets/handwriting/,/worksheets/handwriting/,без изменений
+https://coloringbookai.net/worksheets/kindergarten/,https://coloringpagekit.com/worksheets/kindergarten/,/worksheets/kindergarten/,/worksheets/kindergarten/,без изменений
+https://coloringbookai.net/worksheets/preschool/,https://coloringpagekit.com/worksheets/preschool/,/worksheets/preschool/,/worksheets/preschool/,без изменений
+https://coloringbookai.net/worksheets/tracing/,https://coloringpagekit.com/worksheets/tracing/,/worksheets/tracing/,/worksheets/tracing/,без изменений

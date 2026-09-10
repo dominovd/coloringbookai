@@ -1,21 +1,22 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { site } from "../data/site";
-import { resolveHref } from "../lib/taxonomy";
+import { resolveHub } from "../lib/taxonomy";
+import { COLORING_INDEX } from "../lib/urls";
 
 // Resolved against live hubs so the artwork gate can't leave a 404 here.
-const kidsHref = resolveHref("/audience/kids/", "/style/easy/", "/style/cute/");
-const adultsHref = resolveHref("/audience/adults/", "/style/detailed/", "/style/mandala/");
+const kidsHref = resolveHub(["audience", "kids"], ["style", "easy"], ["style", "cute"]);
+const adultsHref = resolveHub(["audience", "adults"], ["style", "detailed"], ["style", "mandala"]);
 ---
 <BaseLayout
-  title="About ColoringBookAI | Original Printable Art"
-  description="Learn how ColoringBookAI creates original printable coloring pages for children and adults, with clear usage terms and no licensed characters."
+  title="About ColoringPageKit | Original Printable Art"
+  description="Learn how ColoringPageKit creates original printable coloring pages for children and adults, with clear usage terms and no licensed characters."
   breadcrumbs={[{ name: "Home", url: "/" }, { name: "About Us", url: "/about/" }]}
 >
   <section class="prose-head editorial-head">
     <div class="container">
       <span class="eyebrow">About the project</span>
-      <h1>About ColoringBookAI</h1>
+      <h1>About ColoringPageKit</h1>
       <p class="lead">We build an easy-to-browse library of original coloring pages for families, teachers, teens and adults.</p>
     </div>
   </section>
@@ -31,7 +32,7 @@ const adultsHref = resolveHref("/audience/adults/", "/style/detailed/", "/style/
       </nav>
       <article class="prose">
         <h2 id="purpose">A practical library for creative time</h2>
-        <p>ColoringBookAI helps people find a printable activity without an account, a paywall or a maze of unrelated links. Each collection is organized by subject, intended age and difficulty. That structure makes it easier to choose a simple page for a young child, a themed classroom activity or a detailed design for a quiet evening.</p>
+        <p>ColoringPageKit helps people find a printable activity without an account, a paywall or a maze of unrelated links. Each collection is organized by subject, intended age and difficulty. That structure makes it easier to choose a simple page for a young child, a themed classroom activity or a detailed design for a quiet evening.</p>
         <p>The project is designed for home printers. Available artwork is supplied as clean black-and-white line art and sized to work on both A4 and US Letter paper.</p>
 
         <div class="fact-grid">
@@ -43,7 +44,7 @@ const adultsHref = resolveHref("/audience/adults/", "/style/detailed/", "/style/
 
         <h2 id="library">What you can find</h2>
         <p>The library covers animals, flowers, ocean life, vehicles, food, space and imaginative subjects. Seasonal collections include Christmas, Halloween, Easter, Thanksgiving, Valentine's Day and activities for each part of the year.</p>
-        <p>Age and style hubs provide another way to browse. Families can start with <a href={kidsHref}>easy coloring pages for children</a>, teens can find more involved scenes, and adults can explore <a href={adultsHref}>mandalas, botanicals and detailed artwork</a>. The complete index is available under <a href="/pages/">All coloring pages</a>.</p>
+        <p>Age and style hubs provide another way to browse. Families can start with <a href={kidsHref}>easy coloring pages for children</a>, teens can find more involved scenes, and adults can explore <a href={adultsHref}>mandalas, botanicals and detailed artwork</a>. The complete index is available under <a href={COLORING_INDEX}>All coloring pages</a>.</p>
 
         <h2 id="process">How the pages are made</h2>
         <ol>

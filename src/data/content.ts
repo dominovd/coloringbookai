@@ -1,13 +1,14 @@
 // Shared UI content that isn't derived from the pagemap.
-import { resolveHref } from "../lib/taxonomy";
+import { resolveHub } from "../lib/taxonomy";
+import { COLORING_INDEX } from "../lib/urls";
 
 // Hub destinations are resolved against what's actually live, so the artwork
 // gate can hold a whole axis back without leaving a 404 in the header.
-const adultsHref = resolveHref("/audience/adults/", "/style/detailed/", "/style/mandala/");
-const seasonalHref = resolveHref("/season/christmas/", "/season/halloween/", "/season/winter/");
+const adultsHref = resolveHub(["audience", "adults"], ["style", "detailed"], ["style", "mandala"]);
+const seasonalHref = resolveHub(["season", "christmas"], ["season", "halloween"], ["season", "winter"]);
 
 export const nav = [
-  { label: "Coloring Pages", href: "/pages/" },
+  { label: "Coloring Pages", href: COLORING_INDEX },
   { label: "Worksheets", href: "/worksheets/" },
   { label: "For Adults", href: adultsHref },
   { label: "Seasonal", href: seasonalHref },
@@ -18,11 +19,11 @@ export const footerCols = [
   {
     title: "Explore",
     items: [
-      { label: "Coloring Pages", href: "/pages/" },
+      { label: "Coloring Pages", href: COLORING_INDEX },
       { label: "Worksheets", href: "/worksheets/" },
       { label: "For Adults", href: adultsHref },
       { label: "Seasonal", href: seasonalHref },
-      { label: "New Pages", href: "/pages/#new-pages" },
+      { label: "New Pages", href: `${COLORING_INDEX}#new-pages` },
     ],
   },
   {

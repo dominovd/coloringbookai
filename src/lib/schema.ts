@@ -1,6 +1,8 @@
 // JSON-LD builders. The image pack shows in ~98% of this niche's SERPs, so
 // ImageObject on every preview is a real traffic channel, not decoration.
-const SITE = "https://coloringbookai.net";
+import { ORIGIN, BRAND } from "../../site.config.mjs";
+
+const SITE = ORIGIN;
 
 export function breadcrumbLd(items: { name: string; url: string }[]) {
   return {
@@ -31,7 +33,7 @@ export function organizationLd() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "ColoringBookAI",
+    name: BRAND,
     url: SITE + "/",
     logo: SITE + "/favicon.svg",
   };
@@ -41,7 +43,7 @@ export function websiteLd() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "ColoringBookAI",
+    name: BRAND,
     url: SITE + "/",
   };
 }

@@ -3,6 +3,7 @@ import Ph from "./Ph.astro";
 import type { Candidate } from "../lib/pagemap";
 import { h1 as getH1 } from "../lib/pagecopy";
 import { axisDef, liveMembers, type HubMember } from "../lib/taxonomy";
+import { pageHref, hubHref } from "../lib/urls";
 import { breadcrumbLd, collectionLd } from "../lib/schema";
 import { hubLead } from "../lib/hubcopy";
 import { artworkCount } from "../lib/artwork";
@@ -20,7 +21,7 @@ const diffBadge = (c: Candidate) =>
 const diffLabel = (c: Candidate) =>
   c.difficulty === "detailed" ? "Detailed" : c.difficulty === "easy" ? "Easy" : "Medium";
 
-const hubUrl = `/${axisKey}/${member.slug}/`;
+const hubUrl = hubHref(axisKey, member.slug);
 const ld = [
   breadcrumbLd([
     { name: "Home", url: "/" },
@@ -29,7 +30,7 @@ const ld = [
   collectionLd(
     `${member.label} coloring pages`,
     hubUrl,
-    pages.map((c) => ({ name: getH1(c), url: `/pages/${c.slug}/` })),
+    pages.map((c) => ({ name: getH1(c), url: pageHref(c.slug) })),
   ),
 ];
 ---
@@ -52,15 +53,15 @@ const ld = [
       <div class="hub-grid">
         {pages.map((c) => (
           <article class="hcard">
-            <a href={`/pages/${c.slug}/`} class="hthumb"><Ph asset={`${c.slug}/page-1.png`} ratio="3/4" line={true} /></a>
+            <a href={pageHref(c.slug)} class="hthumb"><Ph asset={`${c.slug}/page-1.png`} label={getH1(c)} ratio="3/4" line={true} /></a>
             <div class="hbody">
-              <h2><a href={`/pages/${c.slug}/`}>{getH1(c)}</a></h2>
+              <h2><a href={pageHref(c.slug)}>{getH1(c)}</a></h2>
               <div class="hmeta">
                 <span class="muted">{artworkCount(c.slug)} {artworkCount(c.slug) === 1 ? "page" : "pages"}</span>
                 <span class="badge badge-age">{c.ages}</span>
                 <span class={`badge ${diffBadge(c)}`}>{diffLabel(c)}</span>
               </div>
-              <a href={`/pages/${c.slug}/`} class="btn btn-orange btn-sm">View pages →</a>
+              <a href={pageHref(c.slug)} class="btn btn-orange btn-sm">View pages →</a>
             </div>
           </article>
         ))}
@@ -76,7 +77,7 @@ const ld = [
     <div class="container">
       <h2 class="band-h">More {axis.title.replace("By ", "").toLowerCase()}s</h2>
       <div class="chips">
-        {siblings.map((s) => <a href={`/${axisKey}/${s.slug}/`} class="chip">{s.label} →</a>)}
+        {siblings.map((s) => <a href={hubHref(axisKey, s.slug)} class="chip">{s.label} →</a>)}
       </div>
     </div>
   </section>

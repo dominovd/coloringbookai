@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { worksheetHubs, hubBySlug, generatorsInHub } from "../../lib/worksheets";
 import { breadcrumbLd, collectionLd } from "../../lib/schema";
+import { COLORING_INDEX } from "../../lib/urls";
 
 export function getStaticPaths() {
   return worksheetHubs.map((hub) => ({
@@ -78,7 +79,7 @@ const others = worksheetHubs.filter((h) => h.slug !== hub.slug);
       <h2 class="band-h">Other collections</h2>
       <div class="chips">
         {others.map((o) => <a href={`/worksheets/${o.slug}/`} class="chip">{o.h1}</a>)}
-        <a href="/pages/" class="chip">Coloring pages</a>
+        <a href={COLORING_INDEX} class="chip">Coloring pages</a>
       </div>
     </div>
   </section>

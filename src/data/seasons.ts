@@ -26,7 +26,7 @@ export interface Season {
   priority: number;
   title: string;
   blurb: string;
-  /** real landing-page slug (see landings.ts) */
+  /** real landing-page slug, root-level since the 2026-09 restructure */
   href: string;
   cta: string;
   accent: "orange" | "teal" | "lilac";
@@ -42,14 +42,14 @@ export const seasons: Season[] = [
     priority: 3,
     title: "Halloween coloring pages",
     blurb: "Spooky, cute, and easy pages to print for October.",
-    href: "/pages/halloween-coloring-pages/",
+    href: "/halloween-coloring-pages/",
     cta: "Explore Halloween",
     accent: "orange",
     cards: [
-      { label: "Pumpkins", href: "/pages/pumpkin-coloring-pages/", asset: "seasonal/pumpkins.png" },
-      { label: "Friendly ghosts", href: "/pages/ghost-coloring-pages/", asset: "seasonal/ghosts.png" },
-      { label: "Haunted houses", href: "/pages/haunted-house-coloring-pages/", asset: "seasonal/haunted-house.png" },
-      { label: "Easy Halloween", href: "/pages/easy-halloween-coloring-pages/", asset: "seasonal/easy-halloween.png" },
+      { label: "Pumpkins", href: "/pumpkin-coloring-pages/", asset: "seasonal/pumpkins.png" },
+      { label: "Friendly ghosts", href: "/ghost-coloring-pages/", asset: "seasonal/ghosts.png" },
+      { label: "Haunted houses", href: "/haunted-house-coloring-pages/", asset: "seasonal/haunted-house.png" },
+      { label: "Easy Halloween", href: "/easy-halloween-coloring-pages/", asset: "seasonal/easy-halloween.png" },
     ],
   },
   {
@@ -59,14 +59,14 @@ export const seasons: Season[] = [
     priority: 2,
     title: "Christmas coloring pages",
     blurb: "Print Santa, decorated trees and cozy winter scenes for holiday activities.",
-    href: "/pages/christmas-coloring-pages/",
+    href: "/christmas-coloring-pages/",
     cta: "Explore Christmas",
     accent: "teal",
     cards: [
-      { label: "Santa", href: "/pages/santa-coloring-pages/", asset: "seasonal/santa.png" },
-      { label: "Christmas trees", href: "/pages/christmas-tree-coloring-pages/", asset: "seasonal/tree.png" },
-      { label: "Reindeer", href: "/pages/reindeer-coloring-pages/", asset: "seasonal/reindeer.png" },
-      { label: "Easy Christmas", href: "/pages/easy-christmas-coloring-pages/", asset: "seasonal/easy-christmas.png" },
+      { label: "Santa", href: "/santa-coloring-pages/", asset: "seasonal/santa.png" },
+      { label: "Christmas trees", href: "/christmas-tree-coloring-pages/", asset: "seasonal/tree.png" },
+      { label: "Reindeer", href: "/reindeer-coloring-pages/", asset: "seasonal/reindeer.png" },
+      { label: "Easy Christmas", href: "/easy-christmas-coloring-pages/", asset: "seasonal/easy-christmas.png" },
     ],
   },
   {
@@ -76,14 +76,14 @@ export const seasons: Season[] = [
     priority: 2,
     title: "Valentine's Day coloring pages",
     blurb: "Hearts, cute animals, and love notes to print and share.",
-    href: "/pages/valentines-coloring-pages/",
+    href: "/valentines-coloring-pages/",
     cta: "Explore Valentine's",
     accent: "orange",
     cards: [
-      { label: "Hearts", href: "/pages/heart-coloring-pages/", asset: "seasonal/hearts.png" },
-      { label: "Cute love", href: "/pages/cute-valentine-coloring-pages/", asset: "seasonal/cute-love.png" },
-      { label: "Be mine cards", href: "/pages/valentine-cards-coloring-pages/", asset: "seasonal/cards.png" },
-      { label: "Easy Valentine", href: "/pages/easy-valentines-coloring-pages/", asset: "seasonal/easy-valentine.png" },
+      { label: "Hearts", href: "/heart-coloring-pages/", asset: "seasonal/hearts.png" },
+      { label: "Cute love", href: "/cute-valentine-coloring-pages/", asset: "seasonal/cute-love.png" },
+      { label: "Be mine cards", href: "/valentine-cards-coloring-pages/", asset: "seasonal/cards.png" },
+      { label: "Easy Valentine", href: "/easy-valentines-coloring-pages/", asset: "seasonal/easy-valentine.png" },
     ],
   },
   {
@@ -93,14 +93,14 @@ export const seasons: Season[] = [
     priority: 2,
     title: "Easter coloring pages",
     blurb: "Print bunnies, decorated eggs and spring chicks for Easter activities.",
-    href: "/pages/easter-coloring-pages/",
+    href: "/easter-coloring-pages/",
     cta: "Explore Easter",
     accent: "lilac",
     cards: [
-      { label: "Easter eggs", href: "/pages/easter-egg-coloring-pages/", asset: "seasonal/eggs.png" },
-      { label: "Bunnies", href: "/pages/bunny-coloring-pages/", asset: "seasonal/bunny.png" },
-      { label: "Spring chicks", href: "/pages/chick-coloring-pages/", asset: "seasonal/chick.png" },
-      { label: "Easy Easter", href: "/pages/easy-easter-coloring-pages/", asset: "seasonal/easy-easter.png" },
+      { label: "Easter eggs", href: "/easter-egg-coloring-pages/", asset: "seasonal/eggs.png" },
+      { label: "Bunnies", href: "/bunny-coloring-pages/", asset: "seasonal/bunny.png" },
+      { label: "Spring chicks", href: "/chick-coloring-pages/", asset: "seasonal/chick.png" },
+      { label: "Easy Easter", href: "/easy-easter-coloring-pages/", asset: "seasonal/easy-easter.png" },
     ],
   },
   {
@@ -110,14 +110,14 @@ export const seasons: Season[] = [
     priority: 2,
     title: "Spring & summer coloring pages",
     blurb: "Flowers, butterflies, and sunny-day scenes to print.",
-    href: "/pages/spring-coloring-pages/",
+    href: "/spring-coloring-pages/",
     cta: "Explore spring",
     accent: "teal",
     cards: [
-      { label: "Flowers", href: "/pages/flower-coloring-pages/", asset: "seasonal/flowers.png" },
-      { label: "Butterflies", href: "/pages/butterfly-coloring-pages/", asset: "seasonal/butterfly.png" },
-      { label: "Beach days", href: "/pages/beach-coloring-pages/", asset: "seasonal/beach.png" },
-      { label: "Easy spring", href: "/pages/easy-spring-coloring-pages/", asset: "seasonal/easy-spring.png" },
+      { label: "Flowers", href: "/flower-coloring-pages/", asset: "seasonal/flowers.png" },
+      { label: "Butterflies", href: "/butterfly-coloring-pages/", asset: "seasonal/butterfly.png" },
+      { label: "Beach days", href: "/beach-coloring-pages/", asset: "seasonal/beach.png" },
+      { label: "Easy spring", href: "/easy-spring-coloring-pages/", asset: "seasonal/easy-spring.png" },
     ],
   },
 ];

@@ -27,7 +27,7 @@ const pages = publishedPages();
         {pages.map((c) => (
           <label class="tb-card">
             <input type="checkbox" class="tb-pick" data-title={getH1(c)} />
-            <span class="tb-thumb"><Ph asset={`${c.slug}/page-1.png`} ratio="3/4" line={true} /></span>
+            <span class="tb-thumb"><Ph asset={`${c.slug}/page-1.png`} label={getH1(c)} ratio="3/4" line={true} /></span>
             <span class="tb-title">{getH1(c)}</span>
           </label>
         ))}
