@@ -1,0 +1,60 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { catLesson } from "../../lib/drawingLessons";
+import { printDocument, ORIGIN_TOKEN } from "../../lib/printLesson";
+import { breadcrumbLd } from "../../lib/schema";
+
+const howToLd = { "@context": "https://schema.org", "@type": "HowTo", name: catLesson.title, description: catLesson.description, totalTime: "PT10M", step: catLesson.steps.map((text, position) => ({ "@type": "HowToStep", position: position + 1, text })) };
+
+// The printable sheet is assembled at build time from one shared module
+// (src/lib/printLesson.ts) so the two lessons cannot drift apart again.
+const printHtml = printDocument({
+  title: catLesson.title,
+  steps: catLesson.steps,
+  stepImages: catLesson.steps.map((_, i) => `/images/how-to-draw/cat-step-${i + 1}.webp`),
+  outline: catLesson.outline,
+  outlineTitle: "Your cat to colour in",
+});
+---
+<BaseLayout title="How to Draw a Cute Cat: Easy Step-by-Step Tutorial" description="Draw a cute sitting cat in six simple steps. View each stage, print the final outline and colour it in." image="/images/how-to-draw/cat-tutorial.webp" breadcrumbs={[{ name: "Home", url: "/" }, { name: "How to Draw", url: "/how-to-draw/" }, { name: "Cute Cat", url: "/how-to-draw/cat/" }]}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify([breadcrumbLd([{name:"Home",url:"/"},{name:"How to Draw",url:"/how-to-draw/"},{name:"Cute Cat",url:"/how-to-draw/cat/"}]), howToLd])} />
+  <section class="lesson-head"><div class="container"><a class="back" href="/how-to-draw/">← All drawing lessons</a><div class="lesson-top"><div class="lesson-intro"><span class="badge badge-easy">Easy</span><span class="read-time">10 minute lesson</span><h1>How to draw a cute cat</h1><p class="lead">Follow the little drawing board, then make the picture yourself one step at a time.</p><a href="#draw-along" class="btn btn-teal">Draw along <span aria-hidden="true">↓</span></a><p class="lesson-note">The full lesson at a glance. Scroll down for the interactive steps.</p></div><figure class="lesson-overview"><img src="/images/how-to-draw/cat-tutorial.webp" alt="How to draw a cute cat in eight illustrated steps" width="1200" height="800" fetchpriority="high" /></figure></div></div></section>
+  <section class="studio" id="draw-along"><div class="container"><div class="draw-along-head"><span class="eyebrow">Draw along</span><h2>Make your own cat</h2><p>Use the reference above if you need it. This viewer reveals one part at a time.</p></div><div class="studio-grid"><div class="drawing-board"><div class="progress"><span id="progress-copy">Step 1 of 6</span><div class="progress-track"><i id="progress-fill"></i></div></div><div class="drawing"><img id="drawing-image" src="/images/how-to-draw/cat-step-1.webp" alt="Step 1: Draw a circle for the head" width="1200" height="800" /></div><p id="step-text" class="instruction"><b>Step 1:</b> {catLesson.steps[0]}</p><div class="controls"><button id="prev" class="btn btn-ghost btn-sm" disabled>← Back</button><button id="next" class="btn btn-teal">Next step <span aria-hidden="true">→</span></button></div></div><aside class="step-list" aria-label="Lesson steps"><h2>Your drawing path</h2>{catLesson.steps.map((step, i) => <button class={`step-item ${i === 0 ? "active" : ""}`} data-step={i + 1}><span>{i + 1}</span>{step}</button>)}<div class="tip"><b>Little tip</b><p>Use a light pencil for the grey guide shapes. They are only there to help with placement.</p></div></aside></div></div></section>
+  <section class="finish"><div class="container finish-inner"><div><span class="eyebrow">You made it!</span><h2>Meet your finished cat</h2><p>You can replay a step for another try, or print the complete lesson with the final cat.</p><div class="finish-actions"><button id="print" class="btn btn-orange">Print full lesson</button><a href="/how-to-draw/" class="btn btn-ghost">Pick another lesson</a></div></div><div class="print-cat"><img src="/images/how-to-draw/cat-final.webp" alt="Finished cute cat drawing" width="1000" height="914" /></div></div></section>
+</BaseLayout>
+
+<script define:vars={{ steps: catLesson.steps, drawings: catLesson.steps.map((_, i) => `/images/how-to-draw/cat-step-${i + 1}.webp`), printHtml, originToken: ORIGIN_TOKEN }}>
+  let current = 1;
+  const image = document.querySelector("#drawing-image"); const text = document.querySelector("#step-text"); const prev = document.querySelector("#prev"); const next = document.querySelector("#next"); const copy = document.querySelector("#progress-copy"); const fill = document.querySelector("#progress-fill"); const items = Array.from(document.querySelectorAll(".step-item"));
+  function show(step) { current = step; if (image) { image.src = drawings[step - 1]; image.alt = `Step ${step}: ${steps[step - 1]}`; } if (text) text.innerHTML = `<b>Step ${step}:</b> ${steps[step - 1]}`; if (copy) copy.textContent = `Step ${step} of ${steps.length}`; if (fill) fill.style.width = `${(step / steps.length) * 100}%`; if (prev) prev.disabled = step === 1; if (next) { next.textContent = step === steps.length ? "See your finished cat ✓" : "Next step →"; } items.forEach((item, i) => item.classList.toggle("active", i + 1 === step)); }
+  prev?.addEventListener("click", () => show(Math.max(1, current - 1))); next?.addEventListener("click", () => show(Math.min(steps.length, current + 1))); items.forEach((item) => item.addEventListener("click", () => show(Number(item.dataset.step))));
+  document.querySelector("#print")?.addEventListener("click", () => {
+    const w = window.open("", "_blank");
+    if (!w) return;
+    w.document.write(printHtml.split(originToken).join(window.location.origin));
+    w.document.close();
+    w.focus();
+    // Wait for the artwork before printing. The old code fired print() on a
+    // fixed 300ms timer, which on a cold cache produced a blank preview.
+    const images = Array.from(w.document.images);
+    Promise.all(images.map((img) => img.complete ? null : new Promise((done) => { img.onload = img.onerror = done; })))
+      .then(() => setTimeout(() => w.print(), 120));
+  });
+</script>
+
+<style>
+  .lesson-head{padding:32px 0 38px;background:linear-gradient(180deg,#fff6eb,#fff)}.back{font:600 .85rem var(--font-head);color:var(--teal-dark)}.lesson-top{display:grid;grid-template-columns:minmax(300px,.85fr) minmax(440px,1.25fr);gap:42px;align-items:center;margin-top:18px}.read-time{font-size:.8rem;margin-left:9px;color:var(--ink-faint)}.lesson-top h1{margin-top:12px}.lesson-intro .btn{margin-top:8px}.lesson-note{font-size:.8rem;margin:13px 0 0}.lesson-overview{margin:0;background:#fff;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-md);border:1px solid var(--line)}.lesson-overview img{display:block;width:100%;height:auto}.studio{padding:48px 0 60px}.draw-along-head{max-width:680px;margin:0 auto 23px;text-align:center}.draw-along-head .eyebrow{background:var(--teal-soft);color:var(--teal-dark)}.draw-along-head h2{margin-top:10px}.studio-grid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:28px;align-items:start}.drawing-board{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;box-shadow:var(--shadow-sm)}.progress{display:flex;align-items:center;gap:15px;font:600 .82rem var(--font-head)}.progress-track{height:8px;flex:1;background:#edf1f1;border-radius:99px;overflow:hidden}.progress-track i{display:block;height:100%;width:16.66%;background:var(--teal);transition:width .18s}.drawing{margin:8px auto;max-width:760px;aspect-ratio:3/2;overflow:hidden;border-radius:var(--r-sm);background:#fff}.drawing img{width:100%;height:100%;object-fit:contain}.instruction{max-width:590px;margin:0 auto 18px;font-size:1.02rem;text-align:center}.instruction b{color:var(--teal-dark)}.controls{display:flex;justify-content:center;gap:12px}.step-list{background:var(--cream);padding:21px;border-radius:var(--r-lg)}.step-list h2{font-size:1.1rem}.step-item{width:100%;display:flex;text-align:left;gap:10px;padding:11px 6px;background:none;border:0;border-bottom:1px solid #eadfd4;color:var(--ink-soft);cursor:pointer;font:400 .82rem var(--font-body);line-height:1.4}.step-item span{display:grid;place-items:center;flex:none;width:24px;height:24px;border-radius:50%;background:#e9e5df;font:600 .72rem var(--font-head)}.step-item.active{color:var(--ink);font-weight:600}.step-item.active span{background:var(--teal);color:#fff}.tip{padding:15px 5px 0}.tip b{font:600 .8rem var(--font-head);color:var(--orange-dark)}.tip p{font-size:.78rem;margin:5px 0 0}.finish{background:#e9f8f4}.finish-inner{display:flex;align-items:center;justify-content:center;gap:60px}.finish .eyebrow{background:#fff;color:var(--teal-dark)}.finish h2{margin-top:12px}.finish>div>div:first-child{max-width:530px}.finish-actions{display:flex;gap:12px;flex-wrap:wrap}.print-cat{width:270px;height:260px;background:#fff;border-radius:24px;padding:8px;box-shadow:var(--shadow-sm);overflow:hidden}.print-cat img{width:100%;height:100%;object-fit:contain}@media(max-width:760px){.lesson-top,.studio-grid{grid-template-columns:1fr}.lesson-top{gap:24px}.lesson-overview{max-width:620px}.step-list{order:2}.finish-inner{display:block}.print-cat{margin:24px auto 0}.drawing-board{padding:15px}.controls .btn{padding:11px 14px}}
+
+  /* Cmd+P on the page itself. The button above produces the proper sheet, but
+     plenty of people just hit print — without this they got the header, nav,
+     progress bar, Back/Next buttons and the footer. Keep the heading and the
+     overview diagram, drop everything interactive. */
+  @media print {
+    :global(.site-header), :global(.site-footer), .back, .lesson-intro .btn,
+    .lesson-note, .read-time, .badge, .studio, .finish { display: none !important }
+    .lesson-head { padding: 0; background: #fff }
+    .lesson-top { display: block }
+    .lesson-overview { box-shadow: none; border: 0; margin-top: 6mm; break-inside: avoid }
+    .lead { max-width: none }
+  }
+</style>

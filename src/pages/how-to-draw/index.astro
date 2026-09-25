@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { featuredLessons } from "../../lib/drawingLessons";
+import { collectionLd } from "../../lib/schema";
+
+// Only lessons that actually have a page. A "coming soon" entry in an
+// ItemList is a 404 handed to Google in structured data.
+const liveLessons = featuredLessons.filter((lesson) => lesson.available);
+const ld = collectionLd("Easy step-by-step drawing lessons", "/how-to-draw/", liveLessons.map((lesson) => ({ name: lesson.title, url: `/how-to-draw/${lesson.slug}/` })));
+---
+<BaseLayout title="Easy Drawing Tutorials for Kids & Beginners" description="Follow short, friendly drawing lessons step by step. Each finished drawing becomes a printable colouring page." breadcrumbs={[{ name: "Home", url: "/" }, { name: "How to Draw", url: "/how-to-draw/" }]}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(ld)} />
+  <section class="draw-hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">✏️ Draw it step by step</span>
+        <h1>Make something you’re proud to draw</h1>
+        <p class="lead">Friendly, bite-size lessons that start with simple shapes. Follow each step at your pace, then print your finished outline to colour.</p>
+        <a class="btn btn-orange" href="/how-to-draw/cat/">Start with a cute cat <span aria-hidden="true">→</span></a>
+        <p class="trust">No account · Free to print · Made for beginners</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="step-chip one">1. Shapes</div><div class="step-chip two">2. Details</div><div class="step-chip three">3. Your drawing!</div>
+        <img class="hero-cat" src="/images/how-to-draw/cat-final.webp" alt="" width="1000" height="914" />
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head"><h2>Choose your next drawing</h2><p>Start with the green “Easy” lessons, or challenge yourself with a few more details.</p></div>
+      <div class="lesson-grid">
+        {featuredLessons.map((lesson) => {
+          // A non-link element, not a disabled <a>: aria-disabled leaves an
+          // anchor clickable and focusable, and "#coming-soon" pointed at an
+          // anchor that does not exist on the page.
+          const Card = lesson.available ? "a" : "div";
+          return (
+          <Card class={`lesson-card ${lesson.available ? "ready" : "soon"}`} href={lesson.available ? `/how-to-draw/${lesson.slug}/` : undefined}>
+            <div class={`lesson-art ${lesson.slug}`}>{lesson.available ? <img src={`/images/how-to-draw/${lesson.slug}-final.webp`} alt={`Finished ${lesson.slug} drawing`} width="1000" height="914" loading="lazy" /> : <span>♧</span>}</div>
+            <div class="lesson-copy"><span class={`badge ${lesson.level === "Easy" ? "badge-easy" : "badge-medium"}`}>{lesson.level}</span><span class="time">{lesson.duration}</span><h3>{lesson.title}</h3><p>{lesson.description}</p>{lesson.available ? <span class="link-arrow">Open lesson →</span> : <span class="coming">Coming next</span>}</div>
+          </Card>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="how-it-works"><div class="container"><div class="section-head center"><h2>From a blank page to your own picture</h2></div><div class="three-steps"><article><b>01</b><h3>Follow one clear step</h3><p>Each new line appears with a short, friendly instruction.</p></article><article><b>02</b><h3>Draw alongside it</h3><p>Pause, go back or move on when you’re ready.</p></article><article><b>03</b><h3>Print and colour</h3><p>Keep the final outline as a colouring page or share your art.</p></article></div></div></section>
+</BaseLayout>
+
+<style>
+  .draw-hero { background: linear-gradient(125deg, #fff4e9, #eefaf8); overflow: hidden; padding: 62px 0; } .hero-grid { display:grid; grid-template-columns:1.05fr .95fr; align-items:center; gap:55px; } .eyebrow{background:#fff;color:var(--teal-dark)} .hero-grid h1{max-width:620px;margin-top:14px}.lead{font-size:1.08rem;max-width:58ch}.trust{font-size:.82rem;margin:15px 0 0}.hero-art{position:relative;min-height:390px;border-radius:32px;background:#fff;box-shadow:var(--shadow-lg);padding:18px;transform:rotate(2deg)}.hero-cat{display:block;width:100%;height:350px;object-fit:contain}.step-chip{position:absolute;z-index:1;background:var(--ink);color:#fff;border-radius:999px;padding:6px 11px;font:600 .7rem var(--font-head);box-shadow:var(--shadow-sm)}.one{top:42px;left:-26px}.two{right:-22px;top:176px}.three{bottom:25px;left:-28px;background:var(--orange)}.lesson-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.lesson-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-sm);transition:.15s}.lesson-card.ready:hover{transform:translateY(-5px);box-shadow:var(--shadow-md)}.lesson-art{height:215px;display:flex;align-items:center;justify-content:center;background:#f3faf8;overflow:hidden}.lesson-art.cat img,.lesson-art.rose img{width:100%;height:100%;object-fit:contain;padding:10px}.lesson-art.rose{background:#fff1f3}.lesson-art.dragon{background:#f2efff;color:#9b87df;font-size:110px}.lesson-copy{padding:19px}.time{font-size:.76rem;color:var(--ink-faint);margin-left:8px}.lesson-copy h3{margin:11px 0 8px}.lesson-copy p{font-size:.88rem}.soon{opacity:.8;cursor:default}.coming{font:600 .86rem var(--font-head);color:var(--ink-faint)}.how-it-works{background:var(--cream)}.three-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:34px}.three-steps article{padding:8px 15px;border-left:3px solid var(--teal)}.three-steps b{color:var(--orange);font:700 1.05rem var(--font-head)}.three-steps h3{margin:6px 0}.three-steps p{font-size:.9rem}@media(max-width:760px){.hero-grid,.lesson-grid,.three-steps{grid-template-columns:1fr}.draw-hero{padding:42px 0}.hero-art{max-width:430px;margin:0 auto;width:calc(100% - 36px)}.one,.three{left:6px}.two{right:6px}}
+</style>

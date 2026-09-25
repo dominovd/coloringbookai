@@ -9,6 +9,7 @@ const seasonalHref = resolveHub(["season", "christmas"], ["season", "halloween"]
 
 export const nav = [
   { label: "Coloring Pages", href: COLORING_INDEX },
+  { label: "How to Draw", href: "/how-to-draw/" },
   { label: "Worksheets", href: "/worksheets/" },
   { label: "For Adults", href: adultsHref },
   { label: "Seasonal", href: seasonalHref },
@@ -20,6 +21,7 @@ export const footerCols = [
     title: "Explore",
     items: [
       { label: "Coloring Pages", href: COLORING_INDEX },
+      { label: "How to Draw", href: "/how-to-draw/" },
       { label: "Worksheets", href: "/worksheets/" },
       { label: "For Adults", href: adultsHref },
       { label: "Seasonal", href: seasonalHref },
@@ -34,7 +36,7 @@ export const footerCols = [
       { label: "Letter Tracing", href: "/tools/letter-tracing-worksheet/" },
       { label: "Dot to Dot", href: "/tools/dot-to-dot-printable/" },
       { label: "Custom Name Page", href: "/tools/custom-name-page/" },
-      // Guides aren't built yet — re-add when /guides/* exists.
+      // Guides aren't built yet. Re-add when /guides/* exists.
     ],
   },
   {
